@@ -1,0 +1,109 @@
+header.head
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+- if can? :manage, Ban
+  form.cc-2_3.b-form method='get' params=current_url
+    .c-column.block_m
+      .cc-2
+        - %i[id email created_on_1 created_on_2 current_sign_in_ip last_sign_in_ip].each do |field|
+          - is_created_on = field.in?(%i[created_on_1 created_on_2])
+          .c-column.block_m
+            .subheadline
+              = field.to_s.gsub(/created_on_\d/, 'created_on')
+              - if params[field].present?
+                .misc-links
+                  a.b-js-link[
+                    href=current_url(field => nil, **(is_created_on ? { created_on_condition: nil }: {}))
+                  ] clear
+
+            .b-input.d-flex
+              - if is_created_on
+                - field_condition = :"#{field}_condition"
+                select.mr-4 name=field_condition
+                  option value='eq' selected=(params[field_condition] == 'eq')
+                    | =
+                  option value='gte' selected=(params[field_condition] == 'gte' || (params[field_condition].blank? && field == :created_on_1))
+                    | >=
+                  option value='lte' selected=(params[field_condition] == 'lte' || (params[field_condition].blank? && field == :created_on_2))
+                    | <=
+
+              input[
+                class=('date-filter' if is_created_on)
+                class=field
+                type='text'
+                name=field
+                placeholder=(is_created_on ? t('date_field') : field)
+                value=params[field]
+              ]
+
+        input.button type='submit'
+    .c-column
+      .subheadline Массовые регистрации
+
+      p.m8
+        ' Более
+
+      .b-input
+        input[
+          type='text'
+          name='mass_registration_threshold'
+          placeholder='Число регистраций'
+          value=@mass_registration_threshold
+        ]
+
+      p.m8
+        ' регистраций
+        ' на один ip-адрес за последний месяц.
+        | Уже забаненные аккаунты не учитываются.
+
+      - if @mass_ips.any?
+        ul.b-list.block
+          - @mass_ips.each do |ip, size|
+            li
+              a href=moderations_users_url(current_sign_in_ip: ip, created_on_1: controller.class::MASS_REGISTRATION_INTERVAL.ago.to_date, created_on_1_condition: Users::Query::ConditionType[:gte], mass_registration_threshold: @mass_registration_threshold)
+                = ip
+              | &nbsp;
+              span.registrations-count #{size}
+      - else
+        p: b Нет регистраций
+
+.b-collection_search.block[
+  data-search_url=current_url
+]
+  .field
+    input[
+      type="text"
+      placeholder=t('search.name')
+      value=params[:phrase]
+      class=('has-value' if params[:phrase].present?)
+    ]
+    .clear
+
+  .b-options-floated = @collection_size
+  .subheadline = i18n_i('User', :other)
+  .search-results.cc-4
+    - if @collection.any?
+      = render partial: 'users/user',
+        collection: @collection,
+        locals: { content_by: :moderation }
+    - else
+      .b-nothing_here = t 'nothing_found'
+
+    - if @collection.next_page?
+      = render 'blocks/postloader',
+        filter: 'b-user',
+        next_url: current_url(page: @collection.next_page),
+        prev_url: (current_url(page: @collection.prev_page) if @collection.prev_page?),
+        ignore_appear: @page == 1
+
+- if can? :mass_ban, User
+  .b-dangerous-actions
+    = spoiler t('db_entries.dangerous_actions.index.dangerous_actions') do
+      p.b-nothing_here.text-red.mb-2
+        b Перезагрузи страницу, если использовал поиск по никнейму!
+      .d-flex
+        a.b-link_button.light-red[
+          href=current_url(mass_ban: 1)
+          data-confirm=t('actions.confirm_simple')
+        ] Выдать вечный бан #{@collection_size} #{i18n_i 'user', @collection_size, :dative} выборки

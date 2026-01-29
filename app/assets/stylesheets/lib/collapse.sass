@@ -1,0 +1,11 @@
+@import globals
+@import mixins/plashka
+
+.collapsed
+  +plashka
+  display: none
+  margin-bottom: $block-offset
+
+.collapsed + .spoiler .hide-expanded
+  +plashka
+  margin-bottom: $block-offset

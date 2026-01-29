@@ -1,0 +1,17 @@
+- cache round do
+  .subheadline.m5 = t '.rating'
+  .rating
+    - contest.rating_stats(round).each do |stats|
+      .member
+        .position = stats.position
+        .progress[
+          class=stats.status
+        ] = stats.progress
+        / can be nil is anime/character is deleted
+        - if stats.member.present?
+          a.bubbled[
+            href=url_for(stats.member)
+            title=stats.member.name
+          ] = localization_span stats.member
+        - else
+          | ...

@@ -1,0 +1,68 @@
+- content_for :head_misc do
+  - if params[:list_type] == 'anime' && @user.list_stats.manga? && @user.preferences.manga_in_profile?
+    a.misc[
+      href=profile_user_rates_url(@user, list_type: 'manga')
+      title="#{t '.to_manga'}"
+    ] = t '.to_manga'
+
+  - if params[:list_type] == 'manga' && @user.list_stats.anime? && @user.preferences.anime_in_profile?
+    a.misc[
+      href=profile_user_rates_url(@user, list_type: 'anime')
+      title=t('.to_anime')
+    ] = t '.to_anime'
+
+= render layout: 'page' do
+  .menu-toggler
+    .toggler
+
+  .menu-slide-outer.x199
+    .menu-slide-inner
+      .l-content
+        .b-options-floated.mylist.mobile-desktop
+          - @library.counts.each do |stat|
+            - is_selected = params[:mylist].to_s.split(',').include?(stat.grouped_id)
+            a.b-link.always-active[
+              data-id=stat.grouped_id
+              class=(:selected if is_selected)
+              href=url_for(safe_params.merge(mylist: is_selected ? nil : stat.grouped_id))
+            ]
+              = UserRate.status_name stat.name, @library.klass.name
+              | &nbsp;
+              span = stat.size
+
+        .subheadline-buttons
+          = render 'blocks/list_switchers',
+            name: 'list_view',
+            values: ['lines', 'posters']
+
+        .subheadline = og.headline
+
+        .b-collection_search
+          .field
+            input placeholder=t('search.title')
+            .clear
+
+        - if @library.any?
+          .list-groups
+            = render 'user_rates', library: @library, profile_view: @view
+
+            - if @library.add_postloader?
+              = render 'blocks/postloader', next_url: current_url(page: @page+1)
+
+        - else
+          p.b-nothing_here = t 'nothing_here'
+
+      aside.l-menu
+        .block.avatar
+          center
+            a href=@resource.url title=@resource.nickname
+              img[
+                src=@resource.avatar_url(160)
+                alt=@resource.nickname
+              ]
+
+        = render 'user_rates/list_stats',
+          resource: @resource,
+          list_stats: @resource.list_stats,
+          list_type: params[:list_type].to_sym
+        = render 'animes_collection/menu', menu: @menu, in_user_profile: true

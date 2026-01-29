@@ -1,0 +1,18 @@
+- kind_singular = kind.to_s.singularize
+- name = i18n_i kind_singular, :other
+- url = send :"#{kind}_club_url", club
+- entries = club.send :"menu_#{kind}"
+
+.block.user_rates-minified
+  .subheadline
+    - if club.send(kind).size != entries.size
+      a href=url title=name
+        = name
+        .count = club.send(kind).size
+    - else
+      = name
+  .cc-4a
+    = render partial: "#{kind}/#{kind_singular}",
+      collection: entries,
+      locals: { cover_by: :image_link, cover_derivative: :mini },
+      cached: ->(entry) { cache_keys entry, :image_link, :mini }

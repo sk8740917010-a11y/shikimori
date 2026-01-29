@@ -1,0 +1,35 @@
+header.head
+  h1 = t ".list_comparison.#{@klass.name.downcase}"
+  p.notice
+    == t '.notice_1',
+      user_1: "<a href=\"#{profile_url @user_1}\">#{@user_1.nickname}</a>",
+      user_2: "<a href=\"#{profile_url @user_2}\">#{@user_2.nickname}</a>"
+  p.notice
+    == t '.notice_2'
+
+.b-collection_search[
+  data-search_url=current_url(search: nil)
+]
+  .field
+    input[
+      type="text"
+      placeholder=t('search.title')
+      value=params[:search]
+    ]
+    .clear
+
+  .menu-toggler
+    .toggler
+
+  .menu-slide-outer.x199
+    .menu-slide-inner
+      section.l-content.search-results
+        = render 'table'
+
+      aside.l-menu
+        = render 'animes_collection/menu',
+          menu: @menu,
+          custom_sorts: [\
+            [:user_1, t('.by_user_score', user: @user_1.nickname(true))],
+            [:user_2, t('.by_user_score', user: @user_2.nickname(true))]\
+          ]

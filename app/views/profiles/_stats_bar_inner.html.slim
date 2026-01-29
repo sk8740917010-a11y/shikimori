@@ -1,0 +1,24 @@
+.bar
+  - if stats_bar.completed_percent > 0
+    .first style="width: #{stats_bar.completed_percent}%;"
+      == stats_bar.completed_percent > 2.5 ? stats_bar.completed : '&nbsp;'
+
+  - if stats_bar.incompleted_percent > 0
+    .second style="width: #{stats_bar.incompleted_percent}%"
+      == stats_bar.incompleted_percent > 2.5 ? stats_bar.incompleted : '&nbsp;'
+
+  - if stats_bar.dropped_percent > 0
+    .third style="width: #{stats_bar.dropped_percent}%;"
+      == stats_bar.dropped_percent > 2.5 ? stats_bar.dropped : '&nbsp;'
+
+.stat_names
+  - stats_bar.lists_stats.select(&:any?).each do |list_stats|
+    .stat_name[data-type=list_stats.grouped_id]
+      - if can? :access_list, user
+        a href=profile_user_rates_url(user, list_type: list_stats.type.downcase, mylist: list_stats.grouped_id)
+          ' #{list_stats.localized_name}
+          span.size = list_stats.size
+
+      - else
+        ' #{list_stats.localized_name}
+        span.size = list_stats.size

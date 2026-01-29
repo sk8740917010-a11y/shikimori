@@ -1,0 +1,120 @@
+@import globals
+@import mixins/block
+@import mixins/forum_entry
+@import mixins/responsive
+@import mixins/font_shikimori
+@import mixins/shiki_comment
+
+.b-topic
+  +block
+  +forum_entry
+  border-bottom: none
+  border-top: 1px solid #ddd
+
+  &:first-child
+    border-top: none
+
+  .tooltip &
+    padding-top: 0
+
+  // заигноренный топик
+  &.b-comment-info
+    padding: 10px 0 10px 0 !important
+
+  & > .editor-container
+    .body .preview
+      background: none
+      border: none
+      padding: 0
+
+  & > .inner
+    min-height: 80px
+
+    &.is-editing
+      margin-bottom: $comment_offset
+
+    header
+      .b-anime_status_tag
+        margin-right: 10px
+
+      .name-date
+        .status-tags
+          display: inline-block
+
+        .name
+          font-size: 15px
+          height: 18px
+
+      .about
+        & >  span
+          color: $gray-3
+          padding: 0 5px
+          font-size: 12px
+
+        a
+          font-size: 12px
+
+      .about + .time
+        padding-left: 5px
+
+    .b-status-line
+      +iphone
+        margin-bottom: 2px
+        margin-left: 49px
+
+      +gte_ipad
+        margin-bottom: 5px
+
+    .body
+      clear: left
+
+    .prebody,
+    footer
+      clear: left // need clearing when text is narrow and avatar is higher than text
+
+      .additionals
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        margin-bottom: 5px
+        margin-top: 5px
+
+      .b-anime_status_tag
+        margin-right: 7px
+
+    .prebody
+      margin-bottom: 5px
+
+    footer
+      .source
+        font-size: 11px
+
+        &:not(:last-child)
+          margin-bottom: 5px
+
+        .b-link
+          padding-left: 15px // padding is added in order to position tooltip properly
+
+          &:before
+            font-size: 10px
+            position: absolute
+            +font_shikimori('🔗')
+            margin-left: -13px
+            margin-top: 1px
+
+  & > .b-comments
+    margin-top: 5px
+    transition: margin-left 0.25s ease
+    width: 100% // без этого в .aside-expanded режиме не будет смещение контента влево
+
+    &:not(.is-headline)
+      .b-comment:first-child,
+      .b-message:first-child
+        border-top-width: 1px
+        padding-top: 5px
+
+  &.aside-expanded
+    & > .b-comments
+      margin-left: -$aside_width
+      overflow: visible
+      position: relative

@@ -1,0 +1,180 @@
+@import mixins/date
+@import mixins/ellipsis2
+@import mixins/flex_column
+@import mixins/responsive
+@import mixins/font_shikimori
+@import mixins/swiper
+
+$height: 87px
+
+.p-dashboards-show .v2
+  .db-updates
+    overflow: hidden
+    position: relative
+
+    .inner
+      +fcolumn-responsive($portrait-columns: 1, $landscape-columns: 2, $ipad-columns: 3, $desktop-columns: 4, $gutter: 40px, $offset-mobile: 20px, $offset-tablet: 20px, $offset-desktop: 30px, $selector: '.db-update')
+
+      +lte_ipad
+        flex-direction: column
+        height: $height * 2 + 42px // it is a hack but i don't know any better way to make flex wrap
+        margin-left: 0
+
+        .db-update
+          flex-shrink: 0
+          margin-left: 0
+          margin-top: 0px !important // overriders margin-top set by swiper
+
+      .db-update
+        +iphone-portrait
+          width: calc(100vw - 20px)
+
+        +iphone-landscape
+          width: calc(50vw - 25px)
+
+        +ipad
+          width: calc(33vw - 25px)
+
+  +lte_ipad
+    .mobile-slider-prev,
+    .mobile-slider-next
+      -webkit-tap-highlight-color: transparent
+      align-items: center
+      cursor: pointer
+      display: inline-flex
+      height: 70%
+      justify-content: center
+      outline: none
+      position: absolute
+      top: 15%
+      transition: opacity 0.35s ease
+      user-select: none
+      width: 40px
+      z-index: 1
+
+      &:before
+        content: ''
+        height: 100%
+        left: 0
+        opacity: 0.5
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        // transition: opacity 0.25s ease
+        width: 100%
+        max-height: 125px
+
+      &:after
+        color: rgba(#123, 0.75)
+        content: ''
+        font-size: 24px
+        font-weight: bold
+        text-shadow: 1px 1px 2px rgba(#fff, 0.5)
+        // transition: color 0.25s ease
+        z-index: 2
+
+      &:active:after
+        color: #123
+
+      &.swiper-button-disabled
+        opacity: 0
+
+    .mobile-slider-prev
+      left: 0
+
+      &:before
+        background: linear-gradient(to left, rgba(#d5d5d5, 0), rgba(#d5d5d5, 0.75) 70%, rgba(#d5d5d5, 0.85))
+        // background: red
+        border-bottom-right-radius: 100% 50%
+        border-top-right-radius: 100% 50%
+
+      &:after
+        +font_shikimori('\e83e')
+        margin-right: 10px
+
+      &:active:before
+        opacity: 1
+
+      &.bright
+        &:before
+          background: linear-gradient(to left, rgba(#e5e5e5, 0.2), rgba(#e5e5e5, 0.8) 70%, rgba(#e5e5e5, 1))
+          opacity: 1
+
+        &:active:before
+          background: linear-gradient(to left, rgba(#e5e5e5, 0.4), rgba(#e5e5e5, 0.9) 70%, rgba(#e5e5e5, 1))
+
+    .mobile-slider-next
+      right: 0
+
+      &:before
+        background: linear-gradient(to right, rgba(#d5d5d5, 0), rgba(#d5d5d5, 0.75) 70%, rgba(#d5d5d5, 0.85))
+        // background: red
+        border-bottom-left-radius: 100% 50%
+        border-top-left-radius: 100% 50%
+
+      &:after
+        +font_shikimori('\e83f')
+        margin-left: 10px
+
+      &:active:before
+        opacity: 1
+
+      &.bright
+        &:before
+          background: linear-gradient(to right, rgba(#e5e5e5, 0.2), rgba(#e5e5e5, 0.8) 70%, rgba(#e5e5e5, 1))
+          opacity: 1
+
+        &:active:before
+          background: linear-gradient(to right, rgba(#e5e5e5, 0.4), rgba(#e5e5e5, 0.9) 60%, rgba(#e5e5e5, 1))
+
+  .db-update
+    display: flex
+    min-height: $height // to prevent height flickering when anime poster is loading
+
+    .poster
+      flex-shrink: 0
+      line-height: 0
+      margin-right: 15px
+
+      img
+        width: 48px
+
+    .info
+      min-width: 0 // neeed to allow overflow ellipsis inside of flex item
+
+    .name
+      +ellipsis2
+      display: block
+      font-size: 14px
+      font-weight: bold
+      line-height: 1.45
+      margin-bottom: 2px
+      margin-top: -4px
+
+    .status-time
+      margin-bottom: 4px
+
+      .b-anime_status_tag
+        pointer-events: none
+        margin-right: 6px
+
+      time
+        +date
+
+    .tags
+      align-items: baseline
+      display: flex
+      flex-wrap: wrap
+      height: 44px
+      overflow: hidden
+      margin: 0 -5px
+      padding-left: 1px
+      pointer-events: none
+
+      .b-anime_status_tag
+        margin-left: 5px
+
+      .b-tag
+        font-size: 12px
+        margin: 2px 5px
+        white-space: nowrap

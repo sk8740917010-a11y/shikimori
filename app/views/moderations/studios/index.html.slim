@@ -1,0 +1,62 @@
+header.head
+  h1 = og.headline
+  .notice = t '.notice'
+  = render 'application/breadcrumbs'
+
+table.b-table.b-editable_grid.block2
+  thead
+    tr
+      = th field: :id
+      th
+      = th field: :name
+      = th label: t('.filtered_name'), width: '1%'
+      = th field: :is_visible
+      = th field: :is_publisher
+      = th field: :is_verified
+      = th label: Studio.human_attribute_name(:image)
+
+  tbody
+    - @collection.each do |studio|
+      tr
+        td.id
+          a href=edit_moderations_studio_url(studio) ##{studio.id}
+        td.id
+          a.catalog-link href=animes_collection_url(studio: studio.to_param)
+        td.text
+          a href=edit_moderations_studio_url(studio)
+            = studio.name
+        td
+          - if studio.name != studio.filtered_name
+            = studio.filtered_name
+        td style='text-align: center; padding-right: 20px'
+          .check[
+            class=(studio.is_visible ? :yes : :no)
+          ]
+        td style='text-align: center; padding-right: 20px'
+          - if can? :update, studio
+            a.check[
+              class=(studio.is_publisher ? :yes : :no)
+              href=moderations_studio_url(studio, studio: { is_publisher: studio.is_publisher ? 0 : 1})
+              data-remote='true'
+              data-method='patch'
+            ]
+          - else
+            .check class=(studio.is_publisher ? :yes : :no)
+        td style='text-align: center; padding-right: 20px'
+          - if can? :update, studio
+            a.check[
+              class=(studio.is_verified ? :yes : :no)
+              href=moderations_studio_url(studio, studio: { is_verified: studio.is_verified ? 0 : 1})
+              data-remote='true'
+              data-method='patch'
+            ]
+          - else
+            .check class=(studio.is_publisher ? :yes : :no)
+        td
+          - if studio.image_file_name
+            img[
+              src=cdn_image_url(studio, :original)
+              style='width: 200px'
+            ]
+
+= render 'db_entries/versions', collection: @versions

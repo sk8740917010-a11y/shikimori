@@ -1,0 +1,12 @@
+.b-input.topic-posters
+  .m8: b = t '.topic_posters'
+
+  label.b-dropzone[
+    data-upload_url=api_user_images_url(linked_type: Topic.name)
+    data-hint=t('.drag_here')
+  ]
+    .b-shiki_wall.to-process data-dynamic='wall' data-wall_always='true'
+      = render partial: 'club_images/club_image',
+        collection: topic.decomposed_body.wall_images,
+        locals: { topic_poster_edit: true }
+    input type='file' multiple='multiple'

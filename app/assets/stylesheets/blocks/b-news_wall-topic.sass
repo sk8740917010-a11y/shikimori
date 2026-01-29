@@ -1,0 +1,87 @@
+@import mixins/date
+@import mixins/responsive
+@import mixins/font_shikimori
+@import mixins/two_line_ellipsis
+
+.b-news_wall-topic
+  border-top: none
+  margin: 0
+
+  & > a
+    display: block
+
+    +gte_laptop
+      &:hover
+        .title
+          color: var(--link-hover-color)
+
+    &:active
+      .title
+        color: var(--link-active-color)
+
+  .poster
+    display: flex
+    flex-direction: column-reverse
+    margin-bottom: 10px
+    pointer-events: none
+    position: relative
+
+    &:before
+      content: ''
+      padding-top: 56.25% // 16:9 aspect ratio
+
+    .b-shiki_swiper
+      height: 100%
+      left: 0
+      position: absolute
+      top: 0
+      width: 100%
+
+      &.is-loading,
+      &.to-process
+        background: #ccc
+
+  .status-line
+    align-items: baseline
+    display: flex
+    flex-wrap: wrap
+    margin-bottom: 2px
+
+    .tags
+      display: inline-flex
+      margin-right: 12px
+      margin-bottom: 5px
+
+      .b-anime_status_tag
+        &:not(:last-child)
+          margin-right: 8px
+
+    time
+      +date
+      line-height: 18px
+      margin-bottom: 5px // need margin in case of content wrapping
+      margin-right: auto
+
+    .comments
+      line-height: 18px
+      color: #333
+      font-size: 12px
+
+      &:before
+        +font_shikimori('f')
+        font-size: 13px
+        padding-right: 5px
+
+    .is-pinned
+      color: #333
+
+      &:before
+        +font_shikimori('📌')
+        font-size: 14px
+        margin-right: 13px
+
+  .title
+    +two_line_ellipsis(15px, 1.55)
+    color: #123
+    font-family: var(--font-alt)
+    font-weight: 600

@@ -1,0 +1,7 @@
+span.text class=view.css_class(class_name)
+  = view.text class_name
+
+- if view.value(class_name).positive?
+  span.text &nbsp;
+  span.rate
+    = view.value(class_name)

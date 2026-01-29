@@ -1,0 +1,107 @@
+= simple_form_for @resource.object, url: @resource.url do |f|
+  input type='hidden' name='section' value=@section
+
+  .cc-2
+    .c-column.block_m
+      .block
+        = f.input :nickname,
+          input_html: {\
+            value: f.object.nickname(true),
+            autocorrect: 'none',
+            autocapitalize: 'none',
+            spellcheck: false\
+          }
+        = f.input :email, input_html: { disabled: true }
+
+        .change-password
+          a href=@resource.edit_url(section: :password)
+            = t '.change_email_and_password'
+
+        - unless @resource.email.blank? || @resource.generated_email?
+          .reset-password
+            a href=new_user_password_url(user: { email: @resource.email })
+              = t '.password_recovery'
+
+        / = f.input :name
+        / = f.input :location
+        = f.input :website
+        = f.input :sex, include_blank: true
+        = f.input :birth_on,
+          include_blank: true,
+          end_year: Time.zone.today.year - 90,
+          start_year: Time.zone.today.year
+
+        = f.simple_fields_for :preferences do |fp|
+          = fp.input :is_show_age
+          = fp.input :is_view_censored,
+            hint: ("<span class='text-red'>#{t('.is_view_censored_hint')}</span>".html_safe unless @resource.age),
+            wrapper_html: { class: (:hidden if @resource.age && @resource.age < 18) },
+            disabled: !@resource.age
+
+          - if @resource.id == current_user.id && censored_forbidden? && cookies[AgeRestrictionsConcern::COOKIE_CENSORED_REJECTED] == 'true'
+            .censored-rejected-container
+              p = t '.censored_rejected'
+              button.b-link_button.mini.blue.censored-rejected[
+                data-cookie=AgeRestrictionsConcern::COOKIE_CENSORED_REJECTED
+              ]
+                = t '.censored_restore'
+
+    .c-column.block_m
+      .block
+        = f.input :locale, include_blank: false
+
+        - if I18n.russian?
+          = f.simple_fields_for :preferences do |fp|
+            = fp.input :russian_genres
+            = fp.input :russian_names
+
+      .block
+        = f.input :avatar, hint: '160x160'
+        .avatar-edit
+          - if @resource.avatar.exists?
+            img[
+              src=@view.avatar_url
+              alt=@resource.nickname
+              title=@resource.nickname
+            ]
+
+      - if @resource.user_tokens.any?
+        .block
+          .subheadline.m5 = t '.connected_accounts'
+          .value.oauth.remove
+            - @resource.user_tokens.each do |token|
+              a.b-oauth_token.b-tooltipped.unprocessed[
+                class=token.provider
+                href=user_token_url(token)
+                title=t('.disable_authentication', provider: "#{token.provider.to_s.titleize}#{'*' if token.provider == 'facebook'}")
+                data-confirm="#{t('.disable_authentication', provider: token.provider.to_s.titleize)}#{'*' if token.provider == 'facebook'}?"
+                data-method='delete'
+                data-direction='top'
+              ]
+          - if @resource.unconnected_providers.exclude? :facebook
+            small == t 'facebook_html'
+
+      - if @resource.unconnected_providers.any?
+        .block
+          .subheadline.m5 = t '.not_connected_accounts'
+          .value.oauth.add
+            - @resource.unconnected_providers.each do |provider|
+              a.b-oauth_token.b-tooltipped.unprocessed[
+                class=provider
+                href=send(:"user_#{provider}_omniauth_authorize_url")
+                title=t('.enable_authentication', provider: "#{provider.to_s.titleize}#{'*' if provider == :facebook}")
+                data-method='post'
+                data-direction='top'
+              ]
+
+      - if @resource.access_grants.any?
+        .block
+          .subheadline.m5 = t '.granted_oauth_apps'
+          .cc-6
+            = render partial: 'doorkeeper/oauth_applications/oauth_application',
+              collection: Users::GrantedApplications.call(@resource),
+              locals: { content_by: 'mini' }
+
+  .buttons
+    a.cancel href=@resource.url = t 'actions.cancel'
+    = f.button :magic_submit

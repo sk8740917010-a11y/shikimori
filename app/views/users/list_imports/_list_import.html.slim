@@ -1,0 +1,14 @@
+.b-log_entry
+  span
+    - if list_import.is_archived?
+      span.id-label #
+      = list_import.id
+    - else
+      a href=profile_list_import_url(@resource, list_import)
+        span.id-label #
+        = list_import.id
+  span.date.normal
+    = l list_import.created_at, format: :full
+  span.column = list_import.list_file_name
+  span.state class=list_import.state.downcase
+    = list_import.aasm.human_state

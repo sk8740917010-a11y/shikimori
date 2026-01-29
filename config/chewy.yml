@@ -1,0 +1,13 @@
+# config/chewy.yml
+
+development: &development
+  host: 'elastic:9200'
+  prefix: 'shikimori_development'
+
+test:
+  host: 'elastic:9200'
+  prefix: 'shikimori_test'
+
+production:
+  host: 'elastic:9200'
+  prefix: <%= ENV['USER'] != 'morr' ? 'shikimori_production' : 'shikimori_development' %>

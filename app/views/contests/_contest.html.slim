@@ -1,0 +1,16 @@
+li.contest id=contest.id
+  - if !contest.created?
+    .date
+      = l contest.started_on
+      - if contest.finished_on
+        |  &ndash; #{l contest.finished_on}
+    a href=contest_url(contest)
+      = contest.title
+
+  - elsif can? :manage, contest
+    a href=edit_contest_url(contest)
+      = contest.title
+
+  - else
+    span
+      = contest.title

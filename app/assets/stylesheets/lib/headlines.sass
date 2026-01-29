@@ -1,0 +1,238 @@
+@import globals
+@import mixins/brackets_surrounded
+@import mixins/dash_separated
+@import mixins/ellipsis2
+@import mixins/hover_underlined
+@import mixins/input
+@import mixins/link
+@import mixins/responsive
+@import mixins/font_shikimori
+
+header.head
+  margin-bottom: 15px
+
+  h1, h2
+    border-bottom: none
+    display: inline-block
+    color: var(--headline-color)
+    font-family: var(--font-alt)
+    font-size: 30px
+    font-weight: normal
+    margin: 0
+
+    +iphone
+      font-size: 24px
+
+    a.back
+      +link_color
+      display: inline-block
+      font-size: 24px
+      margin-left: -5px
+      position: relative
+      width: 40px
+
+      &:before
+        color: var(--headline-color)
+        content: '←'
+        left: 5px
+        position: absolute
+        top: -32px
+
+      &:after
+        content: attr(data-text)
+        font-size: 9px
+        position: absolute
+        //text-align: center
+        //top: -9px
+        //width: 35px
+
+      body[data-locale=ru] &:after
+        margin: -9px 0 0 4px
+
+      body[data-locale=en] &:after
+        margin: -9px 0 0 7px
+
+      +gte_laptop
+        &:hover:after
+          border-bottom: 1px solid var(--link-border-hover-color)
+
+  .misc, a.edit
+    color: $gray-2
+    display: inline-block
+    font-family: var(--font-main)
+    font-size: 11px
+    line-height: 12px
+    padding: 17px 0 0 10px
+
+  a.misc, a.edit
+    +link
+
+  +iphone
+    h1, h2
+      display: block
+
+    .misc, a.edit
+      line-height: 1.65
+      padding: 0 0 0 1px
+
+  .notice
+    clear: left
+    color: #333
+    font-size: 12px
+    line-height: $line_height
+    margin: 2px 0 2px 1px
+
+.headline
+  +ellipsis2
+  background: var(--headline-background-color)
+  border-left: 5px solid var(--headline-border-color)
+  color: var(--headline-color)
+  font-family: var(--font-alt)
+  font-size: 18px
+  font-weight: 700
+  letter-spacing: 0.13px
+  line-height: $line_height
+  margin-bottom: 10px
+  padding: 4px 10px 2px
+  position: relative
+  text-transform: uppercase
+  transition: color 0.2s ease
+  -webkit-font-smoothing: antialiased
+
+  +gte_desktop
+    margin-bottom: 10px
+
+  & > a
+    +ellipsis2
+    +link
+    display: block
+    text-decoration: none
+    padding-right: 20px
+
+    &:before
+      +font_shikimori('\e81c')
+      color: var(--headline-arrow-color)
+      position: absolute
+      right: 10px
+
+    +gte_laptop
+      &:hover:before
+        color: var(--link-hover-color)
+
+    &:active:before
+      color: var(--link-active-color)
+
+  &.linkheadline
+    & > a
+      color: inherit
+
+      &:before
+        color: inherit
+
+      +gte_laptop
+        &:hover,
+        &:hover:before
+          color: var(--link-hover-color)
+
+      &:active,
+      &:active:before
+        color: var(--link-active-color)
+
+  .misc-links
+    font-family: var(--font-main)
+
+    +gte_ipad
+      display: inline
+      line-height: 1
+      padding-left: 10px
+
+    +iphone
+      display: block
+
+    & > a
+      +link
+      +dash_separated
+      display: inline
+      font-size: 12px
+      font-weight: normal
+      padding-right: 0
+      text-transform: none
+
+      &.selected
+        color: var(--link-hover-color)
+
+        &:hover
+          color: var(--link-active-color)
+
+h1, h2, h3, h4, h5
+  &.headline,
+  &.midheadline,
+  &.subheadline
+    margin-top: 0
+
+// midheadline is left here by compatibility reasons. otherwise it could break user styles
+.midheadline,
+.subheadline
+  @extend .headline
+  font-size: 15px
+  line-height: 30px
+  padding: 0 10px
+
+  .b-user16 img
+    margin-top: 7px
+
+  .b-link
+    display: inline
+    padding-right: 0
+
+    &:before
+      display: none
+
+  .b-user16
+    text-transform: none
+
+  .count
+    +brackets_surrounded($gray-3)
+    margin-left: 5px
+
+.mischeadline
+  font-size: 13px
+  font-weight: bold
+  margin-bottom: 5px
+
+// инпунт с правого края заголовка
+.subheadline-input
+  +input
+  position: absolute
+  right: 0
+  width: 248px
+  z-index: 1
+
+  +iphone-portrait
+    margin-bottom: 10px
+    position: initial
+    width: 100%
+
+  +iphone-landscape
+    line-height: 28px
+
+  +gte_laptop
+    margin-right: 3px
+    margin-top: 3px
+    line-height: 22px
+
+  &.downgrade_landscape
+    +iphone-landscape
+      margin-bottom: 10px !important
+      position: initial
+      width: 100% !important
+
+.subheadline-buttons
+  margin-top: 3px
+  position: absolute
+  right: 3px
+  z-index: 2
+
+  +lte_ipad
+    margin-top: 0
+    right: 4px

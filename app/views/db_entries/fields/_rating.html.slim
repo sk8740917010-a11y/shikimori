@@ -1,0 +1,13 @@
+= render 'application/note_from_club_page', club_page_id: 2284, is_version: true
+
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      = f.input :rating,
+        collection: Anime.rating.values.map {|v| [t("enumerize.anime.rating.hint.#{v}"), v] },
+        include_blank: false
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

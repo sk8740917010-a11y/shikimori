@@ -1,0 +1,13 @@
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      = render 'db_entries/fields/incomplete_date_field',
+        field: :birth_on,
+        start_year: 1850,
+        end_year: Time.zone.now.year,
+        f: f
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

@@ -1,0 +1,19 @@
+= render layout: 'page' do
+  = simple_form_for [:profile, @resource] do |f|
+    - if f.object.errors.any?
+      .b-errors
+        .subheadline.m5 = t 'form_errors'
+        .block
+          - if f.object.errors.any?
+            p == f.object.errors.full_messages.join('<br>')
+
+    .m15
+      = f.input :user_id, as: :hidden
+      = f.input :list_type, include_blank: false
+      = f.input :duplicate_policy, include_blank: false
+      = f.input :list
+
+      = render 'application/captcha'
+
+    = f.button :magic_submit
+    a.cancel href=@back_url = t 'actions.cancel'

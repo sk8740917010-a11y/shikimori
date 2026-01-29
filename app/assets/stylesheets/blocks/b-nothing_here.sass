@@ -1,0 +1,20 @@
+@import mixins/link
+
+.b-nothing_here
+  color: $gray-2
+  font-size: 12px
+  margin-left: 5px
+
+  a
+    +link
+
+  .tooltip-details &.centered
+    align-items: center
+    color: #123
+    display: flex
+    justify-content: center
+    min-height: 89px
+    text-align: center
+
+  &.m0
+    margin: 0

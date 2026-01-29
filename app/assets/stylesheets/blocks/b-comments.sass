@@ -1,0 +1,62 @@
+@import mixins/block
+@import mixins/link
+@import mixins/ellipsis2
+@import mixins/plashka
+@import mixins/responsive
+
+.b-comments
+  .comments-loader,
+  .comments-hider,
+  .comments-expander
+    +plashka
+    border: 1px solid #F2F2F2
+    clear: left
+    margin: 5px 0 5px 0
+
+    // +iphone
+      text-align: left
+      padding-left: 10px
+
+  .comments-hider,
+  .comments-expander
+    display: none
+
+  .comments-collapser
+    +js-link
+    font-size: 12px
+    line-height: 1
+    margin-top: 11px
+    position: absolute
+    right: 7px
+
+    +iphone
+      &:not(.hidden) + .comments-loader
+        padding-left: 5px
+        padding-right: 65px
+
+  +iphone
+    .comments-loader
+      +ellipsis2
+
+  .comments-loaded
+    position: relative
+
+  .faye-loader
+    +plashka
+    clear: left
+
+  .messages-postloader
+    +plashka
+    margin-bottom: 5px
+
+  & + .editor-container
+    margin-top: $block-offset
+
+    .return-to-reply
+      display: inline-block
+      visibility: hidden
+
+      &:before
+        content: '↑'
+        margin-left: -8px
+        position: absolute

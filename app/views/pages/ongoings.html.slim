@@ -1,0 +1,34 @@
+header.head.m15
+  h1
+    = og.headline
+    .misc = t '.timezone_notice'
+
+  .notice
+    - t('.notice').each do |sentence|
+      p == sentence
+
+= cache @ongoings_query.cache_key do
+  - @ongoings_query.fetch_grouped.each do |index, group|
+    .block.m0
+      - if index == -1
+        .b-options-floated.collapse.for-headline id="collapse-calendar_delayed"
+          span.action = t 'collapse'
+      .headline.m10[
+        class=(color_by_num index == -1 ? -1 : (DateTime.now + index.days).day % 11)
+      ] = index == -1 ? t('.currently_airing') : date_title_for_ongoing(index)
+      .collapsed.tiny ...
+      .cc-entries
+        = render partial: 'animes/anime',
+          collection: group,
+          locals: { cover_notice: :next_episode }
+
+= render 'spnsrs/ad', ad: Ad.new(:horizontal_x90)
+
+.subheadline = i18n_i 'Discussion'
+.to-process[
+  data-dynamic='topic'
+  data-faye=@topic_view.faye_channels.to_json
+]
+  = render 'topics/comments',
+    comments_view: @topic_view.comments_view,
+    commentable: @topic_view.topic

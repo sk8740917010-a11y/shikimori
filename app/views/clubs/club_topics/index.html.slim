@@ -1,0 +1,33 @@
+- content_for :head do
+  - if @forums_view.next_page_url
+    link[
+      rel="next"
+      href=@forums_view.next_page_url
+    ]
+  - if @forums_view.prev_page_url
+    link[
+      rel="prev"
+      href=@forums_view.prev_page_url
+    ]
+
+= render layout: 'clubs/page' do
+  .subheadline.m5 = og.headline
+
+  .b-forum.to-process[
+    data-dynamic='forum'
+    data-faye=@forums_view.faye_subscriptions.to_json
+  ]
+    - if @forums_view.topic_views.any?
+      = render partial: 'topics/topic',
+        collection: @forums_view.topic_views,
+        as: :topic_view,
+        cached: true
+
+    - else
+      .b-nothing_here = t 'no_topics'
+
+    - if @forums_view.next_page_url
+      = render 'blocks/postloader',
+        filter: 'b-topic',
+        next_url: @forums_view.next_page_url,
+        prev_url: @forums_view.prev_page_url

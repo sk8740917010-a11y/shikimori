@@ -1,0 +1,148 @@
+- @top_menu ||= Menus::TopMenu.new # for devise controllers
+.menu-logo
+  - if request.path == '/' && !user_signed_in?
+    .logo-container.linkeable[
+      data-href=root_url
+      data-title=t(:shikimori)
+    ]
+      .glyph
+      .logo
+  - else
+    a.logo-container[
+      href=root_url
+      title=t(:shikimori)
+    ]
+      .glyph
+      .logo
+
+  .menu-dropdown.main
+    span.menu-icon.trigger.mobile tabindex='-1'
+    span.submenu-triangle[
+      class="icon-#{@top_menu.current_item.name}"
+      tabindex='0'
+    ]
+      - if @top_menu.current_item.data[:image_url]
+        img[
+          src=@top_menu.current_item.data[:image_url]
+          srcset="#{@top_menu.current_item.data[:image_2x_url]} 2x"
+          alt=@top_menu.current_item.title
+        ]
+      span = @top_menu.current_item.title
+
+    .submenu
+      - @top_menu.groups(:main).each do |group|
+        .legend = t ".legend.#{group}"
+
+        - @top_menu.items(group).each do |item|
+          a[
+            class="icon-#{item.name}"
+            href=item.url
+            title=item.title
+            tabindex='-1'
+          ] = item.title
+
+// do not add tabindex, it causes focus lose on mobile on second click
+.menu-icon.search.mobile
+
+.global-search[
+  data-search_anime_url=animes_collection_url
+  data-search_manga_url=mangas_collection_url
+  data-search_ranobe_url=ranobe_collection_url
+  data-search_character_url=characters_url
+  data-search_person_url=people_url
+  data-autocomplete_anime_url=autocomplete_v2_animes_url
+  data-autocomplete_manga_url=autocomplete_v2_mangas_url
+  data-autocomplete_ranobe_url=autocomplete_v2_ranobe_index_url
+  data-autocomplete_character_url=autocomplete_v2_characters_url
+  data-autocomplete_person_url=autocomplete_v2_people_url
+  data-default-mode=@top_menu.current_item.data[:search_mode]
+]
+  label.field
+    input[
+      type='text'
+      placeholder=t('search.search')
+      value=params[:search]
+    ]
+    span.clear tabindex='-1'
+    span.hotkey-marker
+    span.search-marker
+  .search-results
+    .inner
+
+a.menu-icon.forum.desktop[
+  title=t('forum')
+  href=forum_url
+]
+
+- if user_signed_in?
+  - if current_user.show_contest_link?
+    a.menu-icon.contest[
+      href=current_contests_url
+      title=t('.items.current_contest')
+      data-count=current_user.unvoted_contests
+    ]
+
+  - if current_user.unread.count.positive?
+    a.menu-icon.mail[
+      href=current_user.unread_messages_url
+      title=t(:mail)
+      data-count=([99, current_user.unread.count].min)
+    ]
+
+  - if current_user.staff?
+    a.menu-icon.moderation.desktop[
+      title=t('.items.moderation')
+      href=moderations_url
+    ]
+
+  .menu-dropdown.profile
+    span[
+      data-unread_count=([99, current_user.unread.count].min if current_user.unread.count.positive?)
+      tabindex='0'
+    ]
+      a.submenu-triangle href=current_user.url
+        img[
+          src=current_user.avatar_url(48, true)
+          srcset="#{current_user.avatar_url 80, true} 2x"
+          title=current_user.nickname(true)
+          alt=current_user.nickname(true)
+        ]
+        span.nickname
+          = current_user.nickname(true)
+
+    .submenu
+      - @top_menu.groups(:profile ).each do |group|
+        .legend = t ".legend.#{group}"
+
+        - @top_menu.items(group).each do |item|
+          a[
+            class="icon-#{item.name}"
+            href=item.url
+            title=item.title
+            tabindex='-1'
+          ]
+            span.text
+              = item.title
+              - if item.name == :mail && current_user.unread.count > 0
+                span.unread
+                  span = current_user.unread.messages
+                  span = current_user.unread.news
+                  span = current_user.unread.notifications
+            / - if item.name == :mail && current_user.unread_count > 0
+              span.unread
+                span = current_user.unread_messages
+                span = current_user.unread_news
+                = current_user.unread_notifications
+
+      a.icon-sign_out[
+        href=destroy_user_session_url
+        data-method='delete'
+        tabindex='-1'
+      ] = t '.items.sign_out'
+
+- else
+  .menu-icon.linkeable.sign_in[
+    data-href=new_user_session_url
+    title=t('.items.sign_in')
+    data-text=t('.items.sign_in')
+  ]

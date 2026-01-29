@@ -1,0 +1,224 @@
+= simple_form_for contest.object, html: { class: "b-form block edit contest #{contest.strategy_type}" } do |f|
+  - if contest.errors.any?
+    .b-errors
+      .subheadline.m5 = i18n_i 'error', :other
+      .block
+        == contest.errors.full_messages.join('<br>')
+
+  .subheadline.m5 = t '.common'
+  .block
+    = f.input :title_ru
+    / .cc-2
+    /   .c-column
+    /     = f.input :title_ru
+    /   .c-column
+    /     = f.input :title_en
+
+    label.text for='contest_description_ru'
+      b = Contest.human_attribute_name :description_ru
+    = render 'blocks/shiki_editor',
+      text: f.object.description_ru,
+      field_name: 'contest[description_ru]',
+      no_preview_avatar: true,
+      is_text_with_paragraphs: true,
+      cache_key: f.object.cache_key
+    / .cc-2
+    /   .c-column
+    /     .b-input.m5
+    /       label.text for='contest_description_ru'
+    /         b = Contest.human_attribute_name :description_ru
+    /     = render 'blocks/shiki_editor',
+    /       text: f.object.description_ru,
+    /       field_name: 'contest[description_ru]',
+    /       no_preview_avatar: true,
+    /       is_text_with_paragraphs: true,
+    /       cache_key: f.object.cache_key
+    / 
+    /   .c-column
+    /     .b-input.m5
+    /       label.text for='contest_description_en'
+    /         b = Contest.human_attribute_name :description_en
+    /     = render 'blocks/shiki_editor',
+    /       text: f.object.description_en,
+    /       field_name: 'contest[description_en]',
+    /       no_preview_avatar: true,
+    /       is_text_with_paragraphs: true,
+    /       cache_key: f.object.cache_key
+
+    = f.input :member_type,
+        as: :select,
+        collection: Contest.member_type.options,
+        include_blank: false,
+        disabled: contest.persisted?
+    = f.input :strategy_type,
+        as: :select,
+        collection: Contest.strategy_type.options,
+        include_blank: false,
+        disabled: contest.started? || contest.finished?
+    = f.input :user_vote_key,
+        as: :select,
+        collection: [:can_vote_1, :can_vote_2, :can_vote_3],
+        include_blank: false,
+        hint: t('.user_vote_key_hint')
+
+  .cc-2
+    .c-column
+      .subheadline.m5 = t '.duration'
+      = f.input :matches_per_round,
+          disabled: contest.started? || contest.finished?,
+          hint: (contest.swiss? ? t('.matches_per_round_swiss_hint') : ''),
+          input_html: { min: 1 }
+      = f.input :suggestions_per_user,
+          disabled: contest.started? || contest.finished?,
+          input_html: { min: 1 }
+      = f.input :matches_interval,
+          disabled: contest.started? || contest.finished?,
+          input_html: { min: 1 }
+      = f.input :match_duration,
+          disabled: contest.started? || contest.finished?,
+          input_html: { min: 1 }
+      = f.input :started_on,
+          disabled: contest.started? || contest.finished?,
+          start_year: [contest.started_on.year, Time.zone.today.year].min,
+          end_year: [contest.started_on.year, Time.zone.today.year + 1].max
+
+      - if contest.rounds.any?
+        span.action-misc = t '.polls_will_be_reshuffled'
+
+    .c-column
+      - if contest.persisted?
+        .subheadline.m5 = t '.status'
+        .block
+          p.m5 = contest.aasm.human_state.capitalize
+
+        - if contest.may_propose? || contest.may_start? || contest.may_stop_propose?
+          .subheadline.m5 = t '.actions'
+          .contest_actions
+            - if contest.may_propose?
+              div: a.b-js-link[
+                href=propose_contest_url(contest)
+                data-method='post'
+              ] = t '.accept_candidates'
+
+            - if contest.may_stop_propose?
+              div: a.b-js-link[
+                href=cleanup_suggestions_contest_url(contest)
+                data-method='post'
+              ] = t '.cleanup_candidates'
+              div: a.b-js-link[
+                href=stop_propose_contest_url(contest)
+                data-method='post'
+              ] = t '.stop_accepting_candidates'
+
+            - if contest.may_start?
+              div: a.b-js-link[
+                href=build_contest_url(contest)
+                data-method='post'
+              ]
+                - if contest.rounds.empty?
+                  = t '.generate_polls'
+                - else
+                  = t '.shuffle_polls'
+              - if contest.may_start? & contest.rounds.any?
+                div: a.b-js-link[
+                  href=start_contest_url(contest)
+                  data-method='post'
+                  data-confirm=t('.sure_to_start_contest', gender: current_user.sex)
+                ] = t '.start_contest'
+              span.action-misc = t '.actions_reload_page'
+
+              - if contest.links.count < Contest::MINIMUM_MEMBERS
+                span.action-misc.warn
+                  = t '.minimum_anime_needed_for_start', min_members: Contest::MINIMUM_MEMBERS
+              - elsif contest.links.count > Contest::MAXIMUM_MEMBERS
+                span.action-misc.warn
+                  = t '.maximum_anime_needed_for_start', max_members: Contest::MAXIMUM_MEMBERS
+              /- elsif Contest.all.any?(&:started?)
+                span.action-misc.warn Для старта не должно быть других запущенных опросов
+
+              span.action-misc.warn = t '.you_cannot_change_anything_after_start'
+
+            /- if contest.may_finish?
+              /a.action href="#{finish_contest_url(contest)}" data-confirm="Вы уверены?" Остановить
+              /span.action-misc действие перезагрузит страницу без сохранения прочих изменений
+
+      - if contest.rounds.any? && !contest.swiss?
+        .subheadline.m5 = t 'tournament_bracket'
+        .block_m.grid
+          a[
+            href=grid_contest_url(contest)
+            title=t('tournament_bracket')
+          ] = "#{t 'goto'} →"
+
+  - if contest.persisted?
+    - if contest.created? || contest.proposing?
+      .block
+        - if contest.anime?
+          input.member-suggest.subheadline-input.downgrade_landscape[
+            type='text'
+            placeholder=t('anime_title')
+            data-variant_name='contest[member_ids][]'
+            data-autocomplete=autocomplete_animes_url
+          ]
+        - else
+          input.member-suggest.subheadline-input.downgrade_landscape[
+            type='text'
+            placeholder=t('character_name')
+            data-variant_name='contest[member_ids][]'
+            data-autocomplete=autocomplete_characters_url
+          ]
+
+        /input.member-suggest.suggest.subheadline-input.common [
+          type='text'
+          data-member_type=contest.member_type
+          data-autocomplete=(contest.anime? ? autocomplete_animes_url : autocomplete_characters_url)
+          ]
+        .subheadline.m5 = contest.anime? ? i18n_i('Anime') : i18n_i('Character', :other)
+
+        = hidden_field_tag 'contest[member_ids][]', ''
+        .variants
+          - contest.members.uniq(&:id).each do |member|
+            .variant
+              = check_box_tag 'contest[member_ids][]', member.id, checked: true
+              - if contest.anime?
+                a.bubbled href=anime_url(member)
+                  = localized_name member
+                  span.b-bracket-details
+                    = member.score
+              - else
+                a.bubbled href=character_url(member) = localized_name member
+
+            /.variant
+              = hidden_field_tag 'members[]', member.id
+              a.bubbled href=url_for(member)
+                = member.name
+              - if member.respond_to? :score
+                span.b-bracket-details
+                  = member.score
+              - if contest.created? || contest.proposing?
+                span.b-bracket_actions
+                  span.item-delete удалить
+
+        p
+          = "#{t 'total'}:&nbsp;".html_safe
+          span.members_count
+
+    - if contest.suggestions.any?
+      .suggestions
+        = render 'private_suggestions', contest: contest
+
+  .buttons
+    a.cancel[
+      href=(@resource.persisted? ? contest_url(@resource) : contests_url)
+    ] = t 'actions.cancel'
+    = f.button :magic_submit
+
+- if contest.persisted? && contest.rounds.any?
+  .clearfix
+    - contest.rounds.each do |round|
+      .block
+        .subheadline
+          = round.title
+        = render 'contest_matches/match_days',
+          contest: contest,
+          matches: contest.grouped_matches(round)

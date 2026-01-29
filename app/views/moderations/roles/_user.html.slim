@@ -1,0 +1,32 @@
+.b-user.c-column.detailed[
+  id=user.id
+  class=('with-action' if local_assigns[:with_action])
+]
+  .info
+    .image-name
+      a.name[
+        href=profile_url(user)
+        title=user.nickname
+      ] = user.nickname
+
+      a[
+        href=profile_url(user)
+        title=user.nickname
+      ]
+        img.image[
+          src=user.avatar_url(73)
+          srcset="#{user.avatar_url 148} 2x"
+          alt=user.nickname
+        ]
+    p.last-online
+      = user.last_online
+
+    - if local_assigns[:with_action]
+      .b-js-action[
+        class=(user.roles.include?(role.to_sym) ? :remove : :add)
+        data-remote=true
+        data-action=moderations_role_url(role, user_id: user.id)
+        data-method=(user.roles.include?(role.to_sym) ? 'DELETE' : 'PUT')
+        data-type='json'
+      ]
+        = t ".#{user.roles.include?(role.to_sym) ? :remove : :add}"

@@ -1,0 +1,132 @@
+header.head
+  h1 = og.headline
+  p.notice Статистика сайта и список особо отличившихся людей
+
+.cc-2a
+  .c-column
+    ul.b-list.is-wide
+      li: a.entry[
+        href=StickyTopicView.site_rules.object.url
+        title=t('application.top_menu.items.site_rules')
+      ] = t 'application.top_menu.items.site_rules'
+
+      - if !Rails.env.test?
+        li: a.entry[
+          href=StickyClubView.faq.object.url
+          title=t('application.top_menu.items.faq')
+        ] = t 'application.top_menu.items.faq'
+
+      - if !Rails.env.test?
+        li: a.entry[
+          href=StickyTopicView.socials.object.url
+          title=t('application.top_menu.items.socials')
+        ] = t 'application.top_menu.items.socials'
+
+      li: a.entry[
+        href=anime_statistics_url
+        title=t('anime_industry')
+      ] = t 'anime_industry'
+
+  .c-column
+    ul.b-list.is-wide
+      li: a.entry[
+        href=moderations_url
+        title=t('application.top_menu.items.moderation')
+      ] = t 'application.top_menu.items.moderation'
+
+      li: a.entry[
+        href=development_pages_url
+        title=t('.development')
+      ] = t '.development'
+
+      li: a.entry[
+        href=apipie_apipie_url
+        title='API'
+        data-turbolinks='false'
+      ] API
+
+= cache @statistics.cache_key do
+  .b-brief
+    .description
+      .members-block
+        .subheadline.red.m5 = t '.moderation'
+        - %i[main forum versions contests critiques collections news].each do |kind|
+          .members-block.left
+            p = t ".moderation_#{kind}"
+            = render @statistics.send(:"#{kind}_moderators"), content_by: :avatar
+
+        .members-block.left
+          p == t '.vk', url: Shikimori::VK_CLUB_URL
+          = render @statistics.vk_admins, content_by: :avatar
+
+        .members-block.left
+          p == t '.discord', url: Shikimori::DISCORD_CHANNEL_URL
+          = render @statistics.discord_admins, content_by: :avatar
+
+        .members-block.left
+          p = t '.retired_moderators'
+          = render @statistics.retired_moderators, content_by: :avatar
+
+        / .members-block.left
+          p = t '.moderation_cosplay'
+          = render @statistics.cosplay_moderators, content_by: :avatar
+
+      .members-block.clearfix
+        .subheadline.blue.m10 = t '.content_changes'
+        = render @statistics.translators, content_by: :avatar
+        .clearfix
+
+      .members-block
+        .subheadline.purple.m10 = t :news
+        = render @statistics.newsmakers, content_by: :avatar
+        .clearfix
+
+      .members-block
+        .subheadline.green.m10 = i18n_i 'Critique', :few
+        = render @statistics.critiqueers, content_by: :avatar
+        .clearfix
+
+      / .members-block
+      /   .subheadline.pink.m10 = t '.video_content'
+      /   = render @statistics.top_video_contributors, content_by: :avatar
+      /   .clearfix
+
+      .members-block
+        .subheadline.magenta.m10 = t '.achievements'
+        = render @statistics.achievements, content_by: :avatar
+        .clearfix
+
+      .members-block
+        .members-block.left
+          .subheadline.orange.m10 = t '.special_thanks'
+          = render @statistics.thanks_to, content_by: :avatar
+          .clearfix
+
+  .subheadline.m5 = t '.community'
+  .block.traffic-chart data-stats=@statistics.traffic.to_json
+
+  .cc.block
+    .c-chart
+      .b-options-floated
+        span #{t '.total'}:&nbsp;&nbsp;
+        a.b-link = @statistics.users_count
+      .subheadline.m5 = i18n_i 'User', :other
+      .block.users-chart data-stats=@statistics.users.to_json
+
+    .c-chart
+      .b-options-floated
+        span #{t '.total'}:&nbsp;&nbsp;
+        a.b-link = @statistics.comments_count
+      .subheadline.m5 = i18n_i 'Comment', :other
+      .block.comments-chart data-stats=@statistics.comments.to_json
+
+= render 'spnsrs/ad', ad: Ad.new(:horizontal_x90)
+
+.subheadline = i18n_i 'Comment', :other
+.to-process[
+  data-dynamic='topic'
+  data-faye=@topic_view.faye_channels.to_json
+]
+  = render 'topics/comments',
+    comments_view: @topic_view.comments_view,
+    commentable: @topic_view.topic

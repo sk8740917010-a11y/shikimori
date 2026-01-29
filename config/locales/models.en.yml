@@ -1,0 +1,221 @@
+en:
+  contest_round:
+    title: 'Round #%{number}%{additional}'
+
+  ban:
+    warn_message: warned. %{reason}.
+    ban_message: banned on %{duration}. %{reason}.
+
+  genre: &genre
+    default_title: '%{name} %{localized_entry_type}'
+    title:
+      common: &common
+          # kind: 'genre'
+        adventure: '%{localized_entry_type} about adventures'
+        comedy: comedy %{localized_entry_type}
+        demons: '%{localized_entry_type} about demons'
+        drama: drama %{localized_entry_type}
+        ecchi: ecchi %{localized_entry_type}
+        fantasy: fantasy %{localized_entry_type}
+        games: '%{localized_entry_type} about games'
+        historical: historical %{localized_entry_type}
+        horror: horror %{localized_entry_type}
+        josei: josei %{localized_entry_type}
+        kids: kids %{localized_entry_type}
+        magic: '%{localized_entry_type} about magic'
+        martial_arts: '%{localized_entry_type} about martial arts'
+        mecha: mecha %{localized_entry_type}
+        mystery: '%{localized_entry_type} about mysteries'
+        police: '%{localized_entry_type} about police'
+        romance: romance %{localized_entry_type}
+        school: '%{localized_entry_type} about school'
+        sci-fi: sci-fi %{localized_entry_type}
+        seinen: seinen %{localized_entry_type}
+        shoujo: shoujo %{localized_entry_type}
+        shoujo_ai: &shoujo_ai shoujo-ai %{localized_entry_type}
+        girls_love: *shoujo_ai
+        shounen: shounen %{localized_entry_type}
+        shounen_ai: &shounen_ai shounen-ai %{localized_entry_type}
+        boys_love: *shounen_ai
+        space: '%{localized_entry_type} about space'
+        sports: '%{localized_entry_type} about sport'
+        sumurai: '%{localized_entry_type} about samurais'
+        supernatural: supernatural %{localized_entry_type}
+        thriller: thriller %{localized_entry_type}
+        vampire: '%{localized_entry_type} about vampires'
+        yaoi: yaoi %{localized_entry_type}
+        yuri: yuri %{localized_entry_type}
+        # kind: 'theme'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      subjective: &subjective
+        anime:
+          <<: *common
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        manga:
+          <<: *common
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ranobe:
+          <<: *common
+
+
+
+
+
+
+
+
+
+
+
+
+  genre_v2:
+    <<: *genre
+
+  topics/entry_topic:
+    title:
+      anime: Anime thread
+      manga: Manga thread
+      ranobe: Light novel thread
+      character: Character thread
+      person: Person thread
+      critique: Critique thread
+      contest: Contest thread
+      club: Club thread
+      club_page: Club page thread
+      cosplay_gallery: Cosplay thread
+      collection: Collection thread
+      article: Article thread
+      default: Thread
+    body:
+      anime: '[anime=%{id}]Anime[/anime] discussion thread.'
+      article: '[article=%{id}]Article[/article] discussion thread.'
+      character: '[character=%{id}]Character[/character] discussion thread.'
+      club: '[club=%{id}]Club[/club] discussion thread.'
+      club_page: '[club=%{club_id}]Club[/club] [club_page=%{club_page_id}]page[/club_page] discussion thread.'
+      collection: '[collection=%{id}]Collection[/collection] discussion thread.'
+      contest: '[contest=%{id}]Contest[/contest] discussion thread.'
+      cosplay_gallery: 'Cosplay discussion thread.'
+      critique: '[critique=%{id}]Critique[/critique] discussion thread.'
+      manga: '[manga=%{id}]Manga[/manga] discussion thread.'
+      person: '[person=%{id}]Person[/person] discussion thread.'
+      ranobe: '[ranobe=%{id}]Light novel[/ranobe] discussion thread.'
+      review: '[review=%{id}]Review[/review] discussion thread.'
+
+    full_title:
+      anime: Anime [anime]%{id}[/anime] discussion
+      manga: Manga [manga]%{id}[/manga] discussion
+      ranobe: Light novel [ranobe]%{id}[/ranobe] discussion
+      character: Character [character]%{id}[/character] discussion
+      person: Person [person]%{id}[/person] discussion
+      critique:
+        anime: Anime %{target_name} critique by %{author} discussion
+        manga: Manga %{target_name} critique by %{author} discussion
+        ranobe: Light novel %{target_name} critique by %{author} discussion
+      review:
+        anime: Anime %{target_name} review by %{author} discussion
+        manga: Manga %{target_name} review by %{author} discussion
+        ranobe: Light novel %{target_name} review by %{author} discussion
+      contest: Contest [contest]%{id}[/contest] discussion
+      club: Club [club]%{id}[/club] discussion
+      club_page: Club [club_page]%{club_id}[/club_page] page [club_page]%{club_page_id}[/club_page] discussion
+      cosplay_gallery: Cosplay discussion
+      collection: 'Collection [collection]%{id}[/collection] discussion'
+      article: 'Article [article]%{id}[/article] discussion'
+
+  topics/news_topic:
+    full_title:
+      anime: 'Anime [%{type}]%{id}[/%{type}] %{action_name_lower}'
+      manga: 'Manga [%{type}]%{id}[/%{type}] %{action_name_lower}'
+      ranobe: 'Light novel [%{type}]%{id}[/%{type}] %{action_name_lower}'
+
+  topics/news_topics/contest_status_topic:
+    title:
+      started: Contest started
+      finished: Contest finished
+
+  cosplay_gallery:
+    title: Cosplay of %{cosplay} by %{cosplayer}
+
+  message:
+    antispam:
+      interval: >-
+        Anti-spam protection. Try again in %{interval} %{seconds}.
+      per_day:
+        Anti-spam protection. Try again tomorrow.
+
+  list_import:
+    name: 'List Import #%{id}'
+
+  poll:
+    name: 'Poll #%{id}'

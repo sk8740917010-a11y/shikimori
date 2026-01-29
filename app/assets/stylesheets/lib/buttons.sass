@@ -1,0 +1,191 @@
+@import mixins/icons
+@import mixins/responsive
+
+.item-mobile
+  +icon_button('m')
+
+.item-quote-mobile
+  +lte_ipad
+    &.is-active
+      +icon_button('\e80b')
+
+  +gte_laptop
+    display: none !important
+
+.buttons
+  color: #999
+  float: right
+  font: 13px/20px 'Trebuchet MS', Tahoma, Arial, Helvetica, sans-serif
+  margin-right: 5px
+
+  span,
+  label,
+  a:not(.b-button)
+    display: inline-block
+    border-bottom: none
+
+    &:first-child
+      margin-left: 0
+
+  +lte_ipad
+    span,
+    label,
+    a:not(.b-button)
+      line-height: 25px !important
+
+      &:before
+        line-height: 25px !important
+
+    & > div
+      line-height: 25px !important
+
+  +gte_laptop
+    span,
+    label,
+    a:not(.b-button)
+      line-height: 15px !important
+
+      &:before
+        line-height: 15px !important
+
+    & > div
+      line-height: 15px !important
+
+
+  .main-controls
+    a
+      color: #666
+
+      +gte_laptop
+        &:hover
+          color: var(--link-hover-color)
+          text-decoration: none
+
+      &:active
+        color: var(--link-active-color)
+
+    span:last-child,
+    span:last-child
+      margin-right: 0
+
+  .edit-controls, .delete-controls, .moderation-controls
+    display: none
+
+    span:last-child,
+    a:last-child
+      margin-right: 0
+
+  .item-save
+    +icon_button('f')
+
+  .item-moderation
+    +icon_button('\e806')
+
+  .item-preview
+    +icon_button('\e811')
+
+  .item-unpreview
+    +icon_button('\e812')
+
+  .item-quote
+    &.is-active
+      +icon_button('\e80b')
+
+    +lte_ipad
+      display: none
+
+  .item-reply
+    +icon_button('\f02a')
+
+  .item-edit
+    +icon_button('\e814')
+
+  .item-delete
+    +icon_button('\e815')
+
+  .item-apply,
+  .item-request-confirm,
+  .item-delete-confirm
+    +icon_button('✓')
+
+  .item-cancel,
+  .item-request-reject,
+  .item-delete-cancel,
+  .item-moderation-cancel
+    +icon_button('✕')
+
+  .item-subscribe
+    +icon_button('\e819')
+
+  .item-offtopic
+    +icon_button('\e82b')
+    &.selected
+      color: $red
+
+  .item-summary
+    +icon_button('\e80f')
+    &.selected
+      color: $green
+
+  .item-spoiler
+    +icon_button('\e82d')
+
+  .item-abuse
+    +icon_button('\e82c')
+
+  .item-ban
+    +icon_button('\e80a')
+
+  .item-ignore
+    +icon_button('\e811')
+    &.selected
+      +icon_button('\e812')
+
+  .editor-bold
+    +icon_button('\e802')
+
+  .editor-italic
+    +icon_button('\e804')
+
+  .editor-underline
+    +icon_button('\e807')
+
+  .editor-strike
+    +icon_button('\e805')
+
+  .editor-link
+    +icon_button('🔗')
+
+  .editor-image
+    +icon_button('\e81d')
+
+  .editor-quote
+    +icon_button('\e80b')
+
+  .editor-spoiler
+    +icon_button('\e81b')
+
+  .editor-smiley
+    +icon_button('\e800')
+
+  .editor-file
+    +icon_button('\e80c')
+    cursor: pointer
+
+    input
+      display: none
+
+  .cancel
+    margin-right: 20px
+
++gte_laptop
+  .item-mobile
+    display: none
+
++lte_ipad
+  .item-mobile
+    color: #999
+
+    &:before
+      font-size: 22px !important
+      width: 30px !important

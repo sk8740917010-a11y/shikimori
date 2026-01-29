@@ -1,0 +1,221 @@
+ru:
+  contest_round:
+    title: 'Раунд № %{number}%{additional}'
+
+  ban:
+    warn_message: предупреждение. %{reason}.
+    ban_message: бан на %{duration}. %{reason}.
+
+  genre: &genre
+    default_title: '%{localized_entry_type} жанра %{name}'
+    title:
+      common: &common
+        # kind: 'genre'
+        adventure: '%{localized_entry_type} о приключениях'
+
+        demons: '%{localized_entry_type} про демонов'
+        drama: '%{localized_entry_type} в жанре драма'
+        ecchi: этти %{localized_entry_type}
+        fantasy: фэнтези %{localized_entry_type}
+        games: '%{localized_entry_type} про игры'
+
+        horror: '%{localized_entry_type} в жанре ужасы'
+        josei: дзёсэй %{localized_entry_type}
+
+        magic: '%{localized_entry_type} про магию'
+        martial_arts: '%{localized_entry_type} про боевые искусства'
+
+        police: '%{localized_entry_type} про полицию'
+
+        school: '%{localized_entry_type} про школу'
+        sci-fi: '%{localized_entry_type} в жанре фантастика'
+        seinen: сэйнэн %{localized_entry_type}
+        shoujo: сёдзё %{localized_entry_type}
+        shoujo_ai: &shoujo_ai сёдзё-ай %{localized_entry_type}
+        girls_love: *shoujo_ai
+        shounen: сёнен %{localized_entry_type}
+        shounen_ai: &shounen_ai сёнен-ай %{localized_entry_type}
+        boys_love: *shounen_ai
+        space: '%{localized_entry_type} про космос'
+        sports: '%{localized_entry_type} про спорт'
+        sumurai: '%{localized_entry_type} про самураев'
+
+        thriller: триллер %{localized_entry_type}
+        vampire: '%{localized_entry_type} про вампиров'
+        yaoi: '%{localized_entry_type} яой'
+        yuri: юри %{localized_entry_type}
+        # kind: 'theme'
+        adult_cast: '%{localized_entry_type} про взрослых персонажей'
+        anthropomorphic: '%{localized_entry_type} про антропоморфизм'
+        cgdct: CGDCT %{localized_entry_type}
+        childcare: '%{localized_entry_type} про заботу о детях'
+        combat_sports: '%{localized_entry_type} про единоборства'
+        crossdressing: '%{localized_entry_type} про кроссдрессинг'
+        delinquents: '%{localized_entry_type} про хулиганов'
+        detective: '%{localized_entry_type} детектив'
+        gag_humor: '%{localized_entry_type} про гэг-юмор'
+        gore: '%{localized_entry_type} про жестокость'
+        harem: '%{localized_entry_type} про гарем'
+        high_stakes_game: '%{localized_entry_type} про игры с высокими ставками'
+        idols_female: '%{localized_entry_type} про идолов (жен.)'
+        idols_male: '%{localized_entry_type} про идолов (муж.)'
+        isekai: исэкай %{localized_entry_type} | %{localized_entry_type} про попаданцев
+        iyashikei: иясикэй %{localized_entry_type}
+        love_polygon: '%{localized_entry_type} про любовный многоугольник'
+        magical_sex_shift: '%{localized_entry_type} про магическую смена пола'
+        mahou_shoujo: махо-сёдзё %{localized_entry_type}
+        martial_arts: '%{localized_entry_type} про боевые искусства'
+        mecha: меха %{localized_entry_type}
+        medical: '%{localized_entry_type} про медицину'
+        memoir: '%{localized_entry_type} про мемуары'
+        music: '%{localized_entry_type} про музыку'
+        mythology: '%{localized_entry_type} про мифологию'
+        organized_crime: '%{localized_entry_type} про организованную преступность'
+        otaku_culture: '%{localized_entry_type} про культуру отаку'
+        performing_arts: '%{localized_entry_type} про исполнительское искусство'
+        pets: '%{localized_entry_type} про питомцев'
+        racing: '%{localized_entry_type} про гонки'
+        reincarnation: '%{localized_entry_type} про реинкарнацию'
+        reverse_harem: '%{localized_entry_type} про реверс-гарем'
+        romantic_subtext: '%{localized_entry_type} с романтическим подтекстом'
+        samurai: '%{localized_entry_type} про самураев'
+        school: '%{localized_entry_type} про школу'
+        showbiz: '%{localized_entry_type} про шоу-бизнес'
+        space: '%{localized_entry_type} про космос'
+        strategy_game: '%{localized_entry_type} про стратегические игры'
+        super_power: '%{localized_entry_type} про супер силы'
+        survival: '%{localized_entry_type} про выживание'
+        team_sports: '%{localized_entry_type} про командный спорт'
+        time_travel: '%{localized_entry_type} про путешествие во времени'
+        vampire: '%{localized_entry_type} про вампиров'
+        video_game: '%{localized_entry_type} про видеоигры'
+        villainess: '%{localized_entry_type} со злодейками'
+        visual_arts: '%{localized_entry_type} про изобразительное искусство'
+        workplace: '%{localized_entry_type} про работу'
+      subjective:
+        anime: &subjective_anime
+          <<: *common
+          # kind: 'genre'
+          comedy: комедийные %{localized_entry_type}
+          romance: романтические %{localized_entry_type} про любовь
+          supernatural: сверхъестественные %{localized_entry_type}
+          kids: детские %{localized_entry_type}
+          hentai: хентайные %{localized_entry_type}
+          erotica: эротические %{localized_entry_type}
+          # kind: 'theme'
+          award_winning: удостоенные наград %{localized_entry_type}
+          educational: образовательные %{localized_entry_type}
+          historical: исторические %{localized_entry_type}
+          military: военные %{localized_entry_type}
+          parody: пародийные %{localized_entry_type}
+          psychological: психологические %{localized_entry_type}
+        manga:
+          <<: *common
+          # kind: 'genre'
+          comedy: комедийная %{localized_entry_type}
+          romance: романтическая %{localized_entry_type} про любовь
+          supernatural: сверхъестественная %{localized_entry_type}
+          kids: детская %{localized_entry_type}
+          hentai: хентайная %{localized_entry_type}
+          erotica: эротическая %{localized_entry_type}
+          # kind: 'theme'
+          award_winning: удостоенная наград %{localized_entry_type}
+          educational: образовательная %{localized_entry_type}
+          historical: историческая %{localized_entry_type}
+          military: военная %{localized_entry_type}
+          parody: пародийная %{localized_entry_type}
+          psychological: психологическая %{localized_entry_type}
+        ranobe:
+          comedy: комедийное %{localized_entry_type}
+          romance: романтическое %{localized_entry_type} про любовь
+          supernatural: сверхъестественное %{localized_entry_type}
+          kids: детское %{localized_entry_type}
+          hentai: хентайное %{localized_entry_type}
+          erotica: эротическое %{localized_entry_type}
+          # kind: 'theme'
+          award_winning: удостоенное наград %{localized_entry_type}
+          educational: образовательное %{localized_entry_type}
+          historical: историческое %{localized_entry_type}
+          military: военное %{localized_entry_type}
+          parody: пародийное %{localized_entry_type}
+          psychological: психологическое %{localized_entry_type}
+  genre_v2:
+    <<: *genre
+
+  topics/entry_topic:
+    title:
+      anime: Обсуждение аниме
+      manga: Обсуждение манги
+      ranobe: Обсуждение ранобэ
+      character: Обсуждение персонажа
+      person: Обсуждение человека
+      critique: Обсуждение рецензии
+      contest: Обсуждение турнира
+      club: Обсуждение клуба
+      club_page: Обсуждение страницы
+      cosplay_gallery: Обсуждение косплея
+      collection: Обсуждение коллекции
+      article: Обсуждение статьи
+      default: Топик
+    body:
+      anime: Топик обсуждения [anime=%{id}]аниме[/anime].
+      article: Топик обсуждения [article=%{id}]статьи[/article].
+      character: Топик обсуждения [character=%{id}]персонажа[/character].
+      club: Топик обсуждения [club=%{id}]клуба[/club].
+      club_page: Топик обсуждения [club_page=%{club_page_id}]страницы[/club_page] [club=%{club_id}]клуба[/club].
+      collection: Топик обсуждения [collection=%{id}]коллекции[/collection].
+      contest: Топик обсуждения [contest=%{id}]турнира[/contest].
+      cosplay_gallery: Топик обсуждения косплея.
+      critique: Топик обсуждения [critique=%{id}]рецензии[/critique].
+      manga: Топик обсуждения [manga=%{id}]манги[/manga].
+      person: Топик обсуждения [person=%{id}]человека[/person].
+      ranobe: Топик обсуждения [ranobe=%{id}]ранобэ[/ranobe].
+      review: Топик обсуждения [review=%{id}]отзыва[/review].
+
+    full_title:
+      anime: Обсуждение аниме [anime]%{id}[/anime]
+      manga: Обсуждение манги [manga]%{id}[/manga]
+      ranobe: Обсуждение ранобэ [ranobe]%{id}[/ranobe]
+      character: Обсуждение персонажа [character]%{id}[/character]
+      person: Обсуждение человека [person]%{id}[/person]
+      critique:
+        anime: Обсуждение рецензии аниме %{target_name} от %{author}
+        manga: Обсуждение рецензии манги %{target_name} от %{author}
+        ranobe: Обсуждение рецензии ранобэ %{target_name} от %{author}
+      review:
+        anime: Обсуждение отзыва аниме %{target_name} от %{author}
+        manga: Обсуждение отзыва манги %{target_name} от %{author}
+        ranobe: Обсуждение отзыва ранобэ %{target_name} от %{author}
+      contest: Обсуждение турнира [contest]%{id}[/contest]
+      club: Обсуждение клуба [club]%{id}[/club]
+      club_page: Страница [club_page]%{club_page_id}[/club_page] клуба [club]%{club_id}[/club]
+      cosplay_gallery: Обсуждение косплея
+      collection: Обсуждение коллекции [collection]%{id}[/collection]
+      article: Обсуждение статьи [article]%{id}[/article]
+
+  topics/news_topic:
+    full_title:
+      anime: '%{action_name} аниме [%{type}]%{id}[/%{type}]'
+      manga: '%{action_name} манги [%{type}]%{id}[/%{type}]'
+      ranobe: '%{action_name} ранобэ [%{type}]%{id}[/%{type}]'
+
+  topics/news_topics/contest_status_topic:
+    title:
+      started: Старт турнира
+      finished: Завершение турнира
+
+  cosplay_gallery:
+    title: Косплей %{cosplay} от %{cosplayer}
+
+  message:
+    antispam:
+      interval: >-
+        Защита от спама. Попробуй снова через %{interval} %{seconds}.
+      per_day: >-
+        Защита от спама. Подожди до завтра.
+
+  list_import:
+    name: 'Импорт списка № %{id}'
+
+  poll:
+    name: 'Опрос № %{id}'

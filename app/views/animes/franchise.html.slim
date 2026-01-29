@@ -1,0 +1,17 @@
+header.head.misc
+  h1
+    a.back[
+      href=@resource.url
+      title="#{t 'back_to_page'} #{@resource.name}"
+      data-text=t('back')
+    ]
+    = @resource.headline
+  = render 'application/breadcrumbs'
+
+.sticky-tooltip
+  .close
+  .inner
+.graph[
+  data-id=@resource.id
+  data-api_url=(@resource.anime? ? franchise_api_anime_url(@resource) : franchise_api_manga_url(@resource))
+]

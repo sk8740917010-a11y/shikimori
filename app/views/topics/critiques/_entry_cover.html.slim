@@ -1,0 +1,9 @@
+.critique-entry_cover
+  a[
+    href=view.urls.poster_url
+    title=view.poster_title
+  ]
+    = render 'db_entries/poster',
+      db_entry: entry,
+      poster: entry.poster,
+      derivative: :preview

@@ -1,0 +1,301 @@
+ru:
+  moderations:
+    cache: &cache Отображённый список кэшируется сайтом. Обновляется раз в час.
+    defaults: &defaults
+      accept: принять
+      expand_all: раскрыть всё
+      history: История
+      instruction: Инструкция
+      moderators: Модераторы
+      queue: Очередь
+      queue_empty: Очередь пуста
+      filters: Фильтры
+      field: Поле
+      not_selected: Не выбрано
+      all_types: Всё
+
+    show:
+      content: Контент
+      header_notice: Журналы модерации и информация о контенте сайта
+      missing_anime_names: Аниме без русских названий
+      missing_anime_descriptions: Аниме без описаний
+      missing_manga_names: Манга без русских названий
+      missing_manga_descriptions: Манга без описаний
+      missing_screenshots: Аниме без кадров
+      fansub_authors: Авторы фансаба/фандаба
+      moderation: Модерация
+      news_journal: Журнал новостей
+      critiques_journal: Журнал рецензий
+      collections_journal: Журнал коллекций
+      articles_journal: Журнал статей
+      anime_video_authors: Авторы видео
+      forums: Форумы
+      mal_sync: Синхронизация с MAL
+      type: Тип
+      run: Запустить
+      running: Запускается…
+      in_progress: Задачи выполняются
+      queue: Задачи в очереди
+      proxies_count: Прокси доступно
+
+    missing_screenshots:
+      notices:
+        - Здесь отображены %{limit} наиболее популярных аниме,
+          у которых отсутствуют кадры.
+        - *cache
+
+    abuse_requests:
+      index:
+        <<: *defaults
+        notice: >-
+          Список пометок комментариев сайта пользователями
+
+        instructions:
+          - Личные разговоры в топиках аниме - оффтоп.
+          - Комментарии от тех, у кого проблемы с русским языком - оффтоп.
+          - С негативных отзывов, если они культурно написаны,
+            "отзыв" снимать не надо.
+        to_your_discretion: Остальное на ваше усмотрение.
+        bans_plus_warnings: баны + предупреждения
+
+      abuse_request:
+        <<: *defaults
+        actions: действия
+        ban: забанить
+        for_reason: по причине
+        old:
+          comment: старый комментарий
+          review: старый отзыв
+          topic: старый топик
+        club_comment: комментарий клуба
+        profile_comment: комментарий профиля
+        review_comment: комментарий отзыва
+        offtopic_comment: комментарий оффтопика
+        reject: отклонить
+        remove: снять
+        show: показать
+        for: на
+        from: на
+        warn: предупредить
+        cleanup: очистить причину
+
+    bans:
+      index:
+        <<: *defaults
+        notice: История предупреждений и банов на сайте
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        declined: Отклонено
+        offtopic_plus_summaries: оффтопик + отзывы
+
+      ban:
+        ban: бан
+        banned_on: на
+        for: за
+        for_deleted_comment: за удалённый комментарий
+        warning: предупреждение
+
+    critiques:
+      index:
+        <<: *defaults
+        notice: История модерации рецензий
+        instructions:
+          - Рецензия должна в целом соответствовать
+            <a href="//shikimori.one/clubs/293-moderatsiya-retsenziy/topics/557202-novye-pravila-i-rekomendatsii-razdela">
+            критериям</a>.
+          - Отклонённые рецензии превращаются в топик оффтопика
+            без возможности восстановления.
+          - Отклоняйте рецензии, содержащие троллинг,
+            "быдлоязык", написанные с целью вызывать срач.
+        more_summaries_pending: >-
+          Это ещё не всё.
+          Прочие рецензии будут доступны после принятия отображённых выше.
+
+      critique:
+        accept: принять
+        move_to_offtopic: переместить в оффтопик
+
+    posters:
+      poster:
+        accept: Принять
+        reject: Отклонить
+        cancel: Отменить
+        censore: Зацензурить
+
+    collections:
+      index:
+        <<: *defaults
+        notice: История модерации коллекций
+        instructions:
+          - Отклонённые коллекции превращаются в топик оффтопика
+            без возможности восстановления.
+          - Отклоняйте коллекции, содержащие троллинг,
+            написанные с целью вызывать срач.
+        more_summaries_pending: >-
+          Это ещё не всё.
+          Прочие коллекции будут доступны после принятия отображённых выше.
+
+      collection:
+        accept: принять
+        move_to_offtopic: переместить в оффтопик
+
+    news:
+      index:
+        <<: *defaults
+        notice: История модерации новостей
+      news:
+        accept: принять
+        move_to_offtopic: переместить в оффтопик
+
+    articles:
+      index:
+        <<: *defaults
+        notice: История модерации статей
+        instructions:
+          - Отклонённые статьи превращаются в топик оффтопика
+            без возможности восстановления.
+          - Отклоняйте статьи, содержащие троллинг,
+            написанные с целью вызывать срач.
+        more_summaries_pending: >-
+          Это ещё не всё.
+          Прочие статьи будут доступны после принятия отображённых выше.
+
+      article:
+        accept: принять
+        move_to_offtopic: переместить в оффтопик
+
+    versions:
+      index:
+        <<: *defaults
+        notice: Список правок контента сайта пользователями
+        # instructions_notice: >-
+        #   При "мелких" недостатках в правках "отказывать" не стоит,
+        #   лучше примите правку и подправьте:
+        #   на страницах аниме/манги/персонажей при редактировании описаний
+        #   в редакторе у вас появится новый пункт "Применить" слева
+        #   от кнопки сохранения. Эта кнопка мгновенно применяет внесённые
+        #   вами изменения, не занося вас в список авторов.
+        # more_content_changes_pending: >-
+        #   Это ещё не всё.
+        #   Остальные правки будут доступны после принятия отображённых выше.
+        history: История правок
+        moderators: Модераторы
+
+    users:
+      index:
+        users: Пользователи
+        nothing_here: Нет пользователей
+
+    roles:
+      index:
+        roles: Роли
+      show:
+        users: Пользователи
+        nothing_here: Нет пользователей
+        add_user: Добавить пользователя
+        search: Поиск по имени...
+        history: :moderations.bans.index.history
+        notice:
+          super_moderator: Может назначать модераторов
+          news_super_moderator: Может назначать модераторов новостей и другого контента
+          retired_moderator: Модератор в отставке
+          version_names_moderator: Модератор пользовательских правок названий в базе сайта
+          version_texts_moderator: Модератор пользовательских правок текстов в базе сайта
+          version_moderator: Модератор большинства пользовательских правок в базе сайта
+          version_fansub_moderator: Модератор правок фансабберов и фандабберов
+          trusted_version_changer: Может менять контент без модерации изменений
+          not_trusted_version_changer: Не может менять контент сайта
+          not_trusted_collections_author: Не может публиковать коллекции на сайте. Создание приватных и открытых колелкций разрешено.
+          not_trusted_abuse_reporter: Ограничение в подаче жалоб на форуме (максимум 3 жалобы в день)
+          censored_avatar: Аватарка со взрослым контентом
+          censored_profile: Профиль со взрослым контентом
+          censored_nickname: Запрещённые никнеймы
+          cheat_bot: 'Накрутка статистики: голоса не учитываются, ачивки не учитываются'
+          completed_announced_animes: >-
+            Анонсированные аниме в статусе просмотрено: не учитываются в статистике ачивок.
+            Назначается автоматически раз в сутки.
+      user:
+        add: Добавить
+        remove: Удалить
+    user_rate_logs:
+      index:
+        notice: >-
+          Логи хранятся 2 недели. Импорт списков и очистка списков не логируются.
+      user_rate_log:
+        action:
+          create: добавлено
+          update: изменено
+          destroy: удалено
+        details: подробности
+        show: показать
+    forums:
+      index: &index
+        forums: Форумы
+        notice: Список всех форумов сайта
+      edit: &edit
+        <<: *index
+        notice: Редактирование форума
+      update:
+        <<: *edit
+    genres: &genres
+      index: &index
+        notice: Список всех жанров аниме и манги
+      edit: &edit
+        <<: *index
+        notice: Редактирование жанра
+      update:
+        <<: *edit
+    genre_v2s:
+      <<: *genres
+    studios:
+      index: &index
+        notice: Список всех аниме студий
+        filtered_name: Отобр. название
+      edit: &edit
+        <<: *index
+        notice: Редактирование студии
+      update:
+        <<: *edit
+    publishers:
+      index: &index
+        notice: Список всех издателей манги
+      edit: &edit
+        <<: *index
+        notice: Редактирование издателя
+      update:
+        <<: *edit
+    authors:
+      edit:
+        fansub_animes: Аниме с фансабом
+        fandub_animes: Аниме с фандабом
+    changelogs:
+      show:
+        search: Поиск по логу
+      changelog:
+        changes: изменения
+        details: подробности
+        log_line: строка лога

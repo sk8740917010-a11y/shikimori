@@ -1,0 +1,55 @@
+.b-club.c-colum[
+  id=club.id
+  class="#{content_by} #{:censored if club.censored?}"
+]
+  - if content_by == :detailed
+    - comments_count = club.maybe_topic.comments_count
+    a.name-logo[
+      href=club_url(club)
+      title=club.name
+    ]
+      img.logo[
+        src=cdn_image_url(club, :x48)
+        srcset="#{cdn_image_url club, :x96} 2x"
+        alt=club.name
+      ]
+      .name
+        = club.name
+    .info
+      span.grouped
+        span.number = club.members_count
+        span.value = i18n_i 'member', club.members_count
+      span.grouped
+        span.number
+          = number_with_delimiter comments_count, delimiter: ' '
+        span.value
+          - if comments_count < 1000
+            = i18n_i 'comment', comments_count
+          - else
+            = i18n_i 'comment', :many
+    .info.author
+      .b-user16
+        a[
+          href=profile_url(club.owner)
+          title=club.owner.nickname
+        ]
+          img[
+            src=club.owner.avatar_url(16)
+            srcset="#{club.owner.avatar_url 32} 2x"
+            alt=club.owner.nickname
+          ]
+          span = club.owner.nickname
+
+  - elsif content_by == :avatar
+    a[
+      href=club_url(club)
+      title=club.name
+    ]
+      img.logo[
+        src=cdn_image_url(club, :x48)
+        srcset="#{cdn_image_url club, :x96} 2x"
+        alt=club.name
+      ]
+
+  - else
+    - raise ArgumentError, content_by

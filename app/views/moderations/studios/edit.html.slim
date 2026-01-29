@@ -1,0 +1,42 @@
+header.head
+  h1 = og.headline
+  .notice = t '.notice'
+  = render 'application/breadcrumbs'
+
+.block
+  = simple_form_for [:moderations, @resource] do |f|
+    - if @resource.errors.any?
+      .errors
+        .subheadline.red Errors
+        .subcontent
+          == @resource.errors.full_messages.join('<br>')
+        div
+    - else
+        .subheadline.m5 = Studio.model_name.human
+
+    .inputs.block
+      = f.input :id, input_html: { disabled: true }
+      = f.input :name, input_html: { disabled: cannot?(:update, @resource) }
+      = f.input :image, input_html: { disabled: cannot?(:update, @resource) }
+      - if @resource.image_file_name
+        img[
+          src=cdn_image_url(@resource, :original)
+          style='width: 200px'
+        ]
+
+      = f.input :is_visible,
+        input_html: { disabled: true },
+        hint: 'DEPRECATED'
+
+      = f.input :is_publisher,
+        input_html: { disabled: cannot?(:update, @resource) }
+
+      = f.input :is_verified,
+        input_html: { disabled: cannot?(:update, @resource) }
+
+    .m5: b = Publisher.human_attribute_name :desynced
+    = render 'db_entries/fields/desynced_field', resource: @resource
+    = f.button :magic_submit
+    = link_to t('actions.cancel'), moderations_studios_url, class: 'cancel'
+
+= render 'db_entries/versions', collection: @versions

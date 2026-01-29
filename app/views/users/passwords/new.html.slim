@@ -1,0 +1,28 @@
+header.head.m15
+  h1 = t '.title'
+  p.notice = t '.notice'
+
+= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  - if f.object.errors.any?
+    .b-errors
+      .subheadline.m5 = t 'form_errors'
+      .block
+        - if f.object.errors.any?
+          p == f.object.errors.full_messages.join('<br>')
+
+  .block
+    = f.input :email,
+      input_html: {\
+        autocorrect: 'none',
+        autocapitalize: 'none',
+        spellcheck: false,
+        autofocus: true\
+      }
+
+  .block
+    = render 'application/captcha'
+
+  .block
+    = f.button :magic_submit
+    a.cancel href=new_user_session_url = t '.sign_in'
+    a.cancel href=new_user_registration_url = t '.sign_up'

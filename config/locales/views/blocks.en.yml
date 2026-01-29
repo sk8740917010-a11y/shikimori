@@ -1,0 +1,19 @@
+en:
+  blocks:
+    spoiler:
+      expand: expand
+    list_switchers:
+      lines: Display as list
+      list: Display as list
+      posters: Display as posters
+      popularity: Order by popularity
+      alphabet: Order by alphabet
+      progress: Order by completion percentage
+    ignored:
+      topic:
+        ignored_user: Topic of ignored user
+        ignored_topic: Ignored topic
+      comment:
+        ignored_user: Comment of ignored user
+    shiki_editor:
+      hide: Hide

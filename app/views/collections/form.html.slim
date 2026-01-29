@@ -1,0 +1,201 @@
+header.head.misc
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+= render 'application/note_from_club_page', club_page_id: 3018
+
+- if @resource.errors.any?
+  .b-errors
+    .subheadline.m5 = i18n_i 'error', :other
+    == @resource.errors.full_messages.join('<br>')
+
+- new_role = CollectionRole.new(collection: @resource) if @resource.persisted?
+- if can? :create, new_role
+  = simple_form_for [@resource, new_role], html: { class: 'hidden' } do |f|
+    = f.input :collection_id
+    = f.input :user_id
+
+- if !@resource.censored? && @resource.links.any? { |v| v.linked.respond_to?(:censored?) && v.linked.censored? }
+  .b-warning.is-background
+    .warning
+      ' В коллекции присутствует 18+
+      = t("frontend.collections.kind.#{@resource.kind}").downcase
+      | , но у коллекции нет 18+ метки
+    .hint
+      ' При сохранении коллекции 18+
+      = t("frontend.collections.kind.#{@resource.kind}").downcase
+      |  удалится, если не поставить 18+ метку
+#collection_form[
+  data-collection=CollectionSerializer.new(@resource, scope: self).to_json
+  data-autocomplete_url=((@resource.ranobe? ? autocomplete_ranobe_index_url(censored: @resource.censored?) : send(:"autocomplete_#{@resource.kind.pluralize}_url", censored: @resource.censored?)) if @resource.persisted?)
+  data-max_links=Collection::Update::MAX_LINKS
+]
+  = simple_form_for @resource do |f|
+    .subheadline.m5 = t :settings
+    .block
+      .cc-2
+        .c-column
+          = f.input :user_id, as: :hidden
+          = f.input :name
+          = f.input :kind,
+            include_blank: false,
+            disabled: @resource.persisted?
+          = f.input :is_spoilers
+          = f.input :is_censored
+
+          = f.input :tags,
+            input_html: { value: f.object.tags&.join(','), class: 'w-100' },
+            as: :string
+          #vue_tags_input[
+            data-value=f.object.tags
+            data-autocomplete_basic=Collections::TagsQuery.call
+          ]
+
+          - if @resource.persisted?
+            .b-input
+              label = Collection.human_attribute_name :state
+              div: b = @resource.aasm.human_state
+              .collection-state-hint == t ".hint.#{@resource.state}"
+        .c-column
+          - if @resource.persisted?
+            .m5
+            .b-input
+              | #{Collection.human_attribute_name :user}&nbsp;
+              = render 'users/user_16', user: @resource.user
+
+            - if can? :create, new_role
+              input.coauthor-suggest.subheadline-input.downgrade_landscape[
+                type='text'
+                placeholder=t('username')
+                data-autocomplete=autocomplete_users_url
+              ]
+            .subheadline.m5
+              = t '.coauthors'
+            .page-reload-hint.m5 == t '.note_about_page_reload'
+            - if @resource.collection_roles.any?
+              - @resource.collection_roles.each do |collection_role|
+                .m5
+                  = render 'users/user_16', user: collection_role.user
+                  - if can? :destroy, collection_role
+                    .remove-coauthor
+                      a.b-js-link[
+                        href=collection_collection_role_url(@resource, collection_role)
+                        data-method='delete'
+                        data-confirm=t('actions.confirm_simple')
+                      ] = t('actions.delete').downcase
+            - else
+              .b-nothing_here = t '.no_coauthors'
+
+      - if @resource.persisted? && can?(:create, @resource)
+        .cc-3
+          - if @resource.may_to_published? && can?(:to_published, @resource)
+            .c-column.b-input
+              a.b-button.m3[
+                href=to_published_collection_url(@resource)
+                data-method='post'
+                data-confirm=t('.confirm_status_change')
+              ]
+                = t '.to_published'
+              .status.status-available.status-available.b-tooltipped.unprocessed[
+                title=t('.status.available')
+                data-direction='top'
+              ]
+              .status.status-moderated.status-available.b-tooltipped.unprocessed[
+                title=t('.status.moderated')
+                data-direction='top'
+              ]
+              .status.status-profile.status-available.b-tooltipped.unprocessed[
+                title=t('.status.profile')
+                data-direction='top'
+              ]
+              .collection-state-hint
+                == t '.hint.published'
+
+          - if @resource.may_to_opened? && can?(:to_opened, @resource)
+            .c-column.b-input
+              a.b-button.m3[
+                href=to_opened_collection_url(@resource)
+                data-method='post'
+                data-confirm=t('.confirm_status_change')
+              ]
+                = t '.to_opened'
+              .status.status-not_available.status-available.b-tooltipped.unprocessed[
+                title=t('.status.not_available')
+                data-direction='top'
+              ]
+              .status.status-moderated.status-not_available.b-tooltipped.unprocessed[
+                title=t('.status.not_moderated')
+                data-direction='top'
+              ]
+              .status.status-profile.status-available.b-tooltipped.unprocessed[
+                title=t('.status.profile')
+                data-direction='top'
+              ]
+              .collection-state-hint
+                = t '.hint.opened'
+
+          - if @resource.may_to_private? && can?(:to_private, @resource)
+            .c-column.b-input
+              a.b-button.m3[
+                href=to_private_collection_url(@resource)
+                data-method='post'
+                data-confirm=t('.confirm_status_change')
+              ]
+                = t '.to_private'
+              .status.status-not_available.status-available.b-tooltipped.unprocessed[
+                title=t('.status.not_available')
+                data-direction='top'
+              ]
+              .status.status-moderated.status-not_available.b-tooltipped.unprocessed[
+                title=t('.status.not_moderated')
+                data-direction='top'
+              ]
+              .status.status-profile.status-not_available.b-tooltipped.unprocessed[
+                title=t('.status.not_profile')
+                data-direction='top'
+              ]
+              .collection-state-hint
+                = t '.hint.private'
+
+      - if @resource.persisted?
+        .b-input
+          - if @resource.unpublished?
+            a.b-button.blue.is-external_link[
+              target='_blank'
+              href=collection_url(@resource)
+            ] = t 'actions.preview'
+          - else
+            a.b-button.blue.is-arrow[
+              href=collection_url(@resource)
+            ] = t '.to_collection'
+
+      = render 'blocks/shiki_editor',
+        text: @resource.text,
+        field_name: 'collection[text]',
+        size: 'xl',
+        no_preview_avatar: true,
+        is_text_with_paragraphs: true,
+        cache_key: @resource.cache_key
+
+    .block2
+      .buttons
+        a.cancel href=collections_url = t 'actions.cancel'
+        = f.button :magic_submit, disabled: true
+
+      - if @resource.persisted? && can?(:destroy, @resource)
+        a.remove[
+          href=collection_url(@resource)
+          title=t('actions.delete')
+          data-method='delete'
+          data-confirm=t('actions.confirm')
+        ] = t 'actions.delete'
+      | &nbsp;
+
+    - if @resource.persisted?
+      #vue_collection_links
+        .subheadline = @resource.kind_text
+        .b-nothing_here = t 'loading'
+
+      .buttons
+        a.cancel href=collections_url = t 'actions.cancel'
+        = f.button :magic_submit, disabled: true

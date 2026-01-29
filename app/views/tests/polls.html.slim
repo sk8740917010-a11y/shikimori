@@ -1,0 +1,11 @@
+.subheadline.m5 Polls Test
+.block
+  div: b stopped poll
+  = BbCodes::Text.call '[poll=12]'
+
+  div: b started poll
+  = BbCodes::Text.call '[poll=6]'
+  = BbCodes::Text.call '[poll=6]'
+
+  div: b pending poll
+  = BbCodes::Text.call '[poll=11]'

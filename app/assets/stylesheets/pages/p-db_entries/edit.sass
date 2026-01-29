@@ -1,0 +1,39 @@
+@import mixins/ellipsis2
+@import mixins/flex_column
+@import mixins/responsive
+
+.p-db_entries-edit
+  .b-list
+    .field
+      display: inline-block
+      color: $gray-3
+
+      &:after
+        content: ':'
+
+    .value
+      display: inline
+
+      & > span:not(:empty),
+      & > a:not(:empty)
+        margin-left: 5px
+
+      &.under_development
+        font-size: 11px
+
+      .hint
+        color: $gray-2
+        display: block
+        font-size: 11px
+        line-height: 1.34
+
+    .sample
+      +ellipsis2
+      font-size: 12px
+
+    .run-mal-parser
+      margin-left: 12px !important
+
+  .b-dangerous-actions
+    .fc-actions
+      +fcolumn-responsive($landscape-columns: 1, $ipad-columns: 3, $gutter: 20px)

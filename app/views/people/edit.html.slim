@@ -1,0 +1,28 @@
+= render layout: 'page' do
+  .block
+    .subheadline = og.headline
+    .fc-2
+      .f-column
+        ul.b-list.is-wide
+          - %i[name russian japanese birth_on deceased_on website].each do |field|
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: field,
+              formatter: {\
+                website: ->(_value) { @resource.website_html } \
+              }[field]
+
+      .f-column
+        ul.b-list.is-wide
+          - %i[poster].each do |field|
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: field,
+              formatter: {\
+                poster: ->(_value) {}\
+              }[field],
+              is_force_value: field == :poster
+
+  = render 'db_entries/synchronization', resource: @resource
+  = render 'db_entries/dangerous_actions/index', resource: @resource
+  = render 'db_entries/versions', collection: @resource.parameterized_versions

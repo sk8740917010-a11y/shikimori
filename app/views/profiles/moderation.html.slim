@@ -1,0 +1,187 @@
+= render layout: 'page' do
+  - if @resource.read_only_at && @resource.banned?
+    .errors.block
+      .subheadline.red = t '.banned', gender: @resource.sex
+      p
+        - if @resource.permaban?
+          = t '.permaban'
+        - else
+          == t '.ban_removal',
+            formatted_date: l(@resource.read_only_at, format: :full),
+            iso_date: @resource.read_only_at.iso8601
+
+  - roles = @resource.roles.select { |role| RolesPolicy.accessible? role }
+  - if roles.any?
+    .block
+      .subheadline.m5 = t '.roles'
+      - roles.each do |role|
+        .b-anime_status_tag.misc-data.mr-2 = role.titleize
+
+  - if can? :manage, Ban
+    .cc-2.block
+      .c-column
+        .subheadline.m5 = t 'actions.moderation.ban'
+        p.m10 = t '.ban_warning_for_moderator'
+        = render template: 'moderations/bans/new',
+          locals: { ban_in_profile: true, ban: @ban }
+
+      .c-column
+        .block_m
+          .subheadline.m5 = User.model_name.human
+          .b-entry-info
+            - %i[id last_online_at created_at current_sign_in_ip last_sign_in_ip sign_in_count current_sign_in_at last_sign_in_at].each do |field|
+              - next if %i[last_online_at current_sign_in_ip current_sign_in_at last_sign_in_ip last_sign_in_at].include?(field) && @resource.admin?
+
+              = info_line field do
+                - if @resource.send(field).respond_to? :strftime
+                  .b-anime_status_tag.misc-data = l @resource.send(field), format: :full
+                - elsif field.to_s.match? /_ip$/
+                  .b-anime_status_tag.misc-data = @resource.send(field)
+
+                  a.users-count[
+                    href=moderations_users_url(field => @resource.send(field))
+                  ] = pluralize User.where(field => @resource.send(field)).count, 'person', 'users'
+                - else
+                  .b-anime_status_tag.misc-data = @resource.send(field)
+
+        - if can? :reset_email, @resource
+          .headline.red.m5 супер модерация
+          .block
+            .b-entry-info.m10
+              - %i[email].each do |field|
+                = info_line field do
+                  .b-anime_status_tag.misc-data = @resource.send(field)
+
+            a.b-link_button.light-red.inline[
+              href=profile_reset_emails_url(@resource)
+            ] Изменить почту
+
+          .block
+            .subheadline.m5 = t 'profiles.edit.account.connected_accounts'
+            - if @resource.user_tokens.any?
+              div
+                - @resource.user_tokens.each do |token|
+                  .b-oauth_token class=token.provider
+            - else
+              p.b-nothing_here = t 'no'
+
+          .block
+            .subheadline.m5 = t 'profiles.edit.account.granted_oauth_apps'
+            - if @resource.access_grants.any?
+              .cc-6
+                = render partial: 'doorkeeper/oauth_applications/oauth_application',
+                  collection: Users::GrantedApplications.call(@resource),
+                  locals: { content_by: 'mini' }
+            - else
+              p.b-nothing_here = t 'no'
+
+  .block2
+    .subheadline.m5 = t 'profiles.show.ban_history'
+    .bans
+      - if @resource.bans.any?
+        = render partial: 'moderations/bans/ban',
+          collection: @resource.bans.order(id: :desc)
+      - else
+        p.b-nothing_here = t('answers.no').capitalize
+
+  .cc-3.block
+    - if @resource.activity_stats.topics_count.positive?
+      .c-column
+        .subheadline
+          a href=topics_profile_url(@resource)
+            = i18n_io 'Topic', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.topics_count
+          - if can? :delete_all_topics, @resource
+            a.b-button[
+              href=topics_profile_moderation_url(@resource)
+              data-method='delete'
+              data-confirm=t('actions.confirm')
+            ] = t 'actions.delete_all'
+
+    - if @resource.activity_stats.critiques_count.positive?
+      .c-column
+        .subheadline
+          a href=critiques_profile_url(@resource)
+            = i18n_io 'Critique', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.critiques_count
+          - if can? :delete_all_critiques, @resource
+            a.b-button[
+              href=critiques_profile_moderation_url(@resource)
+              data-method='delete'
+              data-confirm=t('actions.confirm')
+            ] = t 'actions.delete_all'
+
+    - if @resource.activity_stats.reviews_count.positive?
+      .c-column
+        .subheadline
+          a href=reviews_profile_url(@resource)
+            = i18n_io 'Review', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.reviews_count
+          - if can? :delete_all_reviews, @resource
+            a.b-button[
+              href=reviews_profile_moderation_url(@resource)
+              data-method='delete'
+              data-confirm=t('actions.confirm')
+            ] = t 'actions.delete_all'
+
+    - if @resource.activity_stats.collections_count.positive?
+      .c-column
+        .subheadline
+          a href=collections_profile_url(@resource)
+            = i18n_io 'Collection', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.collections_count
+
+    - if @resource.activity_stats.articles_count.positive?
+      .c-column
+        .subheadline
+          a href=articles_profile_url(@resource)
+            = i18n_io 'Article', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.articles_count
+
+    - if @resource.activity_stats.comments_count.positive?
+      .c-column
+        .subheadline
+          a href=comments_profile_url(@resource)
+            = i18n_io 'Comment', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.comments_count
+          - if can? :delete_all_comments, @resource
+            a.b-button[
+              href=comments_profile_moderation_url(@resource)
+              data-method='delete'
+              data-confirm=t('actions.confirm')
+            ] = t 'actions.delete_all'
+
+    - if @resource.activity_stats.versions_count.positive?
+      .c-column
+        .subheadline
+          a href=versions_profile_url(@resource)
+            = i18n_io 'Content_change', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.versions_count
+
+    - if @resource.activity_stats.video_uploads_count.positive?
+      .c-column
+        .subheadline
+          = i18n_io 'Video_upload', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.video_uploads_count
+
+    - if @resource.activity_stats.video_versions_count.positive?
+      .c-column
+        .subheadline
+          = i18n_io 'Video_change', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.video_versions_count
+
+    - if @resource.activity_stats.video_reports_count.positive?
+      .c-column
+        .subheadline
+          = i18n_io 'Video_report', :few
+        .b-entry-info
+          = info_line t('.moderation.amount'), @resource.activity_stats.video_reports_count

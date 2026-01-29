@@ -1,0 +1,66 @@
+- linked = @forums_view.linked || (@resource && @resource.linked)
+
+.menu-toggler.ipad-expanded
+  .toggler
+
+header.head
+  h1
+    - if @back_url
+      a.back[
+        href=page_breadcrumbs[page_breadcrumbs.keys.last]
+        title=t('back_to_page')
+        data-text=t('back')
+      ]
+
+    - if user_signed_in? && request.get? && %w[show index].include?(params[:action])
+      a.reload[
+        href=request.url
+        title=t('.refresh')
+      ] = og.headline
+    - else
+      = og.headline
+
+  = render 'application/breadcrumbs'
+
+.menu-slide-outer.ipad-expanded class="#{linked ? :x199 : :x240}"
+  .menu-slide-inner
+    .l-content
+      = yield
+
+    - unless Rails.env.development? && params.key?(:no_menu)
+      aside.l-menu.ajax-opacity
+        = render 'menu_actions',
+          forum: @forums_view.forum,
+          menu: @forums_view.menu
+
+        - if linked
+          - if linked.kind_of?(Anime) || linked.kind_of?(Manga)
+            = render 'animes/menu', resource: linked.decorate
+
+          - elsif linked.kind_of? Critique
+            = render 'animes/menu', resource: linked.target.decorate
+
+          - elsif linked.kind_of? Review
+            = render 'animes/menu', resource: linked.db_entry.decorate
+
+          - elsif linked.kind_of? Character
+            = render 'characters/menu', resource: linked.decorate
+
+          - elsif linked.kind_of? Person
+            = render 'people/menu', resource: linked.decorate
+
+          - elsif linked.kind_of? Club
+            = render 'clubs/menu', club: linked.decorate
+
+          - elsif linked.kind_of? Contest
+            = render 'contests/menu', resource: linked.decorate
+
+          - elsif linked.kind_of?(CosplayGallery) || linked.kind_of?(Collection) || linked.kind_of?(Article)
+            = render 'spnsrs/ad', ad: Ad.new(:menu_300x600)
+            = render 'menu', menu: @forums_view.menu
+
+          - else raise "unknown linked: #{linked.class}"
+
+        - else
+          = render 'spnsrs/ad', ad: Ad.new(:menu_300x600)
+          = render 'menu', menu: @forums_view.menu

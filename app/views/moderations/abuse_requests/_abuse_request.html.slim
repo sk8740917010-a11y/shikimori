@@ -1,0 +1,122 @@
+.b-log_entry.b-abuse_request.to-process[
+  id=abuse_request.id
+  data-dynamic='log_entry'
+  data-url=moderations_abuse_request_url(abuse_request)
+]
+  span
+    a href=moderations_abuse_request_url(abuse_request)
+      span.id-label #
+      = abuse_request.id
+  span.date
+    = abuse_request.created_at.strftime('%d.%m.%Y')
+
+  - if can? :manage, Ban
+    span
+      = render 'users/user_16', user: abuse_request.user
+
+  - unless abuse_request.value
+    span.remove
+      = t '.remove'
+
+  .marker[
+    class="b-#{abuse_request.kind.gsub('convert_review', 'summary')}_marker"
+    data-text=t("markers.#{abuse_request.kind}")
+  ]
+
+  - if abuse_request.value
+    span = t '.for'
+  - else
+    span = t '.from'
+
+  span
+    = render 'users/user_16', user: abuse_request.target.user
+
+  - if abuse_request.reason.present? && can?(:manage, Ban)
+    span = t '.for_reason'
+    span.reason
+      = h(abuse_request.reason).gsub("\n", '<br>').html_safe
+
+  span
+    == Messages::MentionSource.call( \
+      abuse_request.comment ? abuse_request.comment.commentable : abuse_request.target,
+      comment_id: abuse_request.comment_id \
+    )
+  - if abuse_request.target
+    span: a.b-link.comment-hash href=Messages::MentionSource.mention_url(abuse_request.target) #
+
+  - unless abuse_request.pending?
+    span.resolution class=abuse_request.state
+      = abuse_request.aasm.human_state
+    = render 'users/user_16', user: abuse_request.approver
+
+  - if abuse_request.pending? || abuse_request.reason.present?
+    - if abuse_request.pending?
+      - if abuse_request.target.created_at < 1.week.ago
+        span.outdated = t ".old.#{abuse_request.target_type.downcase}"
+
+      - if abuse_request.comment
+        - if abuse_request.comment.commentable_type == Topic.name
+          - if abuse_request.comment.from_club?
+            span.misc-comment = t '.club_comment'
+
+          - if abuse_request.comment.commentable.forum_id == Forum::OFFTOPIC_ID
+            span.misc-comment = t '.offtopic_comment'
+
+        - elsif abuse_request.comment.from_user_profile?
+          span.misc-comment = t '.profile_comment'
+
+      - elsif abuse_request.topic.is_a? Topics::EntryTopics::ReviewTopic
+        span.misc-comment = Review.model_name.human.downcase
+
+      - elsif abuse_request.topic
+        span.misc-comment = Topic.model_name.human.downcase
+
+    - if can?(:manage, Ban) && can?(:manage, abuse_request)
+      .spoiler.collapse: span.action.half-hidden style="display: none;" = t '.show'
+      .collapsed.spoiler: span = t '.actions'
+      .spoiler.target style="display: none;"
+        .moderation
+          - if abuse_request.comment && !abuse_request.comment.strict_moderatable?
+            span.abuse-type-alert = t 'actions.moderation.non_strict_moderation'
+
+          - if abuse_request.pending?
+            - if abuse_request.punishable?
+              a.warn[
+                data-action=new_moderations_ban_url(ban: { user_id: abuse_request.target.user_id, comment_id: abuse_request.comment_id, topic_id: abuse_request.topic_id, abuse_request_id: abuse_request.id })
+                data-method='get'
+                data-type='html'
+                data-remote='true'
+              ] = t '.warn'
+              a.ban[
+                href=new_moderations_ban_url(ban: { user_id: abuse_request.target.user_id, comment_id: abuse_request.comment_id, topic_id: abuse_request.topic_id, abuse_request_id: abuse_request.id })
+                data-method='get'
+                data-type='html'
+                data-remote='true'
+              ] = t '.ban'
+              a.ajax-action[
+                href=reject_moderations_abuse_request_url(abuse_request)
+                data-method='post'
+                data-remote='true'
+                data-type='json'
+              ] = t '.reject'
+              .ban-form
+            - else
+              a.ajax-action[
+                href=accept_moderations_abuse_request_url(abuse_request)
+                method='post'
+                data-remote='true'
+              ] = t '.accept'
+              a.ajax-action[
+                href=reject_moderations_abuse_request_url(abuse_request)
+                method='post'
+                data-remote='true'
+                data-type='json'
+              ] = t '.reject'
+          - else
+            a.ajax-action[
+              href=cleanup_moderations_abuse_request_url(abuse_request)
+              method='post'
+              data-remote='true'
+              data-type='json'
+            ] = t '.cleanup'
+        .ban-form

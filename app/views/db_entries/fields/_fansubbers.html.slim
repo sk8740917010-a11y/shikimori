@@ -1,0 +1,54 @@
+.m5
+  p: b = Anime.human_attribute_name :fansubbers
+
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      #vue_app[
+        data-resource_type=@resource.object.class.name
+        data-entry_id=@resource.id
+        data-entry_type=@resource.object.class.base_class.name
+        data-values=@resource.fansubbers.to_json
+        data-field='fansubbers'
+        data-autocomplete_url=autocomplete_fansubbers_url(kind: ::Types::Fansubber::Kind[:fansubber])
+        data-autocomplete_type='plain'
+      ]
+        .block_m.b-nothing_here = t 'loading'
+
+      .m20
+        p: b = t '.hint'
+        table.fansub-conditions
+          thead
+            tr
+              th
+              th = t '.except'
+            tr
+              th = t '.episodes'
+              th = t '.translated'
+          tbody
+            tr
+              td < 5
+              td = t '.all'
+            tr
+              td >= 5
+              td 3
+            tr
+              td >= 10
+              td 5
+            tr
+              td >= 20
+              td 10
+            tr
+              td >= 50
+              td 20
+            tr
+              td >= 300
+              td 40
+        p = t '.reason'
+
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit
+

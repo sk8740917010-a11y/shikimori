@@ -1,0 +1,27 @@
+- if Rails.env.production?
+  = render 'adsense'
+
+.block
+  .m20
+    .headline.m20 Большой заголовок
+    .subheadline.m20 Средний заголовок
+
+  .subheadline.m5 default
+  .subheadline.gray .gray
+  .subheadline.blue .blue
+  .subheadline.powderblue .powderblue
+  .subheadline.skyblue .skyblue
+  .subheadline.purple .purple
+  .subheadline.green .green
+  .subheadline.yellow .yellow
+  .subheadline.orange .orange
+  .subheadline.red .red
+  .subheadline.pink .pink
+  .subheadline.magenta .magenta
+  .subheadline.brown .brown
+
+  .toast-title .toast-title
+
+= cache :test do
+  div = Time.zone.now
+  = render 'test'

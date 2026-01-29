@@ -1,0 +1,108 @@
+@import globals
+@import mixins/clear_left
+@import mixins/clearfix
+@import mixins/float_column
+@import mixins/font_shikimori
+@import mixins/hide_mobile_menu
+@import mixins/link
+
+.p-db_entries-edit_field
+  +hide_mobile_menu
+
+  p.warning
+    color: $red
+    margin-bottom: $block-offset / 2
+
+  .screenshots-uploader
+    .cc
+      min-height: 19px
+
+      .move-controls,
+      .drag-handle
+        display: none !important
+
+  .screenshots-positioner
+    +clearfix
+
+    .cc
+      clear: right
+      margin-bottom: 20px
+
+  .cc-genres
+    +cc
+
+    & > .c-current_genres
+      +column(2, 1/3)
+
+    & > .c-all_genres
+      +column(2, 2/3)
+
+      .genre:not(.included) .name
+        +js-link
+
+      .b-js-actions
+        display: none
+
+    .genre
+      margin-bottom: 3px
+
+      &:first-child .up
+        display: none
+
+      &:last-child .down
+        display: none
+
+      &.included
+        color: $gray-1
+        cursor: pointer
+
+      .name
+        line-height: 1.3
+        display: inline-block
+
+  .external_links
+    .hint
+      color: $gray-3
+      font-size: 11px
+
+      b
+        color: #345
+
+    .from
+      padding: 0 6px
+
+    .external_link-line
+      align-items: center
+      max-width: 375px
+      display: flex
+      margin-bottom: 5px
+
+      .delete
+        +link_color(#123)
+        cursor: pointer
+        margin-left: 8px
+
+        &:before
+          +font_shikimori('✕')
+
+      .b-external_link
+        align-items: center
+        display: flex
+        margin-left: auto
+
+        .static
+          display: inline-flex
+
+  .fansub-conditions
+    font-size: 11px
+    margin-bottom: 15px
+
+    thead tr:first-child th
+      color: $gray-3
+
+    th
+      font-weight: normal
+      text-align: left
+
+      &:first-child
+        padding-right: 15px

@@ -1,0 +1,12 @@
+- if resource.best_roles.any?
+  .c-description
+    .subheadline
+      .linkeable[
+        data-href=roles_person_url(resource)
+      ]
+        - if resource.best_roles.size < PersonDecorator::BEST_ROLES_SIZE
+          = t 'people_controller.roles_in_anime'
+        - else
+          = t '.best_roles'
+    .c-characters
+      = render resource.best_roles

@@ -1,0 +1,126 @@
+@import mixins/brackets_surrounded
+@import mixins/dash_separated
+@import mixins/link
+@import mixins/responsive
+
+=top_line_options_floated
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-end
+  margin-bottom: 5px
+  margin-top: 0
+  padding-right: 0
+  position: initial
+
+  a
+    +link_color
+
+    &.selected
+      color: var(--link-hover-color)
+
+      +gte_laptop
+        &:hover
+          color: var(--link-active-color)
+
+.b-options-floated
+  font-size: 11px
+  line-height: 12px
+  position: absolute
+  right: 10px
+  z-index: 1
+
+  +lte_ipad
+    line-height: $line_height
+    margin-top: 8px
+
+  +gte_laptop
+    margin-top: 11px
+
+  // страница персонажа - переключение типов
+  a, .link
+    +link
+    +dash_separated
+    cursor: pointer
+    display: inline
+    white-space: nowrap
+
+    span.brackets
+      +brackets_surrounded
+      margin-left: 5px
+
+  a.rss
+    margin-left: 10px
+
+  // список пользователя
+  .action
+    +js-link
+    cursor: pointer
+    transition: color 0.2s ease
+
+  .selected
+    color: var(--link-hover-color)
+
+    +gte_laptop
+      &:hover
+        color: var(--link-active-color)
+
+    &.always-active
+      +link_color(#123)
+      cursor: pointer
+
+  &.r-edit
+    +gte_ipad
+      margin-right: 15px
+
+    +lte_ipad
+      margin-right: 35px
+
+  &.for-headline
+    margin-top: 10px
+
+  .pointer
+    cursor: pointer
+
+  // страница контестов - options-floated, отображающий количество участников
+  &.count
+    color: $gray-3
+
+  &.before-buttons-2
+    +gte_laptop
+      padding-right: 70px
+    +ipad
+      padding-right: 110px
+    +iphone
+      padding-right: 0
+
+  &.before-buttons-3
+    +gte_laptop
+      padding-right: 105px
+    +ipad
+      padding-right: 165px
+    +iphone
+      padding-right: 0
+
+  &.mobile-desktop
+    +top_line_options_floated
+
+  &.mobile-phone_portrait
+    +iphone-portrait
+      +top_line_options_floated
+
+      &.r-edit
+        margin-right: 0
+
+  &.mobile-phone
+    +iphone
+      +top_line_options_floated
+
+      &.r-edit
+        margin-right: 0
+
+  &.mobile-tablet
+    +lte_ipad
+      +top_line_options_floated
+
+      &.r-edit
+        margin-right: 0

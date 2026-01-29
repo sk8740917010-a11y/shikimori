@@ -1,0 +1,47 @@
+- cover_by ||= :link
+- cover_title ||= :present
+- cover_derivative ||= :preview
+- content_by ||= :tooltip
+
+article.c-column.b-catalog_entry.c-character[
+  class="entry-#{character.id} #{:cc if content_by == :block}"
+  id=character.id
+  itemscope
+  itemtype='http://schema.org/Person'
+]
+  meta[
+    itemprop='image'
+    content=meta_image_url(character.image, :original, false)
+  ]
+  meta[
+    itemprop='thumbnailUrl'
+    content=meta_image_url(character.image, :x48, false)
+  ]
+
+  a.cover[
+    class=('anime-tooltip' if content_by == :tooltip)
+    href=character_url(character)
+    data-delay='150'
+    data-predelay=(tooltip_predelay if defined? tooltip_predelay)
+    data-tooltip_url=tooltip_character_url(character)
+  ]
+    span.image-decor
+      span.image-cutter
+        = render 'db_entries/poster',
+          db_entry: character,
+          poster: character.poster,
+          derivative: cover_derivative
+
+    - if cover_title != :none
+      - if cover_by == :link
+        span.title.two_lined itemprop='name'
+          = localization_span character, is_search_russian: local_assigns[:is_search_russian]
+
+  - unless content_by == :tooltip || content_by == :none
+    .content
+      - if content_by == :block
+        = render partial: 'characters/content',
+          object: character,
+          as: :character
+      - else
+        - raise ArgumentError, content_by

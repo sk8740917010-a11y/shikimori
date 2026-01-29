@@ -1,0 +1,102 @@
+= render layout: 'page' do
+  = cache [@resource, params[:action], :v1] do
+    .b-db_entry
+      .c-image
+        .cc
+          .c-poster
+            = render 'db_entries/poster_magnificable',
+              resource: @resource,
+              poster: @resource.poster,
+              is_main_poster: true
+
+          .c-actions
+            .b-subposter-actions
+              a.b-subposter-action.new_comment.b-tooltipped.unprocessed[
+                title=t('.actions.comment')
+                data-direction='top'
+                data-text=t('.actions.comment')
+                data-dynamic='authorized'
+              ]
+              a.b-subposter-action.fav-add.b-tooltipped.unprocessed.to-process[
+                href=toggle_api_favorites_url(linked_type: @resource.object.class.name, linked_id: @resource.id, kind: ::Types::Favourite::Kind[:producer])
+                style='display: none'
+                data-remote='true'
+                data-type='json'
+                data-kind='producer'
+                data-direction='top'
+                data-dynamic='authorized'
+                data-add_text=t('.actions.add_to_favorites')
+                data-remove_text=t('.actions.remove_from_favorites')
+              ]
+              a.b-subposter-action.fav-add.b-tooltipped.unprocessed.to-process[
+                href=toggle_api_favorites_url(linked_type: @resource.object.class.name, linked_id: @resource.id, kind: ::Types::Favourite::Kind[:mangaka])
+                style='display: none'
+                data-remote='true'
+                data-type='json'
+                data-kind='mangaka'
+                data-direction='top'
+                data-dynamic='authorized'
+                data-add_text=t('.actions.add_to_favorites')
+                data-remove_text=t('.actions.remove_from_favorites')
+              ]
+              a.b-subposter-action.fav-add.b-tooltipped.unprocessed.to-process[
+                href=toggle_api_favorites_url(linked_type: @resource.object.class.name, linked_id: @resource.id, kind: ::Types::Favourite::Kind[:seyu])
+                style='display: none'
+                data-remote='true'
+                data-type='json'
+                data-kind='seyu'
+                data-direction='top'
+                data-dynamic='authorized'
+                data-add_text=t('.actions.add_to_favorites')
+                data-remove_text=t('.actions.remove_from_favorites')
+              ]
+              a.b-subposter-action.fav-add.b-tooltipped.unprocessed.to-process[
+                href=toggle_api_favorites_url(linked_type: @resource.object.class.name, linked_id: @resource.id, kind: ::Types::Favourite::Kind[:person])
+                style='display: none'
+                data-remote='true'
+                data-type='json'
+                data-kind='person'
+                data-direction='top'
+                data-dynamic='authorized'
+                data-add_text=t('.actions.add_to_favorites')
+                data-remove_text=t('.actions.remove_from_favorites')
+              ]
+              a.b-subposter-action.edit.b-tooltipped.unprocessed.to-process[
+                href=@resource.edit_url
+                title=t('.actions.edit')
+                data-direction='top'
+                data-text=t('.actions.edit')
+                data-dynamic='authorized'
+              ]
+
+      .c-about
+        .cc
+          - if @resource.japanese.present? || @resource.name.present? || @resource.birth_on || @resource.deceased_on || @resource.website.present?
+            .c-info-left
+              .subheadline = t 'information'
+              .b-entry-info
+                - if @resource.japanese.present?
+                  = info_line t('in_english'), @resource.name
+                - if @resource.name.present?
+                  = info_line t('in_japanese'), @resource.japanese
+                - if @resource.birth_on
+                  = info_line Person.human_attribute_name(:birth_on), @resource.birth_on.human(false)
+                - if @resource.deceased_on
+                  = info_line Person.human_attribute_name(:deceased_on), @resource.deceased_on.human(false)
+                - if @resource.website.present?
+                  = info_line Person.human_attribute_name(:website), @resource.website_html
+
+          - if @resource.grouped_roles.any?
+            .c-info-right
+              .subheadline = t ".positions_in_#{@resource.occupation_key}"
+              .b-entry-info
+                - @resource.grouped_roles.each do |role,times|
+                  = info_line role, times
+
+      - if @resource.main_role? :seyu
+        = render 'people/best_roles', resource: @resource
+        = render 'people/best_works', resource: @resource
+
+      - else
+        = render 'people/best_works', resource: @resource
+        = render 'people/best_roles', resource: @resource

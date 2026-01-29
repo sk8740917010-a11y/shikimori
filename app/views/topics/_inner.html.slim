@@ -1,0 +1,131 @@
+- cache topic_view.cache_key do
+  /# Template Dependency: topics/cosplay/*
+  /# Template Dependency: topics/critiques/*
+  /# Template Dependency: animes/critiques/stars
+  /# Template Dependency: animes/critiques/votes
+  /# Template Dependency: collections/collection
+  /# Helper Dependency Updated: May 6, 2017 at 6pm
+
+  / класс нужен из-за проверки высоты и для отображения кнопок по hover
+  .inner class=(:block if !topic_view.preview? && !topic_view.minified?)
+    / do not replace to `minified?`, it will show `item-mobile` on dashboards#show for generated news topics
+    - unless topic_view.is_mini
+      span.item-quote-mobile.to-process[
+        title=t('actions.quote')
+        data-text=t('actions.quote')
+        data-dynamic='day_registered'
+      ]
+      span.item-mobile.to-process[
+        title=t('actions.actions')
+        data-dynamic='day_registered'
+      ]
+
+    aside.markers
+      p.b-new_marker[
+        data-appear_url=api_appears_url
+        data-text=t('markers.new')
+      ]
+
+    = render 'topics/buttons', topic_view: topic_view
+
+    /= cache [topic.object, topic.linked ? topic.linked : nil, topic.preview?, user_signed_in?, 'topic'], expires_in: 2.weeks do
+    header
+      - if topic_view.poster_in_header?
+        span.linkeable.poster data-href=topic_view.urls.poster_url
+          - if topic_view.db_entry_poster
+            = render 'db_entries/poster',
+              db_entry: topic_view.linked_for_poster,
+              poster: topic_view.db_entry_poster,
+              derivative: :mini
+          - else
+            img[
+              src=topic_view.poster_image_url(false)
+              srcset="#{topic_view.poster_image_url true} 2x"
+              alt=topic_view.poster_title
+            ]
+
+      - if topic_view.minified?
+        = render 'topics/header/mini', topic_view: topic_view
+      - else
+        = render 'topics/header/common', topic_view: topic_view
+
+    - if topic_view.status_line?
+      = render 'topics/status_line', topic_view: topic_view
+
+    - if topic_view.prebody?
+      .prebody
+        - if topic_view.tags.any?
+          .additionals
+            .tags
+              - topic_view.tags.each do |tag|
+                - if tag.is_a? Topics::Tag
+                  - if tag.url
+                    a.b-anime_status_tag data-text=tag.text class=tag.type href=tag.url
+                  - else
+                    .b-anime_status_tag data-text=tag.text class=tag.type
+                - else
+                  .b-anime_status_tag.other[
+                    data-text=tag
+                    class=(:promo if tag == Topics::TagsQuery::PROMO_TAG)
+                  ]
+
+        = topic_view.html_footer
+
+    - unless topic_view.skip_body?
+      - if topic_view.topic_type_policy.critique_topic? && !topic_view.poster_in_header?
+        = render 'topics/critiques/entry_cover',
+          view: topic_view,
+          entry: topic_view.topic.linked.target.decorate
+
+      .body.b-text_with_paragraphs
+        - if topic_view.minified? && !topic_view.topic_type_policy.generated_news_topic?
+          // body-inner used in checkHeight
+          .body-inner
+            - if topic_view.need_trucation?
+              = topic_view.html_body_truncated
+            - else
+              = topic_view.html_body
+
+        - else
+          // body-inner used in checkHeight
+          .body-inner itemprop='articleBody'
+            = topic_view.render_body
+
+        - if topic_view.read_more_link?
+          .read_more-link
+            a.b-link[
+              href=topic_view.urls.poster_url
+            ] = t '.read_more_link'
+
+    footer
+      - if (topic_view.tags.any? && !topic_view.prebody?) || topic_view.show_source?
+        .additionals
+          - if topic_view.tags.any? && !topic_view.prebody?
+            .tags
+              - topic_view.tags.each do |tag|
+                .b-anime_status_tag.other[
+                  data-text=tag
+                  class=(:promo if tag == Topics::TagsQuery::PROMO_TAG)
+                ]
+
+          - if topic_view.show_source?
+            .source
+              a.b-link.b-tooltipped.unprocessed[
+                href=topic_view.decomposed_body.source
+                data-text=t('.source')
+                data-direction='top'
+                title=t('.source')
+                rel='nofollow'
+              ] = Url.new(topic_view.decomposed_body.source).domain
+
+      - unless topic_view.prebody?
+        = topic_view.html_footer
+
+      - if topic_view.footer_vote?
+        = render 'topics/footer/vote',
+          topic_type_policy: topic_view.topic_type_policy,
+          votable: topic_view.topic.linked
+
+    .b-appear_marker[
+      class="appear-topic-#{topic_view.topic.id}"
+    ]

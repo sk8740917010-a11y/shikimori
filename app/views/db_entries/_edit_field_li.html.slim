@@ -1,0 +1,43 @@
+- if (resource.decorated? ? resource.object : resource).respond_to? field
+  - policy = VersionsPolicy.new(current_user, db_entry: resource, field: field)
+  - field_param = :genre_ids if field == :genres
+  - field_param = :genre_v2_ids if field == :genres_v2
+
+  li class=local_assigns[:class]
+    .field = resource.class.human_attribute_name field
+    .value
+      - value = resource.respond_to?(:"#{field}_text") ? resource.send(:"#{field}_text") : resource.send(field)
+
+      - if value.present? || local_assigns[:is_force_value]
+        span
+          - if local_assigns[:formatter]
+            = local_assigns[:formatter].(value)
+          - elsif value.is_a? Array
+            = value.join(', ')
+          - elsif value.is_a? Date
+            = l(value, format: :human).strip
+          - elsif value.is_a? IncompleteDate
+            = value&.human false
+          - else
+            = value
+
+      - if policy.restricted_fields.include?(field.to_s)
+        - if policy.change_allowed?
+          a.b-js-action href=@resource.edit_field_url(field_param || field)
+            = t 'actions.edit'
+        - else
+          a.b-js-action.is-disabled = t 'moderators_only'
+        = yield
+      - else
+        - if policy.change_allowed?
+          a.b-js-action.to-process[
+            href=resource.edit_field_url(field_param || field)
+            data-dynamic='week_registered'
+          ] = t 'actions.edit'
+        - else
+          a.b-js-action.is-disabled = t 'actions.edit'
+
+        - if field == :coub_tags
+          .sample
+            = value.join(', ')
+        = yield

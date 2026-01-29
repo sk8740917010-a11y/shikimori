@@ -1,0 +1,70 @@
+header.head
+  h1
+    a.back href=@back_url data-text=t('back')
+    = og.headline
+  - if t(".notice.#{@role}", default: '').present?
+    .notice = t ".notice.#{@role}"
+  = render 'application/breadcrumbs'
+
+- if can? :"manage_#{@role}_role", User
+  .block
+    .subheadline = t '.add_user'
+    .b-collection_search[
+      data-display_url=current_url(search: nil)
+      data-search_url=search_moderations_role_url(@role)
+    ]
+      .field
+        input[
+          type='text'
+          placeholder=t('.search')
+          value=params[:phrase]
+        ]
+        .clear
+
+      .search-results.cc-4
+        - if @searched_collection&.any?
+          = render partial: 'moderations/roles/user',
+            collection: @searched_collection,
+            locals: { with_action: true, role: @role }
+
+          - if @searched_collection&.next_page?
+            = render 'blocks/postloader',
+              ignore_appear: true,
+              filter: 'b-user',
+              next_url: search_moderations_role_url(@role, page: @searched_collection.next_page),
+              prev_url: (search_moderations_role_url(@role, page: @searched_collection.prev_page) if @searched_collection.prev_page?)
+
+        - elsif params[:search].present?
+          .b-nothing_here = t 'nothing_found'
+
+- cache [params[:role], @collection.cache_key, can?(:"manage_#{@role}_role", User)] do
+  .block
+    .b-options-floated = @collection.except(:limit, :offset).size
+    .subheadline = t '.users'
+    .cc-4
+      - if @collection.none?
+        .b-nothing_here = t '.nothing_here'
+      - else
+        = render partial: 'moderations/roles/user',
+          collection: @collection,
+          locals: { with_action: can?(:"manage_#{@role}_role", User), role: @role }
+
+        - if @collection&.next_page?
+          = render 'blocks/postloader',
+            ignore_appear: true,
+            filter: 'b-user',
+            next_url: current_url(page: @collection.next_page),
+            prev_url: (current_url(page: @collection.prev_page) if @collection.prev_page?)
+
+- if @versions.any?
+  .block
+    .subheadline.m5 = t '.history'
+    .block
+      = render partial: 'versions/version', collection: @versions
+
+      - if @versions&.next_page?
+        = render 'blocks/postloader',
+          ignore_appear: true,
+          filter: 'b-log_entry',
+          next_url: versions_moderations_role_url(@role, page: @versions.next_page),
+          prev_url: (versions_moderations_role_url(@role, page: @versions.prev_page) if @versions.prev_page?)

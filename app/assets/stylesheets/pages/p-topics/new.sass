@@ -1,0 +1,21 @@
+@import mixins/block
+
+.p-topics-new
+  .topic-type
+    &:hover
+      .type-name > span
+        text-decoration: underline
+      .type-preview
+        border-color: var(--link-border-hover-color)
+
+    .type-name
+      display: block
+      font-size: 18px
+      font-weight: bold
+      text-align: center
+      margin-bottom: 5px
+
+    // 1750x1480
+    .type-preview
+      border: 5px solid #eee
+      max-width: 100%

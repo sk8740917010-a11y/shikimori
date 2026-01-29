@@ -1,0 +1,94 @@
+@import globals
+@import mixins/static_marker
+@import mixins/marker
+
+.b-anime_status_tag
+  & + .b-anime_status_tag
+    margin-left: 6px
+
+  &.released
+    +static_marker(#fff, $released_tag)
+
+    // &.light
+    //   background-color: #699e5d
+    //   border: 1px solid darken(#699e5d, 1.5%)
+
+  &.anons
+    +static_marker(#fff, $anons_tag)
+
+    // &.light
+    //   background-color: #c16348
+    //   border: 1px solid darken(#c16348, 1.5%)
+
+  &.ongoing
+    +static_marker(#fff, $ongoing_tag)
+
+  &.discontinued
+    +static_marker(#fff, #b19143)
+
+  &.paused
+    +static_marker(#fff, #a063cf)
+
+  &.episode,
+  &.studio,
+  &.review,
+    +static_marker(#123, #e8ebf0)
+
+  // copied from b-review_opinion_marker
+  &.review-positive
+    +static_marker(#fff, #549e14, #bee893, darken(#bee893, 6%))
+  &.review-neutral
+    +static_marker(#fff, darken(#7aaebd, 6%), #93c5e8, darken(#93c5e8, 6%))
+  &.review-negative
+    +static_marker(#fff, #fc575e, #e8a092, darken(#e8a092, 6%))
+
+  &.other,
+  &.misc-data,
+  &.unpublished-collection
+    +static_marker(#fff, #678)
+
+  &.contest
+    +static_marker(#fff, #a063cf)
+
+  &.news
+    +static_marker(#fff, #ff8a3c)
+
+  &.critique
+    +static_marker(#fff, #f477ad)
+
+  &.collection
+    +static_marker(#fff, #48cb53)
+
+  &.collection-tag
+    +static_marker(#fff, var(--link-color), $hover_color: var(--link-hover-color), $active_color: var(--link-active-color), $border_color: var(--link-border-hover-color), $border_hover_color: var(--link-border-hover-color), $border_active_color: var(--link-border-active-color))
+
+  &.spoilers
+    +static_marker(#fff, #d5655e)
+
+  &.censored
+    +static_marker(#fff, #e877ac)
+
+  &.article
+    +static_marker(#fff, #c16348)
+
+  &.cosplay
+    +static_marker(#fff, #f7b42c)
+
+  &.offtopic
+    +static_marker(#f58ebb, #fdebf3)
+
+  &.ignored
+    +static_marker(#fff, $red)
+
+  &.broadcast
+    +static_marker(#fff, #f477ad)
+
+  &.is_written_before_release,
+  &.opened-collection
+    +static_marker(#fff, darken(#81cfea, 5%))
+
+  &.private-collection
+    +static_marker(#fff, #a063cf)
+
+  &.promo
+    +static_marker(#fff, #f7b42c)

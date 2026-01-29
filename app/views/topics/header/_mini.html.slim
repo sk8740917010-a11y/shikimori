@@ -1,0 +1,29 @@
+.name-date
+  .status-tags
+    - Array(topic_view.action_tag).each do |tag|
+      .b-anime_status_tag[
+        class=tag.type
+        data-text=tag.text
+      ]
+    - if topic_view.try :offtopic_tag
+      .b-anime_status_tag.offtopic data-text=topic_view.offtopic_tag
+    - if topic_view.closed?
+      .b-anime_status_tag.other[
+        data-text=t('.topic_closed')
+     ]
+    - if user_signed_in?
+      .b-anime_status_tag.ignored.hidden[
+        data-text=t('.topic_ignored')
+      ]
+
+  - if topic_view.preview?
+    a.name[
+      href=topic_view.urls.poster_url
+      title=topic_view.topic_title
+      itemprop=('itemCritiqueed' if topic_view.topic_type_policy.critique_topic?)
+    ] = topic_view.topic_title_html
+  - else
+    span.name[
+      title=topic_view.topic_title
+      itemprop=('itemCritiqueed' if topic_view.topic_type_policy.critique_topic?)
+    ] = topic_view.topic_title_html

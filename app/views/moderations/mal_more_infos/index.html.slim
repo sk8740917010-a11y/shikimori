@@ -1,0 +1,12 @@
+header.head
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+.block
+  = render partial: 'moderations/mal_more_infos/more_info_line',
+    collection: @collection,
+    as: :entry
+
+  - if @animes_collection.next_page? || @mangas_collection.next_page?
+    = render 'blocks/postloader',
+      next_url: current_url(page: page + 1)

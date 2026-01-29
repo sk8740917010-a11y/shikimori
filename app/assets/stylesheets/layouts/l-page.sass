@@ -1,0 +1,25 @@
+@import globals
+@import mixins/responsive
+@import mixins/float_column
+
+$l-page-mobile-padding: 10px
+$l-page-desktop-padding: 15px
+
+.l-page
+  background: white
+  clear: both
+  margin: 0 auto
+  padding: 15px #{$l-page-mobile-padding} 0 #{$l-page-mobile-padding}
+
+  +gte_desktop
+    padding-left: #{$l-page-desktop-padding}
+    padding-right: #{$l-page-desktop-padding}
+
+  position: relative
+  z-index: 1
+
+  .x1200 &
+    max-width: 1200px
+
+  .x1000 &
+    max-width: 1000px

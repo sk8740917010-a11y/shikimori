@@ -1,0 +1,14 @@
+header.head.misc
+  h1
+    = og.headline
+  = render 'application/breadcrumbs'
+
+.block
+  = render partial: 'topics/topic',
+    object: @topic_view,
+    as: :topic_view
+  // no caching here because of show moderation block
+  / = render partial: 'topics/topic',
+  /   collection: [@topic_view],
+  /   as: :topic_view,
+  /   cached: true

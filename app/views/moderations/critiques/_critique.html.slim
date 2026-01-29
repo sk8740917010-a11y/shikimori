@@ -1,0 +1,50 @@
+.b-log_entry.mobile-multiline
+  span
+    a[
+      href=UrlGenerator.instance.topic_url(critique.maybe_topic)
+    ]
+      span.id-label #
+      = critique.id
+
+  span.date
+    = critique.created_at.strftime '%d.%m.%Y'
+
+  span.author
+    = render 'users/user_16', user: critique.user
+
+  span.id data-text=(critique.target_type)
+    - if critique.target
+      a.bubbled[
+        href=url_for(critique.target)
+      ] = critique.target.name
+    - else
+      = t "deleted.#{critique.model}"
+
+  = render 'animes/critiques/votes', critique: critique
+
+  span.state.inline class=critique.moderation_state
+    = critique.aasm(:moderation_state).human_state
+
+  - if critique.approver.present?
+    .moderator
+      = render 'users/user_16', user: critique.approver
+
+  - if can? :manage, Critique
+    - if critique.may_accept? || critique.may_reject? || critique.may_cancel?
+      .moderation.inline
+        - if critique.may_accept?
+          a.link.accept[
+            href=accept_moderations_critique_path(critique)
+            data-method='post'
+          ] = t '.accept'
+        - if critique.may_reject?
+          a.link.reject[
+            href=reject_moderations_critique_path(critique)
+            data-method='post'
+          ] = t '.move_to_offtopic'
+        - if critique.may_cancel?
+          a.link.cancel[
+            href=cancel_moderations_critique_path(critique)
+            data-method='post'
+            data-confirm=t('actions.confirm_simple')
+          ] = t('actions.cancel').downcase

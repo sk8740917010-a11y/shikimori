@@ -1,0 +1,11 @@
+= render layout: 'page' do
+  h2.subheadline = og.headline
+  .cc-8
+    = render partial: 'users/user',
+      collection: @collection,
+      locals: { content_by: :named_avatar }
+
+    - if @collection.size == controller.class::MEMBERS_LIMIT
+      = render 'blocks/postloader',
+        filter: 'b-user',
+        next_url: current_url(page: @page + 1)

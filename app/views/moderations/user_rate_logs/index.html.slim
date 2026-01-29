@@ -1,0 +1,13 @@
+header.head
+  h1
+    a.back href=@back_url data-text=t('back')
+    = og.headline
+  .notice = t '.notice'
+  = render 'application/breadcrumbs'
+
+h2.subheadline.m7 = i18n_io 'History', :one
+.block
+  = render @collection
+
+  - if @collection.next_page?
+    = render 'blocks/postloader', next_url: current_url(page: @page + 1)

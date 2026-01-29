@@ -1,0 +1,48 @@
+- is_badge = local_assigns[:is_badge] || achievement.franchise? || achievement.author?
+
+- achievement.images.each_with_index do |image, index|
+  - break if index > 0 && !local_assigns[:images]
+
+  .b-achievement[
+    class=(:unavailable if local_assigns[:unavailable])
+    data-progress=(achievement.progress unless local_assigns[:status])
+    data-title=achievement.title(current_user)
+    data-hint=achievement.hint(current_user)
+    class=('is-badge' if is_badge)
+    class=('is-image_index' if index > 0)
+    class=('is-no_label' if achievement.franchise?)
+    class=('is-half_sized' if local_assigns[:is_half_sized])
+    class="level-#{achievement.level}"
+  ]
+    - unless is_badge
+      .c-about
+        - if local_assigns[:images]
+          .title
+            = achievement.title(current_user)
+
+        - else
+          a.title href=achievement_url(achievement.group, achievement.neko_id)
+            = achievement.title(current_user)
+        .percent = format_percent achievement.progress
+        .hint = achievement.hint(current_user)
+        .progress: .bar style="width: #{achievement.progress}%"
+        .text == achievement.text.gsub("\n", "<br>")
+
+    .c-image
+      .inner
+        a[
+          class=("b-badge level-#{achievement.level}" if achievement.franchise?)
+          href=(local_assigns[:status] ? animes_collection_url(achievement: achievement.neko_id) : achievement_url(achievement.group, achievement.neko_id))
+        ]
+          - if local_assigns[:status] && current_user&.achievements&.any? { |v| v.neko_id == achievement.neko_id && v.level == achievement.level }
+            .gained ✓
+
+          - unless achievement.franchise?
+            .border[
+              style=("border-color: #{achievement.border_colors[index]}" if achievement.border_colors[index].present?)
+            ]
+
+          - if image.present?
+            img src=image loading='lazy'
+          - else
+            .no-image

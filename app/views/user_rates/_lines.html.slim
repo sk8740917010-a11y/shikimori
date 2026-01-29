@@ -1,0 +1,152 @@
+- is_own_profile = profile_view.own_profile?
+- ongoing_text = i18n_i 'ongoing'
+- anons_text = i18n_i 'anons'
+
+table.b-table.list-lines
+  - if list.index == 1
+    thead
+      tr
+        th.index #
+        th.name.order-control[
+          class=(:active if library.sort_order == 'name' || library.sort_order == 'russian')
+          data-order='name'
+          title=t('.order_by.name')
+        ] = i18n_i 'Name'
+
+        th.num.order-control[
+          class=(:active if library.sort_order == 'rate_score')
+          data-order='rate_score'
+          title=t('.order_by.score')
+        ] = i18n_i 'Score'
+
+        - if library.anime?
+          th.num.order-control[
+            class=(:active if library.sort_order == 'episodes')
+            data-order='episodes'
+            title=t('.order_by.episodes')
+          ] = i18n_i 'Episode', :other
+
+        - else
+          th.num.order-control[
+            class=(:active if library.sort_order == 'chapters')
+            data-order='chapters'
+            title=t('.order_by.chapters')
+          ] = i18n_i 'Chapter', :other
+
+          - if @resource.preferences.volumes_in_manga?
+            th.num.order-control[
+              class=(:active if library.sort_order == 'volumes')
+              data-order='volumes'
+              title=t('.order_by.volumes')
+            ] = i18n_i 'Volume', :other
+
+        th.num.order-control[
+          class=(:active if library.sort_order == 'kind')
+          data-order='kind'
+          title=t('.order_by.kind')
+        ] = i18n_i 'Kind'
+
+      tr.border
+        - if library.anime?
+          th colspan='5'
+        - else
+          th colspan='6'
+
+  tbody.entries
+    - list.user_rates.each_with_index do |user_rate, index|
+      tr.user_rate.unprocessed.selectable[
+        class=(:editable if is_own_profile)
+        data-remote=('true' if is_own_profile)
+        data-action=(edit_user_rate_path(user_rate.id) if is_own_profile)
+        data-type='html'
+        data-rate_url=api_v2_user_rate_path(user_rate.id)
+        data-target_id=user_rate.target_id
+        data-target_name=user_rate.target_name
+        data-target_russian=user_rate.target_russian
+        data-text=user_rate.text
+      ]
+        td.index
+          span
+            = list.index + index
+        td.name
+          a.tooltipped href=user_rate.target_url data-predelay='500'
+            - if user_rate.target_russian.present?
+              span.name-en = user_rate.target_name
+              span.name-ru = user_rate.target_russian
+            - else
+              = user_rate.target_name
+
+          - if user_rate.target_is_ongoing
+            span.ongoing = ongoing_text
+          - elsif user_rate.target_is_anons
+            span.anons = anons_text
+
+          span.rewatches
+            - if user_rate.rewatches > 0
+              - if library.anime?
+                = "#{user_rate.rewatches} #{i18n_i 'rewatch', user_rate.rewatches}"
+              - else
+                = "#{user_rate.rewatches} #{i18n_i 'reread', user_rate.rewatches}"
+
+          .rate-text
+            - if user_rate.text.present? && !profile_view.censored_profile?
+              div = user_rate.text_html
+
+        td.num class=(:hoverable if is_own_profile)
+          span.current-value[
+            data-field='score'
+            data-max='10'
+            data-min='0'
+          ] = user_rate.score.zero? ? '&ndash;'.html_safe : user_rate.score
+
+        - if library.anime?
+          td.num class=(:hoverable if is_own_profile)
+            span.current-value[
+              data-field='episodes'
+              data-max=user_rate.target_episodes
+              data-min='0'
+            ]
+              span
+                = user_rate.episodes
+            span.misc-value
+              span.b-separator.inline
+                | /
+              - if user_rate.target_is_ongoing && user_rate.target_episodes_aired.positive?
+                = user_rate.target_episodes_aired
+                span.episodes_total
+                  = user_rate.target_episodes.zero? ? '?' : user_rate.target_episodes
+
+              - else
+                = user_rate.target_episodes.zero? ? '?' : user_rate.target_episodes
+
+        - else
+          td.num class=(:hoverable if is_own_profile)
+            span.current-value[
+              data-field='chapters'
+              data-max=user_rate.target_chapters
+              data-min='0'
+            ]
+              span
+                = user_rate.chapters
+            span.misc-value
+              span.b-separator.inline
+                | /
+              = user_rate.target_chapters.zero? ? '?' : user_rate.target_chapters
+
+          - if @resource.preferences.volumes_in_manga?
+            td.num class=(:hoverable if is_own_profile)
+              span.current-value[
+                data-field='volumes'
+                data-max=user_rate.target_volumes
+                data-min='0'
+              ]
+                span
+                  = user_rate.volumes
+              span.misc-value
+                span.b-separator.inline
+                  | /
+                = user_rate.target_volumes.zero? ? '?' : user_rate.target_volumes
+
+        td.num
+          - if user_rate.target_kind.present?
+            = t "enumerize.#{user_rate.target_class_downcased}.kind.short.#{user_rate.target_kind}"

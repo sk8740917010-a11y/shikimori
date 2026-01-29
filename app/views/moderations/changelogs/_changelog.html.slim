@@ -1,0 +1,66 @@
+.b-log_entry.mobile-multiline.to-process[
+  data-dynamic='log_entry'
+]
+  - if changelog[:model_id]
+    span
+      span.id-label #
+      - if changelog[:url]
+        a[
+          class=('bubbled b-link' if changelog[:tooltip_url])
+          data-tooltip_url=(changelog[:tooltip_url] if changelog[:tooltip_url])
+          href=changelog[:url]
+        ]
+          = changelog[:model_id]
+      - else
+        = changelog[:model_id]
+
+  - if changelog[:details][:action] == 'mass_ban'
+    - if changelog[:url]
+      span
+        span.id-label
+          a.b-link href=changelog[:url] #
+
+    span.state.inline
+      span
+        ' #{changelog[:details][:ids].size}
+        = i18n_i :user, changelog[:details][:ids].size
+  - else
+    span.state.inline[
+      class=(:taken if changelog[:details][:action] == 'update')
+      class=(:deleted if changelog[:details][:action] == 'destroy')
+    ] = changelog[:details][:action]
+
+  span.date
+    = l changelog[:date], format: :full
+
+  - if changelog[:user]
+    span.author
+      = render 'users/user_16', user: changelog[:user]
+
+  - if changelog[:details][:changes] && !(changelog[:details][:changes][:links] && changelog[:details][:changes].one?)
+    .spoiler.collapse: span.action.half-hidden.b-js-link.m5 style='display: none;' = t 'blocks.spoiler.expand'
+    .collapsed.spoiler style='display: block': span = t '.changes'
+    .spoiler.target style='display: none;'
+      .change-details
+        - changelog[:details][:changes].each do |field, (old_value, new_value)|
+          = render 'versions/changes/text_diff',
+            item_type: @item_type,
+            computed_old_value: old_value,
+            computed_new_value: new_value,
+            field: field,
+            only_one: changelog[:details][:changes].keys.one?
+
+  .spoiler.collapse: span.action.half-hidden.b-js-link.m5 style='display: none;' = t 'blocks.spoiler.expand'
+  .collapsed.spoiler style='display: block': span = t '.details'
+  .spoiler.target style='display: none;'
+    pre.b-code-v2.to-process[
+      data-dynamic='code_highlight'
+      data-language='json'
+    ]
+      code = JSON.pretty_generate changelog[:details]
+
+  .spoiler.collapse: span.action.half-hidden.b-js-link.m5 style='display: none;' = t 'blocks.spoiler.expand'
+  .collapsed.spoiler style='display: block': span = t '.log_line'
+  .spoiler.target style='display: none;'
+    pre.b-code-v2
+      code = changelog[:raw]

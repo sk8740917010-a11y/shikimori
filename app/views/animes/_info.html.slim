@@ -1,0 +1,135 @@
+.b-entry-info
+  = info_line Anime.human_attribute_name(:kind), entry.kind_text if entry.kind.present?
+  = render 'animes/aired_chapters',
+    entry: entry,
+    field_label: Anime.human_attribute_name(:episodes),
+    counter: :episodes,
+    counter_aired: :episodes_aired
+
+  - if entry.respond_to?(:next_episode_at) && entry.next_episode_at && !entry.anons?
+    = info_line t(entry.episodes_aired > 0 ? '.next_episode' : '.first_episode') do
+      span.local-time[
+        data-datetime=entry.next_episode_at.iso8601
+      ]
+
+  - if entry.respond_to?(:episodes) && entry.duration && entry.duration > 0
+    = info_line Anime.human_attribute_name(:duration) do
+      span itemprop=(:duration if entry.kind_movie?)
+        = humanize_minutes entry.duration
+
+  = render 'animes/aired_chapters',
+    entry: entry,
+    field_label: Manga.human_attribute_name(:volumes),
+    counter: :volumes,
+    counter_aired: :volumes_aired
+  = render 'animes/aired_chapters',
+    entry: entry,
+    field_label: Manga.human_attribute_name(:chapters),
+    counter: :chapters,
+    counter_aired: :chapters_aired
+
+  - unless entry.status.blank?
+    = info_line Anime.human_attribute_name(:status) do
+      span.b-anime_status_tag[
+        class=entry.status.downcase.gsub(' ', '_')
+        data-text=entry.status_text.downcase
+      ]
+      | &nbsp;
+
+      - if entry.release_date_tooltip
+        span.b-tooltipped.dotted.mobile.unprocessed[
+          data-direction='right'
+          title=entry.release_date_tooltip
+        ] = entry.release_date_text
+      - else
+        = entry.release_date_text
+
+  = render 'animes/genres_lines', entry: entry
+
+  - if (entry.rating.present? && !entry.rating_none?) || entry.censored_in_russia?
+    = info_line Anime.human_attribute_name(:rating) do
+      - if entry.rating.present? && !entry.rating_none?
+        span.b-tooltipped.dotted.mobile.unprocessed[
+          title=t("enumerize.anime.rating.hint.#{entry.rating}")
+          data-direction='right'
+        ] = entry.rating_text
+
+      - if entry.censored_in_russia?
+        span
+          | . В РФ только по достижению 18 лет.
+
+  - if entry.anime? && entry.origin.present?
+    = info_line Anime.human_attribute_name(:origin) do
+      = entry.origin_text
+
+  - if entry.licensors.any?
+    = info_line Anime.human_attribute_name(:licensors), entry.licensors.join(', ')
+
+  - if @resource.license_name_ru != @resource.russian
+    = info_line Anime.human_attribute_name(:license_name_ru) do
+      - if @resource.license_name_ru.present?
+        span itemprop="alternativeHeadline" = @resource.license_name_ru
+
+  - if entry.respond_to? :digital_released_on
+    - if entry.digital_released_on.present?
+      = info_line Anime.human_attribute_name(:digital_released_on), entry.digital_released_on.human(false)
+
+    - if entry.russia_released_on.present?
+      = info_line Anime.human_attribute_name(:russia_released_on) do
+        span[
+          class=('b-tooltipped dotted mobile unprocessed' if entry.russia_released_on_hint.present?)
+          title=(entry.russia_released_on_hint if entry.russia_released_on_hint.present?)
+          data-direction=('right' if entry.russia_released_on_hint.present?)
+        ] = entry.russia_released_on.human false
+
+  - if entry.japanese.present? || entry.english.present? || entry.synonyms.present?
+    = info_line t('.other_names') do
+      span.other-names.to-process[
+        data-dynamic='clickloaded'
+        data-clickloaded-url=entry.other_names_url
+      ]
+        span ···
+
+  - unless entry.rkn_abused?
+    - is_first_line = entry.critiques_count.positive? || \
+        entry.reviews_count.positive? || \
+        entry.preview_topic_view.comments_count.positive? || \
+        (entry.anime? && entry.coub_tags.any?) || \
+        entry.cosplay?
+    - if is_first_line || entry.more_info?
+      .additional-links
+        - if is_first_line
+          .line-container
+            .key #{t ".#{entry.object.class.name.downcase}_additionals"}:
+            - if entry.critiques_count.positive?
+              span.linkeable data-href="#{entry.critiques_url}"
+                = "#{entry.critiques_count} #{i18n_i 'critique', entry.critiques_count}"
+
+            - if entry.reviews_count > 0
+              span.linkeable data-href="#{entry.reviews_url}"
+                = "#{entry.reviews_count} #{i18n_i 'review', entry.reviews_count}"
+
+            - if entry.preview_topic_view.comments_count.positive?
+              span.linkeable data-href="#{entry.preview_topic_view.url}"
+                = "#{entry.preview_topic_view.comments_count} #{i18n_i 'comment', entry.preview_topic_view.comments_count}"
+
+            - if entry.anime? && entry.coub_tags.any?
+              span.linkeable data-href=entry.coub_url Coub
+
+            - if entry.cosplay?
+              span.linkeable data-href=entry.cosplay_url title=t('.cosplay') = t '.cosplay'
+
+            / - if entry.art?
+            /   span.linkeable data-href=entry.art_url = t '.art'
+            / 
+            / - if entry.files?
+            /   span.link.linkeable data-href=entry.files_url = t '.files'
+
+        - if entry.more_info?
+          .line-container
+            .key #{entry.class.human_attribute_name :more_info}:&nbsp;
+            span.more-info.to-process[
+              data-dynamic='clickloaded'
+              data-clickloaded-url=entry.more_info_url
+            ]
+              span ···

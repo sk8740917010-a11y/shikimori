@@ -1,0 +1,62 @@
+- if local_assigns[:shiki_editor_v2] || current_user&.preferences&.is_shiki_editor?
+  .b-shiki_editor-v2.to-process.shiki_editor-selector[
+    data-dynamic='shiki_editor_v2'
+    class=('b-text_with_paragraphs' if local_assigns[:is_text_with_paragraphs])
+    data-preview_params=(local_assigns[:preview_params].to_json if local_assigns[:preview_params])
+    data-field_name=local_assigns[:field_name]
+    data-cache_key=local_assigns[:cache_key]
+  ]
+    input[
+      type='hidden'
+      value=local_assigns[:text]
+      name=local_assigns[:field_name]
+    ]
+    .vue-app
+    .app-placeholder
+      .menubar
+        .icon
+        .icon
+        .icon
+        .icon.icon-light
+        .icon.icon-light
+        .icon
+        .icon.icon-right
+        .icon
+      .textarea.b-ajax
+
+    - if local_assigns[:f]
+      footer
+        = f.button :magic_submit, id: "submit_#{rand * 1000000}"
+        - if f.object.persisted? || local_assigns[:cancel_url]
+          - if local_assigns[:cancel_url]
+            a.cancel tabindex='0' href=local_assigns[:cancel_url] = t 'actions.cancel'
+          - else
+            .cancel tabindex='0' = t 'actions.cancel'
+        - else
+          .hide = t '.hide'
+
+        - if f.object.new_record?
+          aside.markers
+            - if f.object.respond_to?(:offtopic?) && (!f.object.respond_to?(:allowed_offtopic?) || f.object.allowed_offtopic?)
+              .b-offtopic_marker.active[
+                class=(:off unless f.object.offtopic?)
+                data-text=t('markers.offtopic').capitalize
+              ]
+        - if block_given?
+          = yield
+
+- else
+  .b-shiki_editor.to-process.shiki_editor-selector[
+    class=('size-xl' if local_assigns[:size] == 'xl')
+    class=('no-preview-avatar' if local_assigns[:no_preview_avatar])
+    class=('b-text_with_paragraphs' if local_assigns[:is_text_with_paragraphs])
+    data-dynamic='shiki_editor'
+    data-preview_params=(local_assigns[:preview_params].to_json if local_assigns[:preview_params])
+    data-field_name=local_assigns[:field_name]
+  ]
+    = render 'comments/shiki_editor',
+        text: local_assigns[:text],
+        field_name: local_assigns[:field_name],
+        f: local_assigns[:f] do
+      - if block_given?
+        = yield

@@ -1,0 +1,218 @@
+@import mixins/block
+@import mixins/clearfix
+@import mixins/comma_separated
+@import mixins/float_column
+@import mixins/font_shikimori
+@import mixins/icons
+@import mixins/link
+@import mixins/plashka
+@import mixins/responsive
+
+.p-animes-show,
+.p-mangas-show,
+.p-ranobe-show
+  .c-screenshots, .c-videos
+    margin-bottom: $block-offset * 1.5 !important
+
+  .cc.no-video
+    .c-screenshots
+      +block_m
+
+    .c-videos
+      +block_m
+
+  .cc.one-video
+    +gte_ipad
+      .c-screenshots
+        +column_bm(2, 0.75)
+
+      .c-videos
+        +column_bm(2, 0.25)
+
+      .c-screenshot
+        +column(3)
+
+        &.entry-4, &.entry-5
+          display: none
+
+      .c-video
+        +column(1)
+
+        &.entry-2, &.entry-3, &.entry-4, &.entry-5
+          display: none
+
+  .cc.two-videos
+    +gte_ipad
+      .c-screenshots, .c-videos
+        +column_bm(2)
+
+    +gte_laptop
+      .c-screenshot, .c-video
+        +column(2)
+        &.entry-3, &.entry-4, &.entry-5
+          display: none
+
+    +ipad
+      .c-screenshot, .c-video
+        +column(3)
+        &.entry-4, &.entry-5
+          display: none
+
+    +iphone
+      .c-screenshots, .c-videos
+        +block_m
+
+  .cc
+    .c-screenshot, .c-video
+      margin-bottom: 0
+
+      +iphone-portrait
+        &.entry-3, &.entry-4, &.entry-5
+          display: none
+
+      +iphone-landscape
+        &.entry-4, &.entry-5
+          display: none
+
+  .c-image
+    .b-user_rate
+      margin: 0 auto
+      max-width: 225px
+
+      +iphone_portrait
+        margin: 0
+
+      .edit-trigger .score-label
+        display: none
+
+  .cc
+    .c-anime, .c-manga
+      +gte_ipad
+        +column(7)
+
+      +iphone-portrait
+        +column(3)
+        &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7)
+          display: none
+
+      +iphone-landscape
+        +column(5)
+        &:nth-child(6), &:nth-child(7)
+          display: none
+
+  .other-names,
+  .more-info
+    +plashka
+    height: 15px
+    line-height: 15px
+    margin-left: 5px
+    margin-top: 5px
+    padding: 0 10px
+    position: absolute
+    text-align: center
+
+    .vk-like
+      min-height: 14px
+
+  .resources-loader
+    +block
+
+    &.b-ajax
+      +plashka
+      min-height: 70px
+
+  .cc-related-authors
+    +clearfix
+    margin-bottom: 0 !important
+
+    & > .c-column
+      +gte_ipad
+        +column_b(2)
+      +iphone
+        +column_b(1)
+
+    & > .c-authors
+      +gte_ipad
+        float: right
+
+    & > .c-column:first-child:last-child
+      +column(1)
+      +gte_ipad
+        float: none
+
+      .b-db_entry-variant-list_item
+        +iphone
+          +column(1)
+
+        +gte_ipad
+          +column(2)
+
+          &:nth-child(2)
+            border-top: none
+            padding-top: 0
+
+  .c-info-right
+    .scores
+      display: flex
+      flex-direction: column
+
+    .watch-online
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+
+      .line
+        display: flex
+        flex-basis: 100%
+        justify-content: center
+
+      .b-link_button
+        align-items: center
+        display: flex
+        margin: 0 0 3px
+        max-width: 200px
+
+        &:after
+          +font_shikimori('\f08e')
+          font-size: 13px
+          font-weight: normal
+          margin: 1px 0 -1px 6px
+
+      .kind
+        +comma_separated(5px)
+        color: $gray-4
+        font-size: 12px
+        line-height: 1.55
+
+      a.kind
+        +link
+
+        span
+          padding-left: 4px
+          padding-right: 12px
+
+          &:after
+            position: absolute
+            +font_shikimori('\f08e')
+            font-size: 11px
+            margin-top: 1px
+            font-weight: normal
+
+  // "show other" block
+  .related-shower
+    +plashka
+    border: 1px solid #F2F2F2
+    clear: left
+    margin: -5px 0 $block-offset 0
+
+  .related-hidden
+    display: none
+
+  .studio-logo
+    display: block
+    margin: 0 auto
+    max-width: 195px
+
+  .cc-similar
+    .b-catalog_entry
+      margin-bottom: 0 !important

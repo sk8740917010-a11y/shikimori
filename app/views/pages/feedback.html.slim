@@ -1,0 +1,31 @@
+.b-feedback-inner
+  .subheadline.m5 = t '.title'
+  .about
+    = BbCodes::Text.call t('.text')
+  = simple_form_for @feedback_message,
+      url: api_messages_url,
+      as: :message,
+      remote: true,
+      authenticity_token: true,
+      html: { data: { type: :json } } do |f|
+    input type='hidden' name='message[kind]' value=MessageType::PRIVATE
+    input type='hidden' name='message[to_id]' value=User::MORR_ID
+    - if user_signed_in?
+      input type='hidden' name='message[from_id]' value=current_user.id
+    - else
+      input[
+        type='hidden'
+        name=Api::V1::MessagesController::ANTISPAM_TOKEN_NAME
+        data-token="antispam-#{Api::V1::MessagesController::ANTISPAM_TOKEN_VALUE}"
+        data-antispam
+      ]
+      input type='hidden' name='message[from_id]' value=User::GUEST_ID
+      .m10
+        = f.input :feedback_address, label: 'E-mail', hint: 'Сюда может прийти ответ'
+    = f.input :location, as: :hidden
+    = render 'blocks/shiki_editor',
+      text: @feedback_message.body,
+      field_name: 'message[body]',
+      f: f,
+      cache_key: 'feedback'
+

@@ -1,0 +1,287 @@
+header.head
+  h1 = t '.title'
+  p.notice = t '.notice'
+
+- if user_signed_in?
+  .b-bb_codes-examples.block
+    .m5
+      b = t 'actions.actions'
+    ul.b-list
+      li
+        a.b-link[
+          href=new_profile_poll_url(current_user, poll: { user_id: current_user.id })
+          title=t('polls.index.new')
+        ] = t 'polls.index.new'
+
+.b-bb_codes-examples
+  .cc-2
+    .block.c-column
+      .name = t '.font_style'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.font_style_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.font_style_example')
+
+    .block_m.c-column
+      .name = t '.text_color'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.text_color_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.text_color_example')
+
+  .cc-2
+    .block.c-column
+      .name = t '.text_alignment'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.text_alignment_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.text_alignment_example')
+
+    .block_m.c-column
+      .name = t '.font_size'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.font_size_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.font_size_example')
+      .notice == t '.font_size_notice'
+
+  .cc-2
+    .block.c-column
+      .name = t '.div'
+      .example
+        .title = t '.example_title'
+        .textarea == t '.div_example_1'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.div_example_2')
+
+    .block_m.c-column
+      .name = t '.code'
+      .example
+        .title = t '.example_title'
+        .textarea == t '.code_example_1'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.code_example_2')
+
+  .block
+    .name = t '.list'
+    .example
+      .title = t '.example_title'
+      .textarea = t '.list_example'
+    .result
+      .title = t '.result_title'
+      = BbCodes::Text.call t('.list_example')
+
+  .cc-2
+    .block.c-column
+      .name = t '.mention'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.mention_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.mention_example')
+      .notice = t '.mention_notice'
+
+    .block_m.c-column
+      .name = t '.reply_to_comment'
+      .example
+        .title = t '.example_title'
+        .textarea == t '.reply_to_comment_example_1'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.reply_to_comment_example_2')
+      .notice = t '.reply_to_comment_notice'
+
+  .block
+    .name = t '.quote'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.quote_example_1'
+    .result
+      .title = t '.result_title'
+      = BbCodes::Text.call t('.quote_example_2')
+    .notice = t '.quote_notice'
+
+  .block
+    .name = t '.anime_title_to_link'
+    .example
+      .title = t '.example_title'
+      .textarea = t '.anime_title_to_link_example'
+    .result
+      .title = t '.result_title'
+      - cache [:demo, :highlight, :v1] do
+        = BbCodes::Text.call t('.anime_title_to_link_example')
+    .notice == t '.anime_title_to_link_notice'
+
+  .block
+    .name = t '.anime_link_with_tooltip'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.anime_link_with_tooltip_example_1'
+    .result
+      .title = t '.result_title'
+      - cache [:demo, :links_2, :v1] do
+        = BbCodes::Text.call t('.anime_link_with_tooltip_example_2')
+    .notice == t '.anime_link_with_tooltip_notice', domain: Shikimori::DOMAIN
+
+  .block
+    .name
+      = Poll.model_name.human
+      - if user_signed_in?
+        a.misc[
+          href="#{new_profile_poll_url current_user, 'poll[user_id]' => current_user.id}"
+          title="#{ t 'polls.index.new'}"
+        ] = t('actions.create').downcase
+    .example
+      .title = t '.example_title'
+      .textarea == t '.poll_example'
+    .result
+      .title = t '.result_title'
+      = BbCodes::Text.call t('.poll_example')
+
+  - cache [:demo, :entries_posters, :v4] do
+    .block
+      .name = t '.posters_8_columns'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.posters_8_columns_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.posters_8_columns_example')
+      .notice == t '.posters_8_columns_notice'
+
+    .block
+      .name = t '.posters_studio_or_year_kind'
+      .example
+        .title = t '.example_title'
+        .textarea == t '.posters_studio_or_year_kind_example'
+      .result.m15
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.posters_studio_or_year_kind_example_1')
+        = BbCodes::Text.call t('.posters_studio_or_year_kind_example_2')
+      .notice == t '.posters_studio_or_year_kind_notice'
+
+    .block
+      .name = t 'posters_wall'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.posters_wall_example_animes'
+      .result.m15
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.posters_wall_example_animes')
+      .notice == t '.posters_wall_notice'
+
+    .block
+      .name
+      .example
+        .title = t '.example_title'
+        .textarea = t '.posters_wall_example_characters'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.posters_wall_example_characters')
+
+    .block_m
+      .name
+      .example
+        .title = t '.example_title'
+        .textarea = t '.posters_wall_example_people'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.posters_wall_example_people')
+
+  .cc-2
+    .block.c-column
+      .name = t '.spoiler'
+      u
+      .example
+        .title = t '.example_title'
+        .textarea = t '.spoiler_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.spoiler_example')
+
+    .block_m.c-column
+      .name = t '.link'
+      .example
+        .title = t '.example_title'
+        .textarea = t '.link_example'
+      .result
+        .title = t '.result_title'
+        = BbCodes::Text.call t('.link_example')
+      .notice = t '.link_notice'
+
+  .block
+    .name = t '.video_link'
+    .example
+      .title = t '.example_title'
+      .textarea = t '.video_link_example'
+    .result
+      .title = t '.result_title'
+      br
+      - cache [:demo, :videos, :v3] do
+        = BbCodes::Text.call t('.video_link_example')
+    .notice = t '.video_link_notice'
+
+  .block
+    .name = t '.image'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.image_example_1', domain: Shikimori::DOMAIN
+    .result
+      .title = t '.result_title'
+      br
+      = BbCodes::Text.call t('.image_example_2', domain: Shikimori::DOMAIN)
+    .notice == t '.image_notice'
+
+  .block
+    .name = t '.uploaded_image'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.uploaded_image_example_1'
+    .result
+      .title = t '.result_title'
+      br
+      = BbCodes::Text.call t('.uploaded_image_example_2')
+    .notice == t '.uploaded_image_notice'
+
+  .block
+    .name = t '.poster'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.poster_example_1'
+    .result
+      .title = t '.result_title'
+      br
+      = BbCodes::Text.call t('.poster_example_2')
+
+  .block
+    .name = t '.horizontal_line'
+    .example
+      .title = t '.example_title'
+      .textarea = t '.horizontal_line_example'
+    .result
+      .title = t '.result_title'
+      br
+      = BbCodes::Text.call t('.horizontal_line_example')
+
+  .block
+    .name = t '.images_without_spaces'
+    .example
+      .title = t '.example_title'
+      .textarea == t '.images_without_spaces_example_1', domain: Shikimori::DOMAIN
+    .result
+      .title = t '.result_title'
+      br
+      = BbCodes::Text.call(\
+          t('.images_without_spaces_example_2', domain: Shikimori::DOMAIN).gsub(/\s+/, '')\
+        )

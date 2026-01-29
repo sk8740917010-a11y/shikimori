@@ -1,0 +1,60 @@
+@import globals
+@import mixins/responsive
+
+/* цвет, становящийся ссылковым по наведению
+=link_color($color: 'null')
+  //transition: color 0.2s ease
+  @if $color == 'null'
+    color: var(--link-color)
+  @else
+    color: $color
+
+  +gte_laptop
+    &:hover
+      color: var(--link-hover-color)
+
+  &:active
+    color: var(--link-active-color)
+
+/* голубая ссылка без подчёркивания
+=link($color: 'null')
+  +link_color($color)
+  cursor: pointer
+
+  +gte_laptop
+    &:hover
+      text-decoration: underline
+      border-bottom-color: var(--link-border-hover-color)
+
+  &:active
+    border-bottom-color: var(--link-border-active-color)
+
+/* голубая ссылка с подчёркиванием
+=link_underlined($color: 'null')
+  +link($color)
+  text-decoration: underline
+
+=js-link
+  +link
+  border-bottom-color: var(--link-border-color)
+  border-bottom-style: dotted
+  border-bottom-width: 1px
+  display: inline-block
+  line-height: 1
+  user-select: none
+
+  +gte_laptop
+    &:hover
+      border-bottom-color: var(--link-border-hover-color)
+      text-decoration: none !important
+
+  &:active
+    border-bottom-color: var(--link-border-active-color)
+    text-decoration: none !important
+
+  &.active
+    font-weight: bold
+
+=bordered-link
+  +js-link
+  border-bottom-style: solid

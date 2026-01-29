@@ -1,0 +1,52 @@
+name: 'RSpec CI'
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  RSpec:
+    runs-on: 'ubuntu-22.04'
+    container:
+      image: ghcr.io/shikimori/rspec:v1.0.0
+      credentials:
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+    services:
+      redis:
+        image: redis:6
+      postgres:
+        image: postgres:10.5-alpine
+        ports:
+          - '5432:5432'
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+    env:
+      POSTGRES_TEST_HOST: postgres
+      POSTGRES_TEST_USER: postgres
+      POSTGRES_TEST_PASSWORD: postgres
+      POSTGRES_TEST_DB: github-actions
+      REDIS_HOST: redis
+      RAILS_ENV: test
+      CI_SERVER: yes
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y libyaml-dev
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Set up database schema
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
+      - name: Run tests
+        run: bundle exec rspec --format progress

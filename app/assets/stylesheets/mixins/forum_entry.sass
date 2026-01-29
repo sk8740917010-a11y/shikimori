@@ -1,0 +1,291 @@
+@import globals
+@import mixins/clearfix
+@import mixins/ellipsis2
+@import mixins/frame_form
+@import mixins/icons
+@import mixins/link
+@import mixins/responsive
+
+$aside_width: 250px
+
+$body_left_margin: 58px
+$body_phone_left_margin: 40px
+
+=icon_expandable
+  +link_color(#123)
+  display: block
+  margin-bottom: 6px
+
+  +lte_ipad
+    margin-left: 0
+
+  &:after
+    content: attr(data-text)
+
+=forum_entry_markers
+  & > .inner
+    aside.markers
+      +lte_ipad
+        padding-right: 38px // offset for item-mobile
+
+      +gte_laptop
+        .b-new_marker.off
+          display: none
+
+    +gte_laptop
+      &:hover
+        aside.markers
+          .b-new_marker.off
+            display: block
+
+=forum_entry_buttons
+  & > .inner
+    position: relative // for absolute positioned item-mobile
+    width: 100% // без этого в .aside-expanded режиме не будет смещения контента влево
+    transition: margin-left 0.25s ease
+
+    &.is-editing,
+    &.is-moderating
+      & > .item-mobile,
+      & > .item-quote-mobile,
+      & > aside.buttons
+        display: none !important
+
+    & > aside.buttons
+      display: none
+
+      .tooltip &
+        display: none !important
+
+      .item-cancel
+        display: none
+
+    +gte_laptop
+      &:hover > aside.buttons
+        display: block
+
+  .item-mobile
+    position: absolute
+    right: 0
+    top: -5px
+
+  .item-quote-mobile
+    position: absolute
+
+    +lte_ipad
+      right: 45px
+      top: -4px
+
+  // expanded menu in mobile version
+  &.aside-expanded
+    +lte_ipad
+      & > .item-mobile
+        display: none
+
+      & > .inner
+        margin-left: -$aside_width
+        overflow: visible
+        position: relative
+
+        & > aside.buttons
+          display: block
+          margin-top: -5px
+          margin-right: -$aside_width - $block-offset * 1.5
+          width: $aside_width
+
+          .main-controls
+            .item-ignore
+              +icon_expandable
+
+            .item-reply
+              +icon_expandable
+
+            .item-edit
+              +icon_expandable
+
+            .item-delete
+              +icon_expandable
+
+            .item-moderation
+              +icon_expandable
+
+            .item-cancel
+              +icon_expandable
+
+            .item-request-confirm
+              +icon_expandable
+
+            .item-request-reject
+              +icon_expandable
+
+          .delete-controls
+            .item-delete-confirm
+              +icon_expandable
+
+            .item-delete-cancel
+              +icon_expandable
+
+          .moderation-controls
+            .item-ban
+              +icon_expandable
+
+            .item-abuse
+              +icon_expandable
+
+            .item-spoiler
+              +icon_expandable
+
+            .item-summary
+              +icon_expandable
+              &.selected
+                color: $green
+                &:after
+                  content: attr(data-text-alt)
+
+            .item-offtopic
+              +icon_expandable
+              &.selected
+                color: $red
+                &:after
+                  content: attr(data-text-alt)
+
+            .item-moderation-cancel
+              +icon_expandable
+
+=forum_entry_ban_form
+  & > .inner
+    &.is-moderating aside.moderation-ban-form
+      display: block
+
+    aside.moderation-ban-form
+      +frame_form
+      display: none
+      padding-bottom: 10px
+      margin-bottom: 30px
+      // fix issue when ban form's height is greater than forum_entry's height
+      position: relative
+      z-index: 1
+
+      .b-input input
+        width: 100%
+
+      +gte_ipad
+        float: right
+        margin-left: 30px
+
+=forum_entry_ban_message
+  & > .inner .body
+    .ban
+      .b-user16
+        margin-right: 0
+
+      .resolution
+        color: $red
+
+        a
+          color: $red
+          text-decoration: underline
+
+=forum_entry_poster
+  float: left
+
+  +gte_ipad
+    margin: 2px 10px 7px 0
+    width: 48px
+
+  +iphone
+    margin: 2px 10px 4px 0
+    width: 42px
+
+=forum_entry
+  +clearfix
+  +forum_entry_markers
+  +forum_entry_buttons
+  +forum_entry_ban_form
+  +forum_entry_ban_message
+  padding-top: 5px
+
+  & > .inner
+    +clearfix
+
+    header
+      margin-bottom: 3px
+
+      img
+        +forum_entry_poster
+
+    .name-date
+      +ellipsis2
+      font-size: 13px
+      line-height: 18px
+
+      +iphone
+        margin-left: $body_phone_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/Y6dgksSF2ctLTTDEXCWlyMg1HyTKpu
+
+      +lte_ipad
+        padding-right: 38px // offset for item-mobile
+
+      +gte_ipad
+        margin-left: $body_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/i7BNJOKE9LQe4OFmgiPzUOCNMJ0Jos
+
+      a.name
+        +link
+
+      span.name
+        color: #123
+
+      .name
+        font-weight: 600
+
+      .time
+        +ellipsis2
+        color: $gray-3
+        display: inline
+        font-size: 11px
+        padding-left: 10px
+
+      +lte_ipad
+        .time
+          display: block
+          padding-left: 0
+          padding-top: 3px
+
+        time
+          line-height: $line_height
+          padding-left: 0
+
+    .b-status-line
+      +iphone
+        margin-left: $body_phone_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/Y6dgksSF2ctLTTDEXCWlyMg1HyTKpu
+
+      +gte_ipad
+        margin-left: $body_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/i7BNJOKE9LQe4OFmgiPzUOCNMJ0Jos
+
+    .body
+      overflow: hidden // do not remove. will cause bugs for overflowed content
+
+      +iphone
+        clear: left
+
+    .was_updated
+      +link_color($gray-2)
+      clear: both
+      cursor: pointer
+      margin-bottom: 2px
+
+      div
+        display: inline-block
+        font-size: 11px
+        line-height: 20px
+        padding-top: 0
+
+      .b-user16
+        padding-left: 5px
+        margin-right: 0
+
+        img
+          margin-top: 1px
+
+    // &.is-active + .item-mobile
+    //   +iphone
+    //     display: none

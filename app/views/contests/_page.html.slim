@@ -1,0 +1,30 @@
+.menu-toggler
+  .toggler
+
+header.head.misc
+  h1
+    - if params[:action] != 'show'
+      a.back[
+        href=contest_url(@resource)
+        title=t('.back_to_contest_page')
+        data-text=t('back')
+      ]
+    = @resource.title
+    - if can?(:edit, @resource) && @resource.persisted?
+      a.edit[
+        href=edit_contest_url(@resource)
+        title=t('.edit_contest')
+      ] = t('actions.edit').downcase
+  = render 'application/breadcrumbs'
+
+- if @resource.description.value.present?
+  .block
+    = @resource.description_html
+
+.menu-slide-outer.x199
+  .menu-slide-inner
+    .l-content class=@resource.strategy_type
+      = yield
+
+    aside.l-menu
+      = render 'menu', resource: @resource

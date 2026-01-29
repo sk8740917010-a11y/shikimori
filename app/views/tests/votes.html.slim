@@ -1,0 +1,26 @@
+header.head.misc
+  h1 Voters of votable_type=#{params[:votable_type]} votable_id=#{params[:votable_id]}
+
+.block
+  .b-options-floated = @scope.size
+  .subheadline
+    = i18n_i 'User', :other
+    .misc-links
+      - if params[:suspicious]
+        a href=current_url(suspicious: nil) all
+      - else
+        a href=current_url(suspicious: 1) suspicious
+
+  = cache @scope.cache_key do
+    - if @collection.any?
+      .cc-8
+        = render partial: 'users/user',
+          collection: @collection,
+          locals: { content_by: :named_avatar }
+
+        - if @collection.size == controller.class::USERS_PER_PAGE
+          = render 'blocks/postloader',
+            filter: 'b-user',
+            next_url: current_url(page: @page + 1)
+    - else
+      .b-nothing_here No votes found

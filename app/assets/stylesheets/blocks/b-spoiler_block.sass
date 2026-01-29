@@ -1,0 +1,152 @@
+@import mixins/link
+@import mixins/shiki_button
+@import mixins/font_shiki_editor
+@import mixins/font_shikimori
+
+.b-spoiler_block
+  overflow: hidden // fixes https://shikimori.one/comments/9125783 // спойлер перекрывает тултипа [Tsubasa Hanekawa] сэйю
+  pointer-events: none
+  position: relative
+
+  & + .b-spoiler_block
+    margin-top: 2px
+
+  &.is-fullwidth + .b-spoiler_block.is-fullwidth
+    margin-top: 5px
+
+  &:not(.is-opened)
+    & > div
+      display: none
+
+  &.is-fullwidth
+    & > span
+      display: flex
+      font-weight: bold
+      font-size: 14px
+      min-height: 29px
+      white-space: pre-wrap // otherwise spaces around tags will be ignored
+
+    // do not apply `margin-left: auto` inside ProseMirror
+    &:not([data-node-view-wrapper])
+      & > span:after
+        margin-left: auto
+
+    &.is-opened > span > i.expand:before
+      +font_shiki_editor('\e834')
+
+    &.is-centered
+      & > span:before
+        content: ''
+        margin-right: auto
+
+    & > div > .b-spoiler_block.is-fullwidth:first-child
+      margin-top: 5px
+
+  &.is-centered
+    &:not(.is-fullwidth)
+      & > span
+        text-align: center
+
+    &.is-opened > span > i.center:before
+      +font_shiki_editor('\e801')
+
+  &.is-opened
+    &.is-closing
+      & > span
+        &:after
+          transform: rotate(0deg)
+
+    & > span
+      &:after
+        transform: rotate(180deg)
+
+  & > span
+    & > .separator
+      margin-left: 11px
+      margin-right: auto
+
+    & > i.edit,
+    & > i.expand,
+    & > i.center,
+    & > i.remove,
+    & > i.drag-handle
+      +link_color(#fff)
+      // +link_color(#7b8084)
+      align-items: center
+      // background: rgba(#fcfcfc, 0.75)
+      cursor: pointer
+      display: inline-flex
+      flex-shrink: 0
+      font-style: normal
+      height: 23px
+      justify-content: center
+      margin-right: 5px
+      width: 23px
+
+      +gte_laptop
+        &:hover
+          background: rgba(#fcfcfc, 0.75)
+
+      &:active
+        background: rgba(#fcfcfc, 0.9)
+
+      &:before
+        font-weight: normal
+
+    & > i.edit:before
+      +font_shikimori('\e842')
+    & > i.expand:before
+      +font_shiki_editor('\e83d')
+    & > i.center:before
+      +font_shiki_editor('\e803')
+    & > i.remove:before
+      +font_shikimori('✕')
+    & > i.drag-handle
+      cursor: -webkit-grab
+      &:before
+        +font_shikimori('m')
+
+  & > span
+    +shiki_button(#678)
+    align-items: center
+    display: inline-flex
+    min-height: 23px
+    pointer-events: all
+    transition: min-height .25s, font-size .25s
+
+    &:active
+      outline: none
+
+    &:after
+      +font_shikimori('\e847')
+      font-size: 17px
+      font-weight: bold
+      font-style: normal
+      margin-left: 8px
+      transition: transform .25s, margin .25s
+
+  & > div
+    background-color: #f3f5f7
+    border-left: 4px solid #678
+    padding: 3px 3px 3px 14px
+    pointer-events: all
+
+    &:after
+      content: ''
+      display: table
+      clear: both
+
+    & > .b-list
+      margin-left: 10px
+
+    center &
+      padding-right: 14px // compensates 14px padding at the left
+
+      center
+        padding-right: 0
+
+    center
+      padding-right: 14px // compensates 14px padding at the left
+
+      center
+        padding-right: 0

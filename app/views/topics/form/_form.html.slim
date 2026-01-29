@@ -1,0 +1,109 @@
+- topic_type_policy = Topic::TypePolicy.new topic
+- submit_url = topic.persisted? ? topic_url(topic) : topics_url
+- is_edit_type = topic.persisted? && can?(:moderate, topic) && !topic_type_policy.any_club_topic? && !topic_type_policy.premoderated_news_topic?
+- is_show_broadcast = can?(:broadcast, topic) && !topic_type_policy.any_club_topic?
+- is_show_closed = topic.persisted? && can?(:close, topic) && !topic_type_policy.any_club_topic?
+- is_show_pinned = can?(:pin, topic) && !topic_type_policy.any_club_topic?
+- is_forum_id_hidden = topic_type_policy.any_club_topic? || (topic_type_policy.news_topic? && topic.new_record?)
+- is_show_forum = !topic_type_policy.any_club_topic? && !topic_type_policy.premoderated_news_topic? && ((!is_forum_id_hidden && !topic_type_policy.news_topic?) || (topic.persisted? && can?(:manage, Topic)))
+
+- if topic_type_policy.news_topic?
+  = render 'application/note_from_club_page', club_page_id: 3017
+
+= simple_form_for topic, url: submit_url, as: :topic do |f|
+  input type='hidden' name='rules_passed' value='1'
+
+  - if topic.errors.any?
+    .b-errors
+      .subheadline.m5 = i18n_i 'error', :other
+      .block
+        == topic.errors.full_messages.join('<br>')
+
+  .subheadline
+    = t topic.persisted? ? '.edit.title' : '.new.title'
+
+  - if topic.persisted? && topic_type_policy.premoderated_news_topic?
+    .premoderation-note = t '.premoderation'
+
+  = f.input :user_id, as: :hidden
+  = f.input :linked_id, as: :hidden
+  = f.input :linked_type, as: :hidden
+  .attachments-submit-container.hidden
+
+  .inputs.m15
+    = f.input :title, input_html: { class: 'w-100' }
+
+    - if topic_type_policy.news_topic?
+      = render 'topics/form/source', topic: topic, f: f
+
+    div[
+      class=('b-input' unless topic_type_policy.any_club_topic?)
+    ]
+      div[
+        class=('fc-2' if topic_type_policy.news_topic? || is_show_broadcast || is_show_closed)
+      ]
+        .f-column
+          - if is_forum_id_hidden
+            = f.input :forum_id, as: :hidden
+
+          .cc-2a class=('b-input' if is_edit_type || is_show_forum)
+            - if is_edit_type
+              = f.input :type, as: :select, include_blank: false,
+                collection: [Topic, Topics::NewsTopic].map { |v| [v.model_name.human, v.name] },
+                input_html: { disabled: !(topic.new_record? || can?(:moderate, f.object)) }
+            - else
+              = f.input :type, as: :hidden
+
+            - if is_show_forum
+              = f.input :forum_id,
+                as: :select,
+                include_blank: false,
+                collection: topic_type_policy.news_topic? ? [Forum.news] + Forum.public : Forum.public
+
+          - if topic_type_policy.news_topic?
+            = f.input :tags,
+              input_html: { value: f.object.tags&.join(','), class: 'w-100' },
+              hint: 'Не задавай в теги имена собственные: названия аниме, имена людей, названия компаний.<br>Первым тегом должен быть основной раздел, к которому относится новость. Выбирай его из выпадающего списка.<br>Следующие теги, уточняющие, старайся выбрать из второго списка.<br>Крайне желательно не добавлять новых тегов, если среди уже имеющихся в базе тегов есть любой хоть чуть-чуть подходящий.'.html_safe,
+              as: :string
+            #vue_tags_input[
+              data-value=f.object.tags
+              data-autocomplete_basic=(can?(:pin, f.object) ? Topics::TagsQuery::BASIC_TAGS_WITH_PROMO : Topics::TagsQuery::BASIC_TAGS)
+              data-autocomplete_other=Topics::TagsQuery.call
+            ]
+
+          - if topic_type_policy.any_club_topic?
+            = f.input :linked_id, as: :hidden
+            = f.input :linked_type, as: :hidden
+
+          - elsif !topic_type_policy.news_topic?
+            = render 'topics/form/linked', topic: topic
+
+        - if topic_type_policy.news_topic? || is_show_broadcast || is_show_closed
+          .f-column
+            - if topic_type_policy.news_topic?
+              = render 'topics/form/linked', topic: topic
+
+            - if is_show_pinned
+              = f.input :is_pinned, wrapper_class: ('b-input m10' if is_show_closed || is_show_broadcast)
+            - if is_show_broadcast
+              = f.input :broadcast, wrapper_class: ('b-input m10' if is_show_closed)
+            - if is_show_closed
+              = f.input :is_closed
+
+            - if topic_type_policy.news_topic?
+              = render 'topics/form/video', topic: topic, f: f
+
+    - if topic_type_policy.news_topic?
+      = render 'topics/form/posters', topic: topic, f: f
+
+    = render 'blocks/shiki_editor',
+      text: topic.decomposed_body.text,
+      field_name: 'topic[body]',
+      size: 'xl',
+      no_preview_avatar: true,
+      is_text_with_paragraphs: true,
+      cache_key: topic.cache_key
+
+  .buttons
+    a.cancel href=back_url = t 'actions.cancel'
+    = f.button :magic_submit

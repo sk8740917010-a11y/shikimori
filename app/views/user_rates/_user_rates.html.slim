@@ -1,0 +1,35 @@
+- library.each do |status, list|
+  header class="status-#{UserRate.statuses[status]}"
+    a name=UserRate.statuses[status]
+    .b-options-floated.collapse id="collapse-#{UserRate.statuses[status]}"
+      span.action #{t 'collapse'} (#{list.size})
+    .subheadline.m5 class=(:m10 if library.list_view == 'posters')
+      = UserRate.status_name status, library.klass.name
+    .collapsed.tiny ...
+
+  - if library.list_view == 'posters'
+    = render 'user_rates/posters',
+      profile_view: profile_view,
+      library: library,
+      list: list
+  - else
+    = render 'user_rates/lines',
+      profile_view: profile_view,
+      library: library,
+      list: list
+
+  - if list.stats
+    .b-nothing_here.nothing-found = t 'nothing_found'
+    .summary.list class=library.list_view
+      - list.stats.each do |stat, value|
+        = t ".#{stat}"
+        | :&nbsp;
+        span.stat-value = value
+
+- if library.total_stats.any? && !library.add_postloader?
+  - if library.list_page.size > 1 || library.page > 1
+    .summary.library class=library.list_view
+      - library.total_stats.each do |stat, value|
+        = t ".#{stat}"
+        | :&nbsp;
+        span.stat-value = value

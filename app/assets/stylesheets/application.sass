@@ -1,0 +1,213 @@
+//= require_tree ./vendor
+
+//= require ./lib/reset
+//= require_tree ./themes
+//= require ./lib/screen
+//= require ./layouts/l-page
+//= require ./layouts/l-menu
+//= require ./layouts/l-footer
+//= require ./layouts/l-top_menu-v2
+// b-topic must have lesser priority than b-topic-preview, so its .body clear and margin-left can be overrided
+//= require ./blocks/b-topic
+//= require_tree ./blocks
+//= require ./lib/headlines
+//= require_tree ./lib
+//= require_tree ./pages
+
+@import globals
+@import mixins/responsive
+@import mixins/link
+@import mixins/placeholder
+@import mixins/font_face
+
+@import '../../../node_modules/shiki-utils/flash.sass';
+@import '../../../node_modules/shiki-uploader/index.sass';
+
+// +font-face('shikimori', 'shikimori', normal, $asset-pipeline: true, $file-formats: eot woff woff2 ttf svg);
++font-face('shikimori', 'shikimori');
+
+\:root
+  @each $variable, $value in $variables
+    #{$variable}: $value
+
+body
+  background-image: asset_url("/assets/background/square_bg.png")
+  font-family: var(--font-main)
+  font-size: var(--font-size-base-desktop)
+  min-height: 100vh
+
+  +iphone
+    font-size: var(--font-size-base-mobile)
+
+  +lte_ipad
+    background: none !important
+
+  &.chrome
+    text-rendering: auto
+  &.no-smileys .smiley
+    display: none
+
+.turbolinks-progress-bar
+  z-index: 9999 !important
+  background: #77b6ff !important
+  box-shadow: 0 0 10px rgba(#77b6ff, 0.7) !important
+
+a
+  +link_color
+  text-decoration: none
+
+p
+  line-height: $line_height
+
+  a
+    text-decoration: underline
+
+  .b-link,
+  .b-mention
+    text-decoration: none
+
+div.body
+  line-height: $line_height
+
+  //a
+    //text-decoration: none
+
+    //&:hover
+      //text-decoration: underline
+
+img
+  border: none
+
+  &.is-moderation_censored
+    filter: blur(4.5px) grayscale(33%) !important
+
+strike
+  color: #555
+em
+  font-style: italic
+strong, b
+  font-weight: bold
+
+input,
+select
+  font-family: var(--font-alt)
+
+textarea
+  font-family: var(--font-main)
+
+input,
+select,
+textarea
+  border: 1px solid #999999
+
+  +iphone
+    font-size: 16px
+
+  +gte_ipad
+    font-size: 13px
+
+input:not([type]),
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=text],
+input[type=url],
+textarea
+  outline: none
+
+input
+  +placeholder
+    user-select: none
+
+textarea
+  line-height: $line_height
+
+input[type=radio]
+  border: none
+
+// input[type=submit]
+  outline: initial
+
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=text],
+input[type=url],
+button,
+textarea,
+input[type=submit]
+  -webkit-appearance: none
+  -webkit-border-radius: 0px
+
+button
+  background: transparent
+
+li
+  list-style: none outside none
+
+p.flash-notice, p.flash-alert
+  display: none
+
+::selection,
+::-moz-selection
+  background: #ffcc89
+  color: #555
+
+hr
+  border: 0
+  height: 1px
+  background-image: linear-gradient(90deg, rgba(#000, 0.05), rgba(#000, 0.4), rgba(#000, 0.05))
+
+h2,
+h3,
+h4
+  color: #123
+  font-family: var(--font-alt)
+  font-weight: normal
+
+h2
+  font-size: 25px
+  margin-top: 8px
+  margin-bottom: 12px
+
+  & + hr
+    margin-top: -8px
+    margin-bottom: 12px
+    background-image: linear-gradient(90deg, rgba(#000, 0.4), rgba(#000, 0.05))
+
+h3
+  font-size: 21px
+  margin-top: 6px
+  margin-bottom: 10px
+
+  & + hr
+    margin-top: -6px
+    margin-bottom: 10px
+    background-image: linear-gradient(90deg, rgba(#000, 0.4), rgba(#000, 0.05))
+
+h4
+  font-size: 18px
+  margin-top: 4px
+  margin-bottom: 8px
+
+  & + hr
+    margin-top: -4px
+    margin-bottom: 8px
+    background-image: linear-gradient(90deg, rgba(#000, 0.4), rgba(#000, 0.05))
+
+.ya-pixel
+  opacity: 0
+
+.smiley
+  vertical-align: middle
+  height: 32px
+
+.toastify
+  a
+    text-decoration: underline
+
+@keyframes rotating
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(-360deg)

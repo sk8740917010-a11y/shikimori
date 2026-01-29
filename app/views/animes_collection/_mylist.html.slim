@@ -1,0 +1,11 @@
+.block.anime-params-block.mylist-block
+  span.filter.block-filter.item-sign
+  .subheadline.m5 = i18n_i('list').capitalize
+  ul.b-block_list.mylist.anime-params
+    - UserRate.statuses.each do |name, id|
+      li[
+        data-field='mylist'
+        data-value=name
+      ]
+        input type='checkbox' autocomplete='off'
+        = UserRate.status_name name, klass.name

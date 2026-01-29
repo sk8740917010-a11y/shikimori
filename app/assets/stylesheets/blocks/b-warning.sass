@@ -1,0 +1,22 @@
+@import globals
+
+.b-warning
+  margin-bottom: 15px
+  line-height: $line-height
+
+  &.is-background
+    background-color: rgba(#fee7e8, 0.8)
+    border-color: rgba(#fed8da, 0.8)
+    padding: 10px
+
+  .warning + .hint
+    margin-top: 5px
+
+  .warning
+    color: $red
+
+  .hint
+    color: $gray-3
+
+  p + p
+    margin-top: 4px

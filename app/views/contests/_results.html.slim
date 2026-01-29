@@ -1,0 +1,47 @@
+.results
+  - cache contest do
+    - contest.winner_entries.each_with_index do |entry, index|
+      .subheadline
+        = I18n.russian? ? index + 1 : (index + 1).ordinalize
+        | &nbsp;
+        = t '.place'
+      .cc-result
+        .c-winner
+          - if contest.anime?
+            = render partial: 'animes/anime',
+              collection: [entry],
+              locals: { cover_notice: :studio, content_by: :block },
+              cached: ->(entry) { cache_keys entry, :studio, :block }
+
+          - else
+            = render partial: 'characters/character',
+              collection: [entry],
+              locals: { content_by: :block },
+              cached: ->(entry) { cache_keys entry, :block }
+
+        .c-rounds
+          .label = "#{t '.competitors'}:"
+          .match-day
+            - contest.matches_with(entry).each do |match|
+              .match
+                a.match-link[
+                  title=match.round.title
+                  href=round_match_contest_url(contest, round: match.round, match_id: match.id)
+                ]
+                  span class=((entry.id == match.winner_id ? 'winner' : 'loser') if entry)
+                    span.group
+                      span = match.round.title true
+                      span.letter = match.group
+
+                - if match.left_id && match.right_id
+                  - other_entry = match.left_id == entry.id ? match.right : match.left
+                  - if other_entry
+                    a.bubbled[
+                      href=url_for(other_entry)
+                      title=other_entry.name
+                    ] = localization_span other_entry
+                  - else
+                    p = t 'is_deleted'
+
+                - else
+                  p = t 'answers.no'

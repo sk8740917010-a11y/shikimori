@@ -1,0 +1,301 @@
+en:
+  moderations:
+    cache: &cache The displayed list is cached by the site. Updated once an hour.
+    defaults: &defaults
+      accept: accept
+      expand_all: expand all
+      history: History
+      instruction: Instructions
+      moderators: Moderators
+      queue: Queue
+      queue_empty: Queue is empty
+      filters: Filters
+      field: Field
+      not_selected: Not selected
+      all_types: All
+
+    show:
+      content: Site content
+      header_notice: Moderation journals
+      missing_anime_names: Anime w/o russian name
+      missing_anime_descriptions: Anime w/o description
+      missing_manga_names: Anime w/o russian name
+      missing_manga_descriptions: Manga w/o description
+      missing_screenshots: Anime w/o screenshots
+      fansub_authors: Fansub/fandub authors
+      moderation: Moderation
+      news_journal: News journal
+      critiques_journal: Critiques journal
+      collections_journal: Collections journal
+      articles_journal: Articles journal
+      anime_video_authors: Anime video authors
+      forums: Forums
+      mal_sync: MAL SYNC
+      type: Type
+      run: Run
+      running: Running…
+      in_progress: Tasks in progress
+      queue: Tasks in queue
+      proxies_count: Proxies available
+
+    missing_screenshots:
+      notices:
+        - This is the list of top %{limit} most popular animes
+          with missing screenshots.
+        - *cache
+
+    abuse_requests:
+      index:
+        <<: *defaults
+        notice: >-
+          This is the history of tagging comments
+          with comment markers by site users
+        instructions:
+          - Personal conversations in anime topics are offtopic.
+          - Comments written in (very) poor English are offtopic.
+          - Don't remove 'summary' marker from negative summaries
+            if they are well-written and not offensive.
+        to_your_discretion: The rest is left to your discretion.
+        bans_plus_warnings: bans + warnings
+
+      abuse_request:
+        <<: *defaults
+        actions: actions
+        ban: ban
+        for_reason: for reason
+        old:
+          comment: old comment
+          review: old review
+          topic: old topic
+        club_comment: club comment
+        profile_comment: profile comment
+        review_comment: review comment
+        offtopic_comment: offtopic comment
+        reject: reject
+        remove: remove
+        show: show
+        for: for
+        from: from
+        warn: warn
+        cleanup: cleanup reason
+
+    bans:
+      index:
+        <<: *defaults
+        notice: This is the history of bans and warnings
+        instructions:
+          - User profiles and clubs are not moderated.
+          - Don't discuss moderation related issues and the fact of you being
+            a moderator with other members.
+          - Don't discuss your reasons for banning a particular member
+            as well as ban duration or why this user has been banned
+            while another one has not.
+          - Be polite, don't insult or harass other members.
+          - Ban duration is set using a combination of minutes (m),
+            hours (h), days (d) and weeks (w). E.g. <b><em>5m 2h 3w</em></b>
+            is a ban for 3 weeks, 2 hours and 5 minutes.
+          - Using zero as ban duration results in warning a member
+            without actually banning him or her.
+          - 'Ban duration for any particular member is calculated
+            automatically using this formula:
+            <b><em>0.5 + 0.5 * ((&lt;number_of_bans_for_the_last_two_months&gt; ^ 3) /2 - 1)</em></b>.'
+          - Ban duration is left to your discretion but it's recommended to
+            use ban duration calculated automatically.
+          - Banned users trying to sign up using proxy server
+            must be banned without further ado and for a very long time.
+            Their comments must be removed.
+          - 'Don''t ban for old comments - such comments are tagged with an
+            <span style="font-size: 11px; color: green;">
+            old comment</span> marker.'
+          - Deliberate flaming or trolling is strictly
+            prohibited - members starting either one must be banned.
+        declined: Declined
+        offtopic_plus_summaries: offtopic + summaries
+
+      ban:
+        ban: ban
+        banned_on: "on" # не убирать кавычки
+        for: for
+        for_deleted_comment: for deleted comment
+        warning: warning
+
+    critiques:
+      index:
+        <<: *defaults
+        notice: This is the history of critiques moderation
+        instructions:
+          - In general critique should follow the guidelines outlined
+            <a href="//shikimori.one/clubs/293-moderatsiya-retsenziy/topics/557202-novye-pravila-i-rekomendatsii-razdela">
+            here</a>.
+          - Rejected critiques are converted to 'Off-Topic' forum topics
+            and cannot be restored.
+          - Reject critiques containing either implicit or explicit trolling,
+            abusive language or which are meant to cause flaming.
+        more_summaries_pending: >-
+          That's not all yet. Other critiques will be available for
+          moderation after processing the ones above.
+
+      critique:
+        accept: accept
+        move_to_offtopic: move to offtopic
+
+    posters:
+      poster:
+        accept: Accept
+        reject: Reject
+        cancel: Cancel
+        censore: Censore
+
+    collections:
+      index:
+        <<: *defaults
+        notice: This is the history of collection moderation
+        instructions:
+          - Rejected collection are converted to 'Off-Topic' forum topics
+            and cannot be restored.
+          - Reject collection containing either implicit or explicit trolling,
+            abusive language or which are meant to cause flaming.
+        more_summaries_pending: >-
+          That's not all yet. Other collections will be available for
+          moderation after processing the ones above.
+
+      collection:
+        accept: accept
+        move_to_offtopic: move to offtopic
+
+    news:
+      index:
+        <<: *defaults
+        notice: This is the history of news moderation
+      news:
+        accept: accept
+        move_to_offtopic: move to offtopic
+
+    articles:
+      index:
+        <<: *defaults
+        notice: This is the history of article moderation
+        instructions:
+          - Rejected article are converted to 'Off-Topic' forum topics
+            and cannot be restored.
+          - Reject article containing either implicit or explicit trolling,
+            abusive language or which are meant to cause flaming.
+        more_summaries_pending: >-
+          That's not all yet. Other articles will be available for
+          moderation after processing the ones above.
+
+      article:
+        accept: accept
+        move_to_offtopic: move to offtopic
+
+    versions:
+      index:
+        <<: *defaults
+        notice: This is the history of content changes authored by members.
+        # instructions_notice: >-
+        #   In case of minor drawbacks it's recommended to accept (rather than
+        #   reject) content change and correct it by yourself if necessary:
+        #   when editing anime/manga/character description you can use
+        #   "Apply" button (it's located to the left of "Save" button)
+        #   to apply changes without adding yourself to the list of authors.
+        # 
+        # more_content_changes_pending: >-
+        #   That's not all yet. Other content changes will be available for
+        #   moderation after processing the ones above.
+        history: History of content changes
+        moderators: Moderators
+
+    users:
+      index:
+        users: Users
+        nothing_here: No users
+
+    roles:
+      index:
+        roles: Roles
+      show:
+        users: Users
+        nothing_here: No users
+        add_user: Add User
+        search: Search by name...
+        history: :moderations.bans.index.history
+        notice:
+          super_moderator: Can assign moderators
+          super_moderator: Can assign news and other content moderators
+          retired_moderator: Retired moderator
+          version_names_moderator: Moderator of names edits in the database
+          version_texts_moderator: Moderator of texts edits in the database
+          version_moderator: Moderator of most edits in the database
+          version_fansub_moderator: Moderator of fansubbers & fandubbers edits in the database
+          trusted_version_changer: Can change database content without moderation
+          not_trusted_version_changer: Cannot change database content
+          not_trusted_collections_author: Cannot publish collections. Creation of private and public collections is allowed.
+          not_trusted_abuse_reporter: Restriction in filing complaints on the forum (maximum 3 complaints per day)
+          censored_avatar: Have avatar with adult content
+          censored_profile: Have profile with adult content
+          censored_nickname: Forbidden nicknames
+          cheat_bot: 'Cheat statistics: votes are not counted, achievements are not counted'
+          completed_announced_animes: >-
+            Announced animes in completed status: not counted in achievements statistics.
+            Assigned automatically every day.
+      user:
+        add: Add
+        remove: Remove
+    user_rate_logs:
+      index:
+        notice: >-
+          Logs are stored for 2 weeks. Import lists and clear lists are not logged.
+      user_rate_log:
+        action:
+          create: added
+          update: changed
+          destroy: deleted
+        details: details
+        show: show
+    forums:
+      index: &index
+        forums: Forums
+        notice: List of all forums
+      edit: &edit
+        <<: *index
+        notice: Edit forum
+      update:
+        <<: *edit
+    genres: &genres
+      index: &index
+        notice: List of all anime&manga genres
+      edit: &edit
+        <<: *index
+        notice: Edit genre
+      update:
+        <<: *edit
+    genre_v2s: 
+      <<: *genres
+    studios:
+      index: &index
+        notice: List of all anime producers
+        filtered_name: Disp. name
+      edit: &edit
+        <<: *index
+        notice: Edit producer
+      update:
+        <<: *edit
+    publishers:
+      index: &index
+        notice: List of all manga publishers
+      edit: &edit
+        <<: *index
+        notice: Edit publisher
+      update:
+        <<: *edit
+    authors:
+      edit:
+        fansub_animes: Fansub animes
+        fandub_animes: Fandub animes
+    changelogs:
+      show:
+        search: Log search
+      changelog:
+        changes: changes
+        details: details
+        log_line: log line

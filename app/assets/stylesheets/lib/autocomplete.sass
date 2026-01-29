@@ -1,0 +1,49 @@
+@import mixins/ellipsis2
+@import mixins/responsive
+
+.ac_results, .completable-block
+  border: 1px solid #ddd
+  color: #444
+  font-size: 12px
+  line-height: 19px
+
+  +lte_ipad
+    li
+      line-height: 2
+
+  .year, .kind
+    float: right
+    margin-left: 5px
+
+  .kind
+    margin-left: 0
+
+  .name
+    +ellipsis2
+    margin-left: 0
+    color: #222
+
+  .character-suggest
+    .animes div
+      +ellipsis2
+      color: #444
+      margin-left: 10px
+      margin-top: 1px
+
+    .b-catalog_entry
+      float: right
+      max-height: 80px
+      margin-right: -3px
+      margin-left: 5px
+
+  &.menu-suggest
+    border-top: none
+
+    +lte_ipad
+      margin-top: -15px
+
+    .ac_even, .ac_odd
+      /*width: 267px;
+
+      .name
+        color: inherit

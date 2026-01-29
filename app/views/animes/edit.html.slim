@@ -1,0 +1,209 @@
+= render layout: 'page' do
+  .block
+    .subheadline = og.headline
+    .fc-2
+      .f-column
+        ul.b-list.is-wide
+          - %i[name russian license_name_ru synonyms japanese].each do |field|
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: field
+
+          - if @resource.franchise.present?
+            li
+              .field = @resource.class.human_attribute_name(:franchise)
+              .value
+                span
+                  - if @resource.franchise.present?
+                    a.b-link[
+                      href=@resource.collection_url(franchise: @resource.franchise)
+                    ] = @resource.franchise
+
+          - if current_user&.admin? && @resource.anime?
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: :torrents_name
+
+          - %i[licensors kind rating origin origin_manga_id genres genres_v2 status aired_on released_on duration].each do |field|
+            - next if field.in?(%i[rating origin origin_manga_id]) && @resource.kinda_manga?
+            - next if field == :genres
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: field,
+              class: ('m15' if %i[licensors genres_v2 released_on].include? field),
+              formatter: {\
+                genres: ->(value) { value.map { |v| v.is_a?(Genre) ? localization_span(v) : v }.join(', ').html_safe },
+                genres_v2: ->(value) { value.map { |v| v.is_a?(GenreV2) ? localization_span(v) : v }.join(', ').html_safe },
+                duration: ->(value) { humanize_minutes value } \
+              }[field]
+
+          - %i[episodes volumes chapters].each do |field|
+            = render 'db_entries/edit_field_li',
+              resource: @resource,
+              field: field,
+              class: ('m15' if %i[chapters].include? field)
+
+          - if @resource.anime?
+            li
+              .field = @resource.class.human_attribute_name(:episodes_aired)
+              .value
+                span = @resource.episodes_aired
+                - if can?(:rollback_episode, @resource) && !@resource.released?
+                  a.b-js-action.increment-episode[
+                    href=increment_episode_anime_url(@resource)
+                    data-method='post'
+                    data-custom_confirm_text=t('.confirm_episode_date')
+                  ] = t 'actions.increment'
+                - if can?(:rollback_episode, @resource) && @resource.episodes_aired.positive?
+                  a.b-js-action[
+                    href=rollback_episode_anime_url(@resource)
+                    data-method='post'
+                    data-confirm=t('.confirm_rollback')
+                  ] = t 'actions.rollback'
+                - if @resource.episode_notifications.any?
+                  a.b-js-action href=episode_notifications_anime_url(@resource)
+                    = t '.episode_notifications'
+
+            - %i[digital_released_on russia_released_on].each do |field|
+              = render 'db_entries/edit_field_li',
+                  resource: @resource,
+                  field: field,
+                  class: ('m15' if %i[russia_released_on].include? field) do
+                - if @resource.respond_to? :"#{field}_hint"
+                  .hint = @resource.send :"#{field}_hint"
+
+      .f-column
+        - if @resource.rkn_abused? && current_user.staff?
+          .b-warning
+            .warning На страницу получен страйк от РКН!
+            p Постер должен быть нейтральным или отсутствовать.
+
+        ul.b-list.is-wide
+          - is_screenshots = @resource.anime? && @resource.screenshots_allowed?
+          - %i[poster description_ru description_en screenshots videos imageboard_tag coub_tags external_links fansubbers fandubbers].delete_if { |v| v == :screenshots && !is_screenshots }.each do |field|
+            - next if field == :imageboard_tag && !Shikimori::IS_IMAGEBOARD_TAGS_ENABLED
+            / - next if field == :poster && @resource.rkn_abused?
+
+            = render 'db_entries/edit_field_li',
+                resource: @resource,
+                field: field,
+                class: ('m15' if %i[description_en videos external_links].include? field),
+                formatter: {\
+                  image: ->(_value) {},
+                  poster: ->(_value) {},
+                  description_ru: ->(_value) {},
+                  description_en: ->(_value) {},
+                  screenshots: ->(value) { "#{value.size} #{i18n_i 'screenshot', value.size}" },
+                  videos: ->(value) { "#{value.size} #{i18n_i 'video', value.size}" },
+                  coub_tags: ->(value) { "#{value.size} #{i18n_i 'tag', value.size}" },
+                  external_links: ->(value) { @resource.available_external_links.map(&:label).join(', ').html_safe }\
+                }[field],
+                is_force_value: field == :poster do
+              - if field == :poster && can?(:censore, Poster) && @resource.object.poster
+                br
+                a.poster-moderation href=moderations_posters_url(id: @resource.object.poster.id, state: @resource.object.poster.moderation_state, kind: Moderations::PostersController::Kind[@resource.object.class.base_class.name.downcase])
+                  | Модерация 18+ постера
+
+          = render 'db_entries/edit_field_li',
+            resource: @resource,
+            field: :more_info,
+            formatter: ->(value) { @resource.more_info_html }
+
+    ul.b-list.is-wide
+      li
+        .field = @resource.class.human_attribute_name(:is_censored)
+        .value
+          - if @resource.censored?
+            span.censored = t 'yes'
+          - else
+            span = t 'no'
+          - if can? :restricted_update, Version.new(item: @resource.object, item_diff: { is_censored: [] })
+            a.b-js-action href=@resource.edit_field_url(:is_censored)
+              = t 'moderators_only'
+          - else
+            a.b-js-action.is-disabled = t 'moderators_only'
+
+      - unless can? :refresh_stats, @resource
+        li
+          .field = @resource.class.human_attribute_name(:options)
+          .value
+            - if can? :restricted_update, Version.new(item: @resource.object, item_diff: { options: [] })
+              span = @resource.options.join(', ')
+              a.b-js-action href=@resource.edit_field_url(:options)
+                = t 'moderators_only'
+            - else
+              span
+              a.b-js-action.is-disabled = t 'moderators_only'
+
+  = render 'db_entries/synchronization', resource: @resource
+  = render 'db_entries/scores', resource: @resource
+
+  - if @resource.anime? && @resource.anime_calendars.any?
+    = spoiler 'animecalendar.eu' do
+      .subheadline
+        a href='http://animecalendar.eu/' animecalendar.eu
+      table.b-table.block_m
+        thead
+          tr
+            th style='text-align: right; width: 60px; padding-right: 25px'
+              = t '.anime_calendar.episode'
+            th = t '.anime_calendar.date'
+        tbody
+          - @resource.anime_calendars.sort_by(&:episode).each do |anime_calendar|
+            tr
+              td style='text-align: right; padding-right: 25px'
+                = anime_calendar.episode
+              td = l anime_calendar.start_at, format: '%d.%m.%Y %H:%M'
+
+  - if @resource.anime? && can?(:upload_episode, Anime)
+    = spoiler t('.upload_episode') do
+      .block_m
+        .fc-2
+          .f-column
+            .subheadline-buttons
+              a.item-edit href=@resource.edit_field_url(:torrents_name)
+            .subheadline.m5 = t '.parse_page'
+            .subcontent
+              = form_tag torrent_anime_path(@resource.object), method: :post do |f|
+                .b-input
+                  label
+                    | URL
+                    = text_field_tag 'torrent[url]',
+                      params[:torrent] ? params[:torrent]['url'] : '',
+                      class: 'w-100'
+                .m5
+                  = submit_tag t('.parse'), class: 'b-button'
+
+          .f-column
+            .subheadline.m5 = t '.search_on.toshokan'
+            - @resource.files.toshokan_search.each do |phrase|
+              div.m5
+                a.b-link href="http://www.tokyotosho.info/search.php?terms=#{Addressable::URI.encode_component phrase}"
+                  = phrase
+
+  = render 'db_entries/dangerous_actions/index', resource: @resource
+
+        / - if current_user.admin?
+        /   .c-column
+        /     .subheadline.m5 = t '.new_torrent'
+        /     .subcontent
+        /       = form_tag torrent_anime_path(@resource.object), method: :post, class: :m20 do |f|
+        /         .b-input
+        /           p Link
+        /           = text_field_tag 'torrent[link]',
+        /             params[:torrent] ? params[:torrent]['link'] : '',
+        /             size: 100
+        /         .b-input
+        /           p PubDate
+        /           = text_field_tag 'torrent[pubDate]',
+        /             params[:torrent] ? params[:torrent]['pubDate'] : '',
+        /             size: 40
+        /         .b-input
+        /           p Title
+        /           = text_field_tag 'torrent[title]',
+        /             params[:torrent] ? params[:torrent]['title'] : '',
+        /             size: 100
+        /         .m5
+        /           = submit_tag t('actions.add'), class: 'b-button'
+
+  = render 'db_entries/versions', collection: @resource.parameterized_versions

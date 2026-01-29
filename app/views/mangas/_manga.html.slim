@@ -1,0 +1,18 @@
+- cover_by ||= (json? || user_signed_in?) ? :link : :linkeable
+- content_by ||= :tooltip
+- cover_notice ||= :none
+- cover_title ||= :present
+- cover_derivative ||= :preview
+
+= render partial: 'animes/anime',
+  object: manga,
+  locals: {\
+    cover_by: cover_by,
+    cover_title: cover_title,
+    cover_notice: cover_notice,
+    cover_derivative: cover_derivative,
+    is_user_rates_minified: local_assigns[:is_user_rates_minified],
+    content_by: content_by,
+    score_order_type: local_assigns[:score_order_type],
+    anime_counter: defined?(manga_counter) ? manga_counter : nil,
+  }

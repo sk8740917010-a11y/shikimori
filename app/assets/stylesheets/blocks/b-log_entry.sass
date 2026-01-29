@@ -1,0 +1,228 @@
+@import mixins/brackets_surrounded
+@import mixins/ellipsis2
+@import mixins/float_column
+@import mixins/log_entry
+
+.b-log_entry
+  +log_entry
+
+  +iphone
+    margin-bottom: 10px
+
+  .short
+    +ellipsis2
+
+  .kind
+    &.broken
+      color: $red
+    &.wrong
+      color: $orange
+    &.uploaded
+      color: $blue
+
+  .state
+    +gte_ipad
+      &:not(.inline)
+        margin-left: auto
+
+      ~ .spoiler
+        &.collapse,
+        &.collapsed
+          margin-left: 0
+
+    &.pending
+      color: $orange
+
+    &.accepted
+      color: $green
+
+    &.auto_accepted
+      color: $gray-3
+
+    &.taken
+      color: $blue
+
+    &.rejected, &.post_rejected
+      color: $red
+
+    &.deleted
+      color: $red
+
+    // list import states
+    &.finished
+     color: $green
+
+    &.started
+      color: $blue
+
+    &.stopped
+      color: $blue
+
+  .uncensored-item
+    +brackets_surrounded
+
+  .b-critique_votes
+    font-size: 11px
+
+  .change-details
+    margin: 5px 0 15px 8px
+
+    .reason
+      display: flex
+      flex-wrap: wrap
+      margin-bottom: 3px
+      word-break: break-word
+
+      span
+        flex-shrink: 0
+        color: $gray-3
+
+    .field-changes
+      +block
+
+      .field-name
+        font-weight: bold
+        margin-bottom: 3px !important
+
+      .label
+        color: $gray-3
+        display: inline
+        padding-right: 5px
+
+      .diff
+        word-break: break-word
+
+        ins,
+        del
+          padding: 0 2px
+          text-decoration: none
+
+        ins
+          background: #eaf2c2 !important
+          color: #406619
+
+        del
+          background: #fedddf !important
+          color: #fc575e
+
+      .change .ins
+        color: $green
+
+      .change .del
+        color: $red
+
+      .change .mod
+        color: $orange
+
+      .changes .change
+        margin-bottom: 3px
+        word-break: break-word
+
+      &.external_links, &.description_ru, &.description_en, &.description
+        .label
+          display: block
+          padding: 0
+
+        .change
+          margin-bottom: 15px
+
+        +gte_ipad
+          .changes
+            +clear_left
+
+            .change
+              +column(2)
+
+      &.screenshots-reposition
+        .changes
+          +clear_left
+
+          .change
+            float: left
+            width: 170px
+            margin-right: 30px
+
+            img
+              display: block
+              margin-bottom: 5px
+
+          .change:last-child
+            margin-right: 0
+
+      &.external_links
+        .label
+          margin-bottom: 5px
+
+        .b-external_link
+          margin-bottom: 5px
+
+          .url
+            font-size: 11px
+            word-break: break-all
+
+        .diff .value
+          font-size: 11px
+
+      &.poster
+        .derivatives
+          display: flex
+
+          +iphone
+            flex-direction: column
+            row-gap: 0.75rem
+
+          +gte_ipad
+            column-gap: 1.5rem
+
+        .derivative-preview
+          +iphone
+            margin-right: 1rem
+
+          +gte_ipad
+            margin-right: 1.5rem
+
+        .crop
+          font-size: 12px
+
+  & > .reason
+    color: $maroon
+    font-size: 11px
+
+    a
+      color: $maroon
+
+  &.video
+    iframe,
+    object
+      height: 370px
+      width: 650px
+
+  &.version
+    +iphone
+      margin-bottom: 20px
+
+      & > span:nth-child(1)
+        order: -10
+
+      & > span:nth-child(2)
+        order: -9
+
+      &:before
+        content: ''
+        height: 0
+        flex-basis: 100%
+
+      .spoiler
+        &.collapse,
+        &.collapsed
+          order: -8
+
+      .author,
+      .id
+        &:before
+          content: attr(data-text)
+          padding-right: 5px
+
+      .id
+        +ellipsis2
+        flex-basis: 100%

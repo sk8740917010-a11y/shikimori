@@ -1,0 +1,16 @@
+= render layout: 'page' do
+  .b-options-floated.mobile-phone.before-buttons-3
+    | #{@view.franchise_achievements_size} / #{@view.all_franchise_achievements_size}
+
+  .subheadline-buttons
+    = render 'blocks/list_switchers',
+      name: 'franchises_order',
+      values: %w[popularity alphabet progress]
+
+  h2.subheadline = og.headline
+  .cc
+    - @view.all_franchise_achievements.each do |achievement|
+      = render 'users/achievements/badge',
+        achievement: achievement,
+        unavailable: achievement.progress.zero?,
+        tipsy_size: 'large'

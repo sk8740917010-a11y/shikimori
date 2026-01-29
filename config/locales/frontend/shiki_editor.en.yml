@@ -1,0 +1,57 @@
+en:
+  frontend:
+    shiki_editor:
+      not_available: Commenting will be available one day after registering
+      text_cant_be_blank: Text can't be blank
+      file: file
+      bold: Bold
+      italic: Italic
+      underline: Underlined
+      strike: Strikethrough
+      color: Color
+      undo: Undo last change
+      redo: Redo last change
+      spoiler: Spoiler
+      spoiler_inline: Spoiler
+      code_inline: Code
+      link: Link
+      smiley: Smiley
+      shiki_link: Shiki link
+      image: Image by link
+      upload: Images upload
+      spoiler_block: Spoiler block
+      code_block: Code block
+      bullet_list: List
+      headline: Headline
+      blockquote: Quote
+      prompt:
+        image_url: Image URL
+        link_url: Link URL
+        spoiler_label: Spoiler label
+      preview: Preview
+      source: Source code
+      huge_content_mode: Text is too large. The visual editor will fail and has therefore been disabled.
+      huge_content_pasted: Text is too large. The visual editor will fail and therefore paste has been cancelled.
+      normal_content_mode: The visual editor is available again
+      unsaved_content:
+        label: The editor has unsaved draft. Restore it?
+        draft: Draft
+        'yes': Yes
+        'no': No
+      colors:
+        yellow: Yellow
+        orange: Orange
+        red: Red
+        pink: Pink
+        violet: Violet
+        blue: Blue
+        green: Green
+        brown: Brown
+        gray: Gray
+        black: Black
+      headlines:
+        header_1: '# Large header'
+        header_2: '## Medium header'
+        header_3: '### Small header'
+        headline: '#### Headline'
+        midheadline: '##### Subheadline'

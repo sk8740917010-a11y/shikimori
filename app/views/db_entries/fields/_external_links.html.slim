@@ -1,0 +1,55 @@
+- kind_options = ExternalLink.kind.options.select {|_, key| !::Types::ExternalLink::INVISIBLE_KINDS.include?(::Types::ExternalLink::Kind[key]) && ::Types::ExternalLink::KINDS[@resource.object.class.name.downcase.to_sym].include?(key.to_sym) }
+- other_links = (resource.all_external_links - resource.external_links).select(&:visible?).sort_by { |link| ::Types::ExternalLink::Kind.values.index link.kind.to_sym }
+
+.m5
+  p: b = Anime.human_attribute_name :external_links
+
+.external_links
+  = simple_form_for resource.object do |f|
+    .cc-2.block
+      .c-column.m0
+        #vue_external_links[
+          data-resource_type=resource.object.class.name
+          data-entry_id=resource.id
+          data-entry_type=resource.object.class.base_class.name
+          data-external_links=ActiveModel::Serializer::CollectionSerializer.new(resource.external_links).to_json
+          data-kind_options=kind_options.to_json
+          data-watch_online_kinds=::Types::ExternalLink::WATCH_ONLINE_KINDS.to_json
+          data-not_available_in_russia_kinds=::Types::ExternalLink::NOT_AVAILABLE_IN_RUSSIA_KINDS.to_json
+        ]
+          .block_m.b-nothing_here = t 'loading'
+      .c-column.m0
+        - if other_links.any?
+          div
+            b = t '.imported'
+          .m15
+            .hint = t '.to_change'
+            .hint == t '.to_disable'
+
+          - (other_links + (resource.anime? && current_user.staff? ? [resource.smotret_anime_external_link] : [])).compact.each do |external_link|
+            .external_link-wrapper.m15
+              .external_link-line
+                .b-input.select.m0
+                  select[disabled]
+                    option value=external_link.kind
+                      = external_link.kind_text
+                - if external_link.kind != ::Types::ExternalLink::Kind[:smotret_anime]
+                  .delete
+                b.b-external_link class=external_link.source
+                  span.static
+                    = external_link.source_text
+
+              .b-input
+                input[
+                  type='text'
+                  value=external_link.url
+                  disabled
+                ]
+
+    .cc-2
+      .c-column
+        = render 'versions/reason'
+
+        .buttons
+          a.cancel href=resource.edit_url = t 'actions.cancel'
+          = f.button :magic_submit

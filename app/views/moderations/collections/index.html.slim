@@ -1,0 +1,99 @@
+header.head
+  h1 = og.headline
+  p.notice = t '.notice'
+  = render 'application/breadcrumbs'
+
+.block
+  .subheadline
+    - if can? :manage, Collection
+      = t '.instruction'
+    - else
+      = t '.moderators'
+  .b-brief
+    .moderators
+      = render partial: 'users/user',
+        collection: @moderators,
+        locals: { content_by: :named_avatar }
+
+    - if can? :manage, Collection
+      ul.b-list.is-wide
+        - t('.instructions').each do |instruction|
+          li: p == instruction
+
+- if can? :filter, Collection
+  .block
+    .subheadline = t 'moderations.versions.index.filters'
+    form.b-form#versions_form[
+      action=current_url(id: nil, name: nil, user_id: nil)
+      method='get'
+    ]
+      input#version_user_id[
+        type='hidden'
+        name='user_id'
+        value=params[:user_id]
+      ]
+      .block
+        .fc-3
+          .f-column
+            .b-input.b-input--with-clear
+              label
+                div = Collection.human_attribute_name :name
+                input[
+                  name='name'
+                  value=params[:name]
+                ]
+                - if params[:name].present?
+                  a.clear href=current_url(name: nil)
+            input[
+              data-disable-with=t('search.search')
+              type='submit'
+              value=t('search.search').gsub('...', '')
+            ]
+          .f-column
+            .b-input.b-input--with-clear
+              label
+                div ID
+                input[
+                  name='id'
+                  value=params[:id]
+                ]
+                - if params[:id].present?
+                  a.clear href=current_url(id: nil)
+          .f-column
+            .b-input
+              label
+                div = Collection.human_attribute_name :user_id
+                input.user_id-suggest[
+                  class=(:hidden if @view.filtered_user)
+                  autocompelte='off'
+                  data-autocomplete=autocomplete_user_moderations_collections_url
+                ]
+                .placeholder[
+                  class=(:hidden unless @view.filtered_user)
+                ]
+                  span.nickname = @view.filtered_user&.nickname
+                  .b-js-action.remove = t('actions.delete').downcase
+
+- if @view.pending.any?
+  .subheadline.m5 = t '.queue'
+  .block
+    - if @view.pending.any?
+      = render partial: 'moderations/collections/collection',
+        collection: @view.pending
+      - if @view.pending.next_page?
+        = render 'blocks/postloader',
+          next_url: current_url(page: @page + 1, is_pending: 1),
+          ignore_appear: true
+    - else
+      .b-nothing_here = t '.queue_empty'
+
+- if @view.processed.any?
+  .subheadline.m5 = t '.history'
+  .block
+    = render partial: 'moderations/collections/collection',
+      collection: @view.processed
+
+    - if @view.processed.next_page?
+      = render 'blocks/postloader',
+        filter: 'b-log_entry',
+        next_url: current_url(page: @page + 1)

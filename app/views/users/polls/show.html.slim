@@ -1,0 +1,39 @@
+header.head.misc
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+.cc-3_2
+  .c-column.block
+    .block.b-form.bold-labels
+      .b-input
+        label BBCode
+        = BbCodes::Text.call "[code]\n#{@resource.bb_code}\n[/code]"
+
+      = BbCodes::Text.call @resource.bb_code
+
+    - if @resource.may_stop?
+      a.stop.b-button[
+        href="#{stop_profile_poll_url @user, @resource}"
+        title="#{t 'actions.stop'}"
+        data-method="post"
+        data-confirm="#{t 'actions.confirm'}"
+      ] = t 'actions.stop'
+
+  - if @resource.may_stop?
+    .c-column
+      = simple_form_for @resource,
+          url: profile_poll_url(@user, @resource),
+          html: { class: 'b-form bold-labels' } do |f|
+
+        = f.input :name
+        = f.input :width, include_blank: false
+
+        .block
+          = render 'blocks/shiki_editor',
+            text: @resource.text,
+            field_name: 'poll[text]',
+            no_preview_avatar: true,
+            is_text_with_paragraphs: true
+
+        = f.button :magic_submit
+        a.cancel href="#{profile_polls_url @user}" = t 'actions.cancel'

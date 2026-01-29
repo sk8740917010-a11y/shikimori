@@ -1,0 +1,22 @@
+- if club.persisted?
+  .block
+    - if club.menu_pages(club_page).any?
+      .block
+        .subheadline
+          = i18n_i 'Page', :other
+
+        - club.menu_pages(club_page).each do |page|
+          .b-menu-line
+            a.b-link href=club_club_page_path(club, page)
+              = page.name
+
+    - if club_page&.siblings&.many?
+      .block
+        .subheadline
+          = t '.other_pages'
+
+        - club_page.siblings.each do |page|
+          - next if page == club_page
+          .b-menu-line
+            a.b-link href=club_club_page_path(club, page)
+              = page.name

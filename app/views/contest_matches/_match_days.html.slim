@@ -1,0 +1,42 @@
+- matches.each do |date, group|
+  .match-day
+    .date
+      span.from = t '.from'
+      = l group.first.started_on, format: :short
+      span.to = t '.till'
+      = l group.first.finished_on, format: :short
+
+    - group.each do |match|
+      span.group #{match.group}
+      / class="#{match.voted_for_class} #{match.right ? match.status_with_voted : (match.started? ? 'voted' : match.state)}"
+      .match-link.cc-2a[
+        class=match.state
+        data-id=match.id
+        data-match_url=contest_contest_match_url(contest, match, js_export: :skip)
+      ]
+        .c-column[
+          class=match.status(match.left_id)
+        ]
+          - if match.created? && !match.left
+            | &hellip;
+          - else
+            - if match.finished?
+              span.matches-num = "#{match.left_percent}% "
+            - if match.left
+              a.bubbled href=url_for(match.left) data-perdelay='150'
+                = localization_span match.left
+            - else
+              = t 'is_deleted'
+
+        - if match.right_type || !match.left_type
+          .c-column class=match.status(match.right_id)
+            - if match.created? && !match.right
+              | &hellip;
+            - else
+              - if match.finished?
+                span.matches-num = "#{match.right_percent}% "
+              - if match.right
+                a.bubbled href=url_for(match.right) data-perdelay='150'
+                  = localization_span match.right
+              - else
+                = t 'is_deleted'

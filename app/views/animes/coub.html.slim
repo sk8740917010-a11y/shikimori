@@ -1,0 +1,22 @@
+= render layout: 'animes/page' do
+  .b-options-floated.mobile-tablet.r-edit
+    - if @resource.coub_tags.any?
+      = truncate @resource.coub_tags.join(', '), length: 50
+    - else
+      = t 'answers.no'
+  .subheadline-buttons
+    a.item-edit href=@resource.edit_field_url(:coub_tags)
+  .subheadline = og.headline
+
+  .block
+    - if @resource.coubs.coubs.any?
+      = render partial: 'coubs/coub',
+        collection: @resource.coubs.coubs,
+        locals: { match_tags: @resource.coub_tags }
+
+      - if @resource.coubs.iterator
+        = render 'blocks/postloader',
+          filter: 'b-coub',
+          next_url: fetch_coub_url(@resource.id, iterator: @resource.coubs.iterator, checksum: @resource.coubs.checksum)
+    - else
+      .b-nothing_here = t 'nothing_found'

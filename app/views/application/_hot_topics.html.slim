@@ -1,0 +1,19 @@
+.b-hot_topics-v2
+  .subject = t '.hot_topics'
+
+  - layout.moderation_hot_stat.each do |stat|
+    a.b-link.moderation.misc href=stat[:url]
+      = "#{stat[:label]}: #{stat[:count]}"
+
+  - cache :hot_topics, expires_in: 10.minutes do
+    - layout.hot_topics.each do |topic_view|
+      a.b-link[
+        href=topic_view.urls.topic_url
+        title=topic_view.topic_title
+        tabindex='-1'
+      ]
+        span.poster[
+          style="background-image: url(#{topic_view.poster_image_url false})"
+        ]
+        span
+          = topic_view.poster_title_html

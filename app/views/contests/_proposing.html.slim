@@ -1,0 +1,31 @@
+.proposing
+  = render partial: 'contests/public_suggestions', locals: { contest: contest }
+
+  - if user_signed_in?
+    - cache [contest, current_user.id] do
+      = form_for [contest, contest.new_suggestion] do |f|
+        = f.hidden_field :item_type
+        = f.hidden_field :item_id
+
+        - if contest.can_propose_candidates?
+          input.item-suggest.suggest.subheadline-input.common[
+            type='text'
+            data-member_type=contest.member_type
+            data-autocomplete=contest.suggestion_url
+            placeholder=(contest.anime? ? t('.anime_title') : t('.character_name'))
+          ]
+
+        .block
+          .subheadline
+            - if contest.can_propose_candidates?
+              = t '.your_candidates_more', proposals_left: contest.proposals_left
+            - else
+              = t '.your_candidates'
+          .own-nominants
+            - if contest.user_suggestions.any?
+              = render partial: 'contests/public_suggestion',
+                collection: contest.user_suggestions,
+                as: :suggestion,
+                locals: { contest: contest }
+            - else
+              p = t '.no_candidates'

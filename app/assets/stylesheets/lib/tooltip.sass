@@ -1,0 +1,44 @@
+@import mixins/link
+
+.tooltip-inner
+  //.close, .link
+  .close
+    border-radius: 15px
+    +link_color(#555555)
+    background: #fff
+    cursor: pointer
+    font-family: Courier
+    font-size: 13px
+    position: absolute
+    right: 5px
+    text-align: center
+    top: 4px
+    width: 15px
+    z-index: 2
+
+    &:after
+      content: '\2715'
+
+.tooltip
+  z-index: 1
+
+  &.minified
+    .tooltip-inner
+      min-height: 20px
+      width: 300px
+
+  .favourite
+    margin-top: -4px
+    float: right
+
+  .ajax-loading
+    height: 140px
+
+  .b-critique_votes
+    .user-vote
+      display: none
+
+  .b-status-line
+    flex-wrap: nowrap
+    overflow: hidden
+    white-space: nowrap

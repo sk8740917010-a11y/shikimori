@@ -1,0 +1,82 @@
+---
+:episodes_diff:
+  "Gintama°": 252
+  "Fairy Tail (2014)": 175
+  "Owari no Seraph 2": 12
+  "Naruto Shippuuden": -1
+  "Kaku Tatakaeri 2": 12 # Gate: Jieitai Kanochi nite, Kaku Tatakaeri 2
+  "91Days": -1
+  "Boku no Hero Academia 2": 13
+  "Alice to Zouroku": 1
+  "One-Punch Man 2": 12
+  "Bungo Stray Dogs 3": 25
+  "Kiratto Pri☆Chan": 51
+  "Shingeki no Kyojin 3": 49
+  "FAIRY TAIL Final Series": 277
+  "Boku no Hero Academia (2022)": 113
+  "Urusei Yatsura (2024)": 23
+  "Shinigami Bocchan to Kuro Maid (2024)": 24
+  "Mushoku Tensei II: Isekai Ittara Honki Dasu (2024)": 12
+  "Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei Shite Shison-tachi no Gakkou e Kayou II (2024)": 12
+  "Tensei Shitara Slime Datta Ken (2024)": 48
+
+:matches:
+  # summer 2015
+  "Daiya no A ~Second Season~": 30230
+  "Ushio to Tora": 29854
+  "Arslan Senki": 28249
+  "Durarara!! ×2 The Second Arc": 27831
+  "Q Transformers: Kaettekita Convoy no Nazo 2": 30851
+  "Kyōkai no Rinne": 28423
+  "Denpa Kyōshi - He Is an Ultimate Teacher": 29589
+  "Monster Musume no Iru Nichijō": 30307
+  "Mobile Suit Gundam: Tekketsu no Orphans": 31251
+  "Shinmai Maō no Testament BURST": 30363
+  "Sōkyū no Fafner Exodus 2": 30549
+  "Norn9 - Norn + Nonette": 31452
+  "Shōwa Genroku Rakugo Shinjū": 28735
+  "Kono Subarashii Sekai ni Shukufuku o!": 30831
+  "BBK/BRNK": 32023
+  "Durarara!! ×2 The Third Arc": 27833
+  "Ansatsu Kyōshitsu 2": 30654
+  "Kyōkai no Rinne 2": 31610
+  "Bishōjo Senshi Sailor Moon Crystal 3": 31733
+  "Unhappy": 31080
+  "Ushio to Tora 2": 31098
+  "Kidō Senshi Gundam Unicorn RE:0096": 32792
+  "Shingeki no Kyojin 3": 38524
+  "Daiya no A Act II": 38731
+  "Kiratto Pri☆Chan": 38804
+  "Gunjou no Magmell": 37806
+  "GeGeGe no Kitarō": 37140
+  "Kira Kira Happy Hirake! Cocotama": 37968
+  "Jibaku Shounen Haneko-kun": 39534
+  "Marumaru Manuru": 40939
+  "Bungou Stray Dogs (2023)": 50330
+  "Dungeon ni Deai o Motomeru no wa Machigatte Iru Darouka: Familia Myth IV (2023)": 53111
+  "Pocket Monsters: Mezase Pokemon Master": 53874
+  "Boku no Hero Academia (2022)": 49918
+  "Meitantei Conan": 235
+  # spring 2024
+  "Shinigami Bocchan to Kuro Maid (2024)": 56738
+  "Mushoku Tensei II: Isekai Ittara Honki Dasu (2024)": 55888
+  "Tsuki ga Michibiku Isekai Douchuu Dai Ni Maku": 49889
+  "Kaii to Otome to Kamigakushi": 54199
+  "Urusei Yatsura (2024)": 54829
+  "Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei Shite Shison-tachi no Gakkou e Kayou II (2024)": 48418
+  "Tensei Shitara Slime Datta Ken (2024)": 53580
+  "Mahouka Koukou no Rettousei (2024)": 50713
+  "The Idolmaster Shiny Colors": 54758
+  "Shinkansen Henkei Robo Shinkalion: Change the World": 57798
+  "Ranma ½": 59145
+  "Saikyou no Shienshoku \\\"Wajutsushi\\\" de Aru Ore wa Sekai Saikyou Clan wo Shitagaeru": 58714
+
+:ignores:
+  - "PriPara"
+  - "DD Hokuto no Ken 2 Ichigo Aji+"
+  - "Sora no Method"
+  - "Hora, Mimi ga Mieteru yo"
+  - 'Kidō Senshi Gundam: The Origin Zenya - Akai Suisei'
+  - "Asa Da yo! Kai Shain"
+  - "Oyako Club"
+  - "Shibuya♡Hachi"

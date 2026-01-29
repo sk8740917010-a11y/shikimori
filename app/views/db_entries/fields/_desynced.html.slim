@@ -1,0 +1,12 @@
+.m5
+  p: b = Anime.human_attribute_name :desynced
+  p = t '.hint'
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      = render 'db_entries/fields/desynced_field', resource: resource.object
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

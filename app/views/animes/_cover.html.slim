@@ -1,0 +1,81 @@
+span.image-decor
+  span.image-cutter
+    = render 'db_entries/poster',
+      db_entry: anime,
+      poster: anime.poster,
+      derivative: cover_derivative
+
+- if cover_title != :none
+  - if cover_by == :link
+    span.title[
+      class=(cover_notice == :none ? :two_lined : :left_aligned)
+      itemprop='name'
+    ]
+      = localization_span anime, is_search_russian: local_assigns[:is_search_russian]
+  - elsif cover_by == :linkeable
+    a.title[
+      class=(cover_notice == :none ? :two_lined : :left_aligned)
+      href=anime.url
+      title=anime.name
+      itemprop='url'
+      tabindex='-1'
+    ]
+      = localization_span anime, is_search_russian: local_assigns[:is_search_russian]
+
+- if score_order_type.present?
+  span.collection_score
+    - case score_order_type
+      - when 'score'
+        - if anime.score.present? && anime.score > 0
+          span.collection_score_marker
+            span.score_marker_star ★
+            = anime.score
+      - when 'score_2'
+        - if anime.score_2.present? && anime.score_2 > 0
+          span.collection_score_marker
+            span.score_marker_star ★
+            = anime.score_2
+
+span.misc
+  - if cover_notice == :studio
+    - if anime.respond_to?(:studios) && anime.real_studios.any?
+      span.studio = anime.real_studios.first.name
+    - elsif anime.respond_to?(:publishers) && anime.publishers.any?
+      span.publisher = anime.publishers.first.name
+
+  - elsif cover_notice == :licensor
+    span.licensors = anime.licensors.join(', ')
+
+  - elsif cover_notice == :year_kind
+    - if anime.kind.present?
+      span = anime.kind_text
+
+    span = anime.year
+
+  - elsif cover_notice == :year_licensor
+    - if anime.licensors.any?
+      span = anime.licensors.join(', ')
+
+    span = anime.year
+
+  - elsif cover_notice == :next_episode
+    - if anime.next_episode == 1
+      span.anons = i18n_i 'anons'
+    - elsif anime.next_episode == anime.episodes
+      span.released = t '.released'
+    - else
+      span #{anime.next_episode} #{i18n_i 'episode'}
+
+    - if time_of_next_episode(anime) != '00:00'
+      span = time_of_next_episode anime
+
+  - elsif cover_notice == :relation
+    span.relation = anime.relation_kind_text
+
+  - elsif cover_notice == :role
+    span.role
+      = anime.formatted_role
+
+  - elsif cover_notice == :none
+  - else
+    - raise ArgumentError, cover_notice

@@ -1,0 +1,145 @@
+ru:
+  animes_collection:
+    menu:
+      anime:
+        status: &anime_statuses
+          anons: Анонсировано
+          ongoing: Сейчас выходит
+          released: Вышедшее
+          latest: Недавно вышедшее
+        kind:
+          tv_13:
+            name: Короткие
+            tooltip: '~13 эпизодов'
+          tv_24:
+            name: Средние
+            tooltip: '~24 эпизодов'
+          tv_48:
+            name: Длинные
+            tooltip: '>30 эпизодов'
+        duration:
+          S: До 10 минут
+          D: До 30 минут
+          F: Более 30 минут
+      manga: &manga_menu
+        status:
+          <<: *anime_statuses
+          ongoing: Сейчас издаётся
+          released: Издано
+          latest: Недавно издано
+          paused: Приостановлено
+          discontinued: Прекращено
+      ranobe:
+        <<: *manga_menu
+      show_list: Показать список
+
+  animes: &animes
+    page:
+      actions:
+        comment: Комментировать
+        review: Написать отзыв
+        critique: Написать рецензию
+        add_to_favorites: Добавить в избранное
+        remove_from_favorites: Удалить из избранного
+        edit: Редактировать
+      characters: Персонажи
+      main_characters: Главные герои
+      supporting_characters: Второстепенные герои
+      linked_directly: Напрямую
+      chronology: Хронология
+      franchise: Франшиза
+      create_critique: Написать рецензию
+      create_review: Написать отзыв
+      upload_episode: Добавить эпизоды с tokyotosho.info
+      search_on:
+        toshokan: Поиск на тошокане
+        rutracker: Поиск на рутрекере
+      subtitles:
+        type: Тип
+        name: Название
+      new_torrent: Новый торрент
+      confirm_episode_date: 'Укажи дату выхода эпизода в формате DD.MM.YYYY HH:MM в твоём текущем часовом поясе'
+      confirm_rollback: Это действие необратимо. Оно удалит топик об эпизоде и уведомления у всех пользователей. Точно откатить?
+      episode_notifications: Список эпизодов
+      parse_page: Распарсить страницу
+      parse: Выполнить
+      torrents:
+        torrents_480p: Эпизоды 480p
+        torrents_720p: HD-эпизоды 720p
+        torrents_1080p: FullHD-эпизоды 1080p
+        torrents: Прочие эпизоды
+      and_more:
+        one: И ещё %{count} человек
+        few: И ещё %{count} человека
+        many: И ещё %{count} человек
+      episodes_preview: Превью эпизодов
+      anime_calendar:
+        episode: Эпизод
+        date: Дата
+
+    watch_online:
+      watch_online: Онлайн просмотр
+
+    menu:
+      scores: Оценки людей
+      in_users_lists: В списках у людей
+      in_friends_lists: У друзей
+      many_users_have_it_in_their_lists: В списках у %{user_count} %{users}
+      one_user_has_it_in_his_list: В списке у одного человека
+      show_all: + показать всех
+      hide: спрятать
+      on_other_sites: На других сайтах
+      copyrighted: Ссылки на другие сайты удалены по требованию правообладателя
+
+    resources:
+      staff: Авторы
+      videos: Видео
+      screenshots: Кадры
+      linked: Связанное
+      similar: Похожее
+      show_all: показать остальное
+      hide: спрятать
+
+    info:
+      anime_additionals: У аниме
+      art: Арт с имиджборд (18+)
+      cosplay: Косплей
+      files: Файлы
+      first_episode: Первый эпизод
+      manga_additionals: У манги
+      next_episode: Следующий эпизод
+      other_names: Альтернативные названия
+      ranobe_additionals: У ранобэ
+
+    other_names:
+      other_names: Другие названия
+
+    studios_info:
+      studio_animes: Аниме студии %{studio_name}
+
+    content:
+      year: '%{year} год'
+
+    cover:
+      released: релиз
+
+    reviews:
+      navigation:
+        opinion:
+          all: Все
+          positive: Положительные
+          neutral: Нейтральные
+          negative: Отрицательные
+      group:
+        to_other_reviews: Ко всем отзывам
+        new_review: Написать отзыв
+      missing:
+        no_review: Отзыв или был удалён, или никогда не существовал на сайте
+    critiques:
+      missing:
+        no_critique: Рецензия или была удалена, или никогда не существовала на сайте
+
+  mangas:
+    <<: *animes
+    publishers_info:
+      publisher_mangas: Манга издателя %{publisher_name}

@@ -1,0 +1,48 @@
+.b-coub[
+  id=coub.permalink
+]
+  .content
+    .b-video.unprocessed
+      a.video-link[
+        href=coub.url
+        data-href=coub.player_url
+      ]
+        img[
+          src=coub.image_2x_url
+          srcset="#{coub.image_2x_url} 2x"
+          data-id=coub.permalink
+        ]
+
+    .footer
+      .author-avatar
+        a href=coub.author.url
+          img[
+            src=coub.author.avatar_2x_url
+            srcset="#{coub.author.avatar_2x_url} 2x"
+          ]
+      .info
+        .title
+          a href=coub.url
+            = coub.title
+
+        .description
+          - if coub.recoubed?
+            a href=coub.original_url
+              = t '.recoubed_by'
+          - else
+            = t '.created_by'
+
+          a.author-name href=coub.author.url
+            = coub.author.name
+
+          time datetime=coub.created_at.iso8601
+            = l coub.created_at, format: '%e %B %Y'
+  .tags
+    - if coub.categories.any?
+      .tag.category = coub.categories.first.capitalize
+
+    - (coub.tags & local_assigns[:match_tags]).each do |tag|
+      .tag.matched ##{tag}
+
+    - (coub.tags - local_assigns[:match_tags]).each do |tag|
+      .tag ##{tag}

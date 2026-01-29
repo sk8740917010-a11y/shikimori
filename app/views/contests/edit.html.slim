@@ -1,0 +1,13 @@
+header.head
+  h2
+    - unless @resource.created?
+      a.back[
+        href=contest_url(@resource)
+        title=t('.back_to_contest_page')
+        data-text=t('back')
+      ]
+    = og.headline
+
+  = render 'application/breadcrumbs'
+
+= render 'form', contest: @resource

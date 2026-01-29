@@ -1,0 +1,379 @@
+header.head
+  h1 = og.headline
+  p.notice  = t '.header_notice'
+
+.block
+  .fc-3
+    .f-column
+      .subheadline = t '.moderation'
+
+      ul.b-list.is-wide.block
+        li
+          a.b-link[
+            href=moderations_versions_url
+          ]
+            = t 'moderations/versions_controller.content_changes.all_content'
+            - if moderation_policy.all_content_versions_count.positive?
+              span.size = moderation_policy.all_content_versions_count
+
+        - Moderation::VersionsItemTypeQuery::VERSION_TYPES.each do |type|
+          li.offset
+            a.b-link[
+              href=moderations_versions_url(type: Moderation::VersionsItemTypeQuery::Type[type])
+            ]
+              = t "moderations/versions_controller.content_changes.#{type}"
+              - if moderation_policy.send(:"#{type}_versions_count").positive?
+                span.size = moderation_policy.send(:"#{type}_versions_count")
+
+        li
+          a.b-link[
+            href=moderations_bans_url
+          ]
+            = t 'moderations/bans_controller.page_title.index'
+            - if moderation_policy.abuse_requests_bannable_count.positive?
+              span.size = moderation_policy.abuse_requests_bannable_count
+        li
+          a.b-link[
+            href=moderations_abuse_requests_url
+          ]
+            = t 'moderations/abuse_requests_controller.page_title.index'
+            - if moderation_policy.abuse_requests_not_bannable_count.positive?
+              span.size = moderation_policy.abuse_requests_not_bannable_count
+
+        li
+          a.b-link[
+            href=moderations_critiques_url
+          ]
+            = t '.critiques_journal'
+            - if moderation_policy.critiques_count.positive?
+              span.size = moderation_policy.critiques_count
+
+        li
+          a.b-link[
+            href=moderations_collections_url
+          ]
+            = t '.collections_journal'
+            - if moderation_policy.collections_count.positive?
+              span.size = moderation_policy.collections_count
+
+        li
+          a.b-link[
+            href=moderations_news_index_url
+          ]
+            = t '.news_journal'
+            - if moderation_policy.news_count.positive?
+              span.size = moderation_policy.news_count
+
+        li
+          a.b-link[
+            href=moderations_articles_url
+          ]
+            = t '.articles_journal'
+            - if moderation_policy.articles_count.positive?
+              span.size = moderation_policy.articles_count
+
+      - if can? :access_changelog, ApplicationRecord
+        ul.b-list.is-wide.block
+          li
+            a.b-link[
+              href=moderations_changelogs_url
+            ] Changelog
+          li
+            a.b-link[
+              href=dangerous_actions_moderations_changelogs_url
+            ] Журнал опасных действий
+
+    .f-column
+      .subheadline = t '.content'
+
+      ul.b-list.is-wide.block
+        li
+          a.b-link[
+            href=translations_name_anime_url
+          ] = t '.missing_anime_names'
+        li
+          a.b-link[
+            href=translations_description_anime_url
+          ] = t '.missing_anime_descriptions'
+        li
+          a.b-link[
+            href=translations_name_manga_url
+          ] = t '.missing_manga_names'
+        li
+          a.b-link[
+            href=translations_description_manga_url
+          ] = t '.missing_manga_descriptions'
+        li
+          a.b-link[
+            href=missing_screenshots_moderations_url
+          ] = t '.missing_screenshots'
+        li
+          a.b-link[
+            href=moderations_authors_url
+          ] = t '.fansub_authors'
+
+        ul.b-list.is-wide.block
+          li
+            - if can? :read, Genre
+              a.b-link[
+                href=moderations_genres_url
+              ] = i18n_io 'Genre', :few
+            - else
+              span = i18n_io 'Genre', :few
+
+          li
+            - if can? :read, Genre
+              a.b-link[
+                href=moderations_genre_v2s_path
+              ] #{i18n_io 'Genre', :few} V2
+            - else
+              span #{i18n_io 'Genre', :few} V2
+
+          li
+            - if can? :read, Studio
+              a.b-link[
+                href=moderations_studios_url
+              ] = i18n_io 'Studio', :few
+            - else
+              span = i18n_io 'Studio', :few
+
+          li
+            - if can? :read, Publisher
+              a.b-link[
+                href=moderations_publishers_url
+              ] = i18n_io 'Publisher', :few
+            - else
+              span = i18n_io 'Publisher', :few
+
+            li
+              - if can? :manage, Forum
+                a.b-link[
+                  href=moderations_forums_url
+                ] = t '.forums'
+              - else
+                span = t '.forums'
+
+        - if can? :censore, Poster
+          li
+            a.b-link[
+              href=moderations_posters_url(Moderations::PostersController::Kind[:anime])
+            ]
+              = t 'moderations/posters_controller.page_title'
+              - if moderation_policy.unprocessed_censored_posters_count.positive?
+                span.size = moderation_policy.unprocessed_censored_posters_count
+        li
+          a.b-link[
+            href=moderations_mal_more_infos_url
+          ]
+            | MAL More Info
+            - if moderation_policy.mal_more_info_count.positive?
+              span.size = moderation_policy.mal_more_info_count
+
+    .f-column
+      .subheadline = i18n_io 'user', :few
+      .block
+        ul.b-list.is-wide
+          li
+            a.b-link[
+              href=moderations_users_url
+            ] = t 'moderations/users_controller.page_title'
+
+          li
+            a.b-link[
+              href=moderations_roles_url
+            ] = t 'moderations/roles_controller.page_title'
+
+          li
+            a.b-link[
+              href=moderations_user_rate_logs_url
+            ] = t 'moderations/user_rate_logs_controller.page_title.index'
+
+- if @clubs.any?
+        .subheadline = i18n_io 'club', :few
+        .block
+          ul.b-list.is-wide
+            - @clubs.each do |club_view|
+              - if club_view.object.present?
+                li
+                  a.b-link[
+                    href=club_view.object.url
+                    title=club_view.object.name
+                  ] = club_view.object.name
+
+- if can?(:arbitrary_sync, Anime) && can?(:sync, Anime)
+  .block
+    .fc-3
+      .f-column
+        .subheadline = t '.mal_sync'
+        form.b-form#sync[
+          data-url_template=sync_animes_url
+          method='post'
+        ]
+          = hidden_field_tag :authenticity_token, form_authenticity_token
+          .fc.m20
+            .f-column
+              .b-input
+                label = t '.type'
+                select[
+                  name='db_entry[type]'
+                ]
+                  - [Anime, Manga, Character, Person].each do |klass|
+                    option value=klass.name.downcase = klass.model_name.human
+            .f-column
+              .b-input
+                label MAL ID
+                input[
+                  name='db_entry[mal_id]'
+                  type='text'
+                  autocomplete='off'
+                ]
+
+          input[
+            type='submit'
+            value=t('.run')
+            data-disable-with=t('.running')
+          ]
+
+      .f-column
+        .block
+          .b-options-floated #{@proxies_alive_count} / #{@proxies_total_count}
+          .subheadline[
+            class=(:red if @proxies_alive_count < 100)
+          ] = t '.proxies_count'
+
+        .block
+          .b-options-floated = @sidkiq_busy.size
+          .subheadline = t '.in_progress'
+          - @sidkiq_busy&.each do |job|
+            .job
+              span.busy = job['class']
+              span = job['args']
+              time[
+                itemprop='dateCreated'
+                datetime=job['enqueued_at'].iso8601
+              ] = l job['enqueued_at'], format: '%e %B %Y'
+
+      .f-column
+        .block
+          .b-options-floated
+            - if @sidkiq_enqueued.size == @enqueued_limit
+              | #{@enqueued_limit}+
+            - else
+              = @sidkiq_enqueued.size
+          .subheadline = t '.queue'
+          - @sidkiq_enqueued&.each do |job|
+            .job
+              span.enqueued = job['class']
+              span = job['args']
+              time[
+                itemprop='dateCreated'
+                datetime=job['enqueued_at'].iso8601
+              ] = l job['enqueued_at'], format: '%e %B %Y'
+
+- if can?(:search_user_id, UserImage) || can?(:restart, Shikimori)
+  .block
+    .fc-2
+      - if can? :search_user_id, UserImage
+        .f-column
+          .subheadline Поиск пользователя по ссылке на картинку
+          form.b-form.block[
+            method='get'
+          ]
+            = hidden_field_tag :authenticity_token, form_authenticity_token
+            .b-input
+              label Ссылка
+              input[
+                name='user_image_url'
+                type='text'
+                autocomplete='off'
+                value=params[:user_image_url]
+              ]
+
+            input[
+              type='submit'
+              value=t('.run')
+              data-disable-with=t('.running')
+            ]
+
+          - if @user_image_hash
+            .block
+              div Хеш: #{@user_image_hash}
+              div
+                - if @user_image_user
+                  ' Пользователь:
+                  - if @user_image_user
+                    = render 'users/user_16', user: @user_image_user
+                - else
+                  | Пользователь не найден
+
+      - if can? :restart, Shikimori
+        .f-column
+          .b-dangerous-actions
+            = spoiler 'Сервер (супер модератор)' do
+              .subheadline.red Сервер
+              .cc-2
+                .c-column.m10
+                  a.b-link_button.light-red[
+                    href=restart_unicorn_moderations_url
+                    data-method='post'
+                    data-confirm=t('actions.confirm_simple')
+                  ] Перезапустить Unicorn
+                .c-column.m10
+                  a.b-link_button.light-red[
+                    href=restart_sidekiq_moderations_url
+                    data-method='post'
+                    data-confirm=t('actions.confirm_simple')
+                  ] Перезапустить Sidekiq
+                .c-column
+                  a.b-link_button.light-red[
+                    href=clear_cache_moderations_url
+                    data-method='post'
+                    data-confirm=t('actions.confirm_simple')
+                  ] Очистить кэш
+
+/ Replace the bottom statistics section with this:
+
+- if @abuse_requests_stats || @bans_stats || @content_versions_stats || @critiques_stats || @collections_stats || @articles_stats
+  .subheadline.m15 Statistics for last 4 months
+  .cc-3a
+    - if @abuse_requests_stats.present?
+      .c-column
+        .subheadline Abuse Requests
+        ul.b-list.is-wide
+          - @abuse_requests_stats.each do |stat|
+            li = "#{stat.approver&.nickname || 'Unknown'}: #{stat.count}"
+
+    - if @bans_stats.present?
+      .c-column
+        .subheadline Bans
+        ul.b-list.is-wide
+          - @bans_stats.each do |stat|
+            li = "#{stat.moderator&.nickname || 'Unknown'}: #{stat.count}"
+
+    - if @content_versions_stats.present?
+      .c-column
+        .subheadline Content Changes
+        ul.b-list.is-wide
+          - @content_versions_stats.each do |stat|
+            li = "#{stat.moderator&.nickname || 'Unknown'}: #{stat.count}"
+
+    - if @critiques_stats.present?
+      .c-column
+        .subheadline Critiques
+        ul.b-list.is-wide
+          - @critiques_stats.each do |stat|
+            li = "#{stat.approver&.nickname || 'Unknown'}: #{stat.count}"
+
+    - if @collections_stats.present?
+      .c-column
+        .subheadline Collections
+        ul.b-list.is-wide
+          - @collections_stats.each do |stat|
+            li = "#{stat.approver&.nickname || 'Unknown'}: #{stat.count}"
+
+    - if @articles_stats.present?
+      .c-column
+        .subheadline articles
+        ul.b-list.is-wide
+          - @articles_stats.each do |stat|
+            li = "#{stat.approver&.nickname || 'Unknown'}: #{stat.count}"

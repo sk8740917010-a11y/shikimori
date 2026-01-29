@@ -1,0 +1,14 @@
+.b-entry-info
+  = info_line t('.name') do
+    a href=contest_url(contest)
+      = localized_name contest
+
+  = info_line t('.members'), contest.members.size
+  = info_line t('.rounds'), contest.rounds.count
+
+  = info_line t('contests.menu.contest_type'), contest.strategy_type.text
+
+  = info_line t('.dates') do
+    | #{l contest.rounds.first.matches.first.started_on}
+    | &nbsp;&ndash;&nbsp;
+    | #{l contest.rounds.last.matches.last.finished_on}

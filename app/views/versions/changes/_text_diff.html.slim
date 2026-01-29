@@ -1,0 +1,37 @@
+- is_incomplete_date = field.in? Moderations::VersionsController::INCOMPLETE_DATE_FIELDS
+
+- computed_old_value = (local_assigns[:computed_new_value] || local_assigns[:computed_old_value]) ? local_assigns[:computed_old_value] : version.old_value(field)
+- computed_new_value = (local_assigns[:computed_new_value] || local_assigns[:computed_old_value]) ? local_assigns[:computed_new_value] : version.new_value(field)
+
+- old_value = is_incomplete_date ? IncompleteDate.new(computed_old_value).human(false) || '' : computed_old_value
+- new_value = is_incomplete_date ? IncompleteDate.new(computed_new_value).human(false) || '' : computed_new_value
+
+.field-changes class=field
+  - unless local_assigns[:only_one]
+    .field-name
+      = (local_assigns[:item_type] || version.item_type).constantize.human_attribute_name field
+
+  .changes
+    .change
+      .label #{t '.before'}:
+      - if field == 'image'
+        code.b-code_inline image
+      - elsif is_incomplete_date
+        = old_value
+      - else
+        == h(old_value).gsub("\n", "<br>")
+
+    .change
+      .label #{t '.after'}:
+      - if is_incomplete_date
+        = new_value
+      - else
+        == h(new_value).gsub("\n", "<br>")
+
+  - if computed_old_value.present? && computed_new_value.present?
+    .diff
+      .label Diff:
+      .value[
+        data-old_value=old_value
+        data-new_value=new_value
+      ]

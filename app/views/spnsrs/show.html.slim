@@ -1,0 +1,51 @@
+html
+  body style='margin: 0; padding: 0; overflow: hidden;'
+    = render 'fuckadblock'
+    // xss here because of direct insertion of params into JS
+    javascript:
+      function no_ad_loaded() {
+        window.parent.postMessage({
+            type: 'remove_ad',
+            ad_class: '#{params[:container_class]}'
+          },
+          location.protocol + '//' + location.hostname
+        );
+      };
+      function fuck_ad_block() {
+        console.warn('adblock detected');
+        no_ad_loaded();
+      }
+
+      fuckAdBlock
+        .setOption({loopCheckTime: 1000, checkOnLoad: false})
+        .onDetected(fuck_ad_block)
+        .check(true);
+
+    - if Rails.env.development? || Rails.env.test?
+      #placeholder style="box-sizing: border-box; width: #{params[:width]}px; height: #{params[:height]}px; background: #ddd; border: 1px solid #aaa;" &nbsp;
+      javascript:
+        document.getElementById('placeholder').addEventListener('click', function() {
+          no_ad_loaded();
+        });
+
+    - else
+      div id="advrtr_#{params[:id]}"
+      javascript:
+        (function(w, d, n) {
+          w[n] = w[n] || [];
+          w[n].push({
+            section_id: #{params[:id]},
+            place: "advrtr_#{params[:id]}",
+            width: #{params[:width]},
+            height: #{params[:height]}
+          });
+
+          t = d.getElementsByTagName("script")[0];
+          s = d.createElement("script");
+          s.type = "text/javascript";
+          s.src = location.protocol + "//ddnk.advertur.ru/v1/s/loader.js";
+          s.async = true;
+          s.onerror = function() { no_ad_loaded() }
+          t.parentNode.insertBefore(s, t);
+
+        })(window, document, 'advertur_sections');

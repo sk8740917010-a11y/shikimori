@@ -1,0 +1,42 @@
+- url = (entry.respond_to?(:url) ? entry.url : person_url(entry))
+- text = localized_name entry
+
+.b-db_entry-variant-list_item[
+  data-id=entry.id
+  data-text=text
+  data-type=(entry.is_a?(Character) ? 'character' : 'person')
+  data-url=url
+]
+  .image.linkeable.bubbled[
+    data-href=url
+    title=text
+  ]
+    = render 'db_entries/poster',
+      db_entry: entry,
+      poster: entry.poster,
+      derivative: :mini
+  .info
+    .name
+      a.b-link.bubbled[
+        href=url
+        title=text
+      ]
+        - if local_assigns[:is_search_russian].nil? || entry.russian.blank?
+          = localization_span entry
+        - else
+          | #{localization_span entry, is_search_russian: local_assigns[:is_search_russian]}
+          span.b-separator.inline
+           | /
+          | #{localization_span entry, is_search_russian: !local_assigns[:is_search_russian]}
+
+    - if entry.respond_to? :formatted_roles
+      - roles = entry.formatted_roles.split(',').map(&:strip)
+      .line.multiline
+        .key #{i18n_i('Role', roles.size > 1 ? :other : :one)}:
+        .value
+          - roles.each do |role|
+            .b-tag = role
+    - else
+      .line
+        .value
+          .b-tag = entry.job_title

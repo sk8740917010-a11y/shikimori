@@ -1,0 +1,32 @@
+en:
+  devise:
+    common: &common
+      forgot_password: Forgot your password?
+      sign_in: Log in to an existing account
+      sign_up: Create new account
+
+    registrations:
+      new:
+        <<: *common
+        title: Sign up
+        notice: On this page you are be able to register on the website.
+
+    sessions:
+      form:
+        <<: *common
+      new:
+        title: Sign in
+        notice: On this page you are be able to log in to the website.
+
+    social:
+      social_networks: Sign in through socials
+      twitter: Sign in with Twitter/X
+      facebook: Sign in with Facebook*
+      vkontakte: Sign in with vk.com
+
+  users:
+    passwords:
+      new:
+        <<: *common
+        title: Password recovery
+        notice: On this page you can start the password recovery procedure by entering your e-mail in the field below.

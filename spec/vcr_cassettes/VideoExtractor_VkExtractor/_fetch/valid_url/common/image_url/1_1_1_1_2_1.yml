@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.vk.com/method/video.get?access_token=USER_ACCESS_TOKEN_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&v=5.131&videos=98023184_165811692
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/39.0.2171.71 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - kittenx
+      Date:
+      - Sat, 04 Sep 2021 11:57:11 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - KPHP/7.4.108474
+      Set-Cookie:
+      - remixir=DELETED; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; domain=.vk.com;
+        secure; HttpOnly
+      Cache-Control:
+      - no-store
+      X-Frame-Options:
+      - DENY
+    body:
+      encoding: ASCII-8BIT
+      string: '{"response":{"count":1,"items":[{"can_comment":1,"can_like":1,"can_repost":1,"can_subscribe":1,"can_add_to_faves":1,"can_add":1,"comments":122,"date":1374189566,"description":"","duration":232,"image":[{"height":96,"url":"https:\/\/sun9-86.userapi.com\/c514511\/u98023184\/video\/s_297a36bb.jpg","width":130,"with_padding":1},{"height":120,"url":"https:\/\/sun9-45.userapi.com\/c514511\/u98023184\/video\/m_2a1f3fde.jpg","width":160,"with_padding":1},{"height":240,"url":"https:\/\/sun9-24.userapi.com\/c514511\/u98023184\/video\/l_81cce630.jpg","width":320,"with_padding":1}],"width":960,"height":720,"id":165811692,"owner_id":98023184,"title":"SAO
+        AMV Sword Art Online (skillet-rise)","is_favorite":false,"player":"https:\/\/vk.com\/video_ext.php?oid=98023184&id=165811692&hash=6d9a4c5f93270892&__ref=vk.api&api_hash=16307566311b307a5748be26689f_GEZTMOBVGIZTS","type":"video","views":10667}]}}'
+  recorded_at: Sat, 04 Sep 2021 11:57:11 GMT
+recorded_with: VCR 6.0.0

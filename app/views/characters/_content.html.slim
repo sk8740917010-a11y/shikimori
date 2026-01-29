@@ -1,0 +1,42 @@
+.b-catalog_entry-tooltip
+  .entry-tooltip_container
+    - if defined?(with_image) && with_image
+      a href=character_url(character) title=character.name
+        = render 'db_entries/poster',
+          db_entry: character,
+          poster: character.poster,
+          derivative: :preview
+
+    .inner
+      .line itemprop='name'
+        - if !defined?(cover_by) || cover_by != :link
+          a.data.name[
+            href=character_url(character)
+            title=character.name
+            itemprop='name'
+          ] = localization_span character
+
+        - else
+          .linkeable.name[
+            data-href=character_url(character)
+            data-title=character.name
+          ] = localization_span character
+
+      - if character.best_works.any?
+        .additional-images
+          .link
+            .title = character.best_works.first.object.class.model_name.human
+            = render character.best_works.first,
+              cover_by: :image_link,
+              cover_derivative: :mini
+
+          - if character.top_seyu.any?
+            .link
+              .title = t 'seyu'
+              = render character.top_seyu.first,
+                cover_by: :image_link,
+                cover_title: :none,
+                cover_derivative: :mini
+
+      .text itemprop='description'
+        = character.decorate.description_html_truncated 250

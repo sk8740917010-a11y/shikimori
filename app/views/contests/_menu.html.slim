@@ -1,0 +1,63 @@
+.b-contests-menu
+  - if user_signed_in?
+    .block.actions.r-iphone
+      .subheadline.m5 = t 'actions.actions'
+      ul.b-block_list
+        - if can?(:edit, resource) && resource.persisted?
+          li.edit-entry
+            a href=edit_contest_url(resource) = t '.edit_contest'
+
+  .block
+    .subheadline.m5 = t '.contest_status'
+    p = resource.status
+    - if (resource.finished? && !resource.showing_results?) || params[:controller] != 'contests'
+      a.results href=contest_url(resource) title=t('.contest_results')
+        = "#{t '.to_results'} →"
+
+  .block
+    .subheadline.m5 = t '.contest_type'
+    p = resource.strategy_type.text
+
+  = render 'spnsrs/ad', ad: Ad.new(:menu_240x400)
+
+  - cache resource do
+    - if resource.uniq_voters_count > 0
+      .block
+        .subheadline.m5 = t '.voters'
+        p #{resource.uniq_voters_count} #{i18n_i 'site_user', resource.uniq_voters_count}
+
+    - unless resource.proposing?
+      .block
+        .b-options-floated.count
+          = resource.members.size
+        .subheadline = t '.candidates'
+        .cc-4a.user_rates-minified
+          - if resource.anime?
+            = render partial: 'animes/anime',
+              collection: resource.members,
+              locals: { cover_by: :image_link, cover_derivative: :mini },
+              cached: ->(entry) { cache_keys entry, :image_link, :mini }
+          - else
+            = render partial: 'characters/character',
+              collection: resource.members,
+              locals: { cover_by: :image_link, cover_derivative: :mini },
+              cached: ->(entry) { cache_keys entry, :image_link, :mini }
+
+    - unless resource.proposing? || resource.swiss?
+      .block.grid
+        .subheadline.m5 = t 'tournament_bracket'
+        a[
+          href=grid_contest_url(resource)
+          title=t('tournament_bracket')
+        ] = "#{t 'goto'} →"
+
+  - if show_social?
+    .menu-right
+      .subheadline.m15 = t 'share'
+      .block.addthis_toolbox.addthis_default_style.addthis_32x32_style
+        a.addthis_button_vk
+        a.addthis_button_facebook
+        a.addthis_button_twitter
+        a.addthis_button_google_plusone_share
+        a.addthis_button_odnoklassniki_ru
+        a.addthis_button_compact

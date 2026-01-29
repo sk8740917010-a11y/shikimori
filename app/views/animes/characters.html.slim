@@ -1,0 +1,19 @@
+= render layout: 'page' do
+  = cache [@resource, params[:action], :v2] do
+    - if @resource.roles.main_characters.any?
+      - if @resource.roles.supporting_characters.any?
+        h2.subheadline = t '.main_characters'
+      - else
+        h2.subheadline = t '.characters'
+
+      .cc-characters
+        = render @resource.roles.main_characters
+
+    - if @resource.roles.supporting_characters.any?
+      - if @resource.roles.main_characters.any?
+        h2.subheadline = t '.supporting_characters'
+      - else
+        h2.subheadline = t '.characters'
+
+      .cc-characters
+        = render @resource.roles.supporting_characters

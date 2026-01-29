@@ -1,0 +1,71 @@
+header.head.misc
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+- if @resource.errors.any?
+  .b-errors
+    .subheadline.m5 = i18n_i 'error', :other
+    == @resource.errors.full_messages.join('<br>')
+
+= simple_form_for @resource do |f|
+  .subheadline.m5 = t :settings
+  .block
+    = f.input :user_id, as: :hidden
+    .attachments-submit-container.hidden
+    = f.input :name,
+      input_html: { class: 'w-100' }
+
+    .b-input
+      .fc-2
+        .f-column
+          = f.input :tags,
+            input_html: { value: f.object.tags&.join(','), class: 'w-100' },
+            as: :string
+          #vue_tags_input[
+            data-value=f.object.tags
+            data-autocomplete_basic=(can?(:pin, f.object) ? Topics::TagsQuery::BASIC_TAGS_WITH_PROMO : Topics::TagsQuery::BASIC_TAGS)
+            data-autocomplete_other=Topics::TagsQuery.call
+          ]
+        .f-column
+          = render 'topics/form/video', topic: f.object, f: f
+
+    = render 'topics/form/posters', topic: f.object, f: f
+
+    = render 'blocks/shiki_editor',
+      text: @resource.decomposed_body.text,
+      field_name: 'article[body]',
+      size: 'xl',
+      no_preview_avatar: true,
+      is_text_with_paragraphs: true,
+      cache_key: @resource.cache_key
+
+    - if @resource.persisted?
+      = f.input :state,
+        include_blank: false,
+        disabled: @resource.published?,
+        hint: t(".hint.#{@resource.state}").html_safe
+
+      - if @resource.unpublished?
+        .b-input
+          a.b-button.blue[
+            target='_blank'
+            href=article_url(@resource)
+          ] = t 'actions.preview'
+
+    - else
+      .buttons
+        a.cancel href=articles_url = t 'actions.cancel'
+        = f.button :magic_submit
+
+  - if @resource.persisted?
+    .block
+      .buttons
+        a.cancel href=articles_url = t 'actions.cancel'
+        = f.button :magic_submit
+
+      a.remove[
+        href=article_url(@resource)
+        title=t('actions.delete')
+        data-method='delete'
+        data-confirm=t('actions.confirm')
+      ] = t 'actions.delete'

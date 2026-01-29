@@ -1,0 +1,56 @@
+.contest_round[
+  data-model=ContestRoundSerializer.new(contest.displayed_round).to_json
+  data-match_id=params[:match_id]
+]
+  /- if contest.description.present?
+    /.comment-block.contest-description
+      /.description
+        /= contest.description
+
+  .b-options-floated
+    - contest.nearby_rounds.each do |round|
+      span.linkeable[
+        data-href=round_contest_url(contest, round: round)
+        title=round.title
+      ] = round.title
+
+  .subheadline.m30
+    = contest.displayed_round.title
+
+  .match-container.block.b-ajax
+    .b-contest_match
+
+  - cache [contest.displayed_round, :v3] do
+    .cc-round_stats
+      - if contest.displayed_round.finished?
+        .c-column
+          = render 'rating',
+            contest: contest,
+            round: contest.displayed_round
+
+      .c-column
+        .b-options-floated
+          span = contest.displayed_round.title
+        .subheadline.m5 = t '.in_this_round'
+        .block
+          = render 'contest_matches/match_days',
+            contest: contest,
+            matches: contest.grouped_matches(contest.displayed_round)
+
+  - if contest.displayed_round.number > 1 && contest.prior_round.finished?
+    - cache [contest.prior_round, :v3] do
+      .cc-round_stats
+        .c-column
+          = render 'rating', contest: contest, round: contest.prior_round
+
+        .c-column
+          .b-options-floated
+            span.linkeable[
+              data-href=round_contest_url(contest, round: contest.prior_round)
+              title=contest.prior_round.title
+            ] = contest.prior_round.title
+          .subheadline.m5 = t '.in_previous_round'
+          .block
+            = render 'contest_matches/match_days',
+              contest: contest,
+              matches: contest.grouped_matches(contest.prior_round)

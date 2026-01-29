@@ -1,0 +1,10 @@
+.spoiler.collapse style="display: none;"
+  span.action.half-hidden style="display: none;" = t '.expand'
+  /span.action развернуть
+.collapsed.spoiler style="display: #{display};"
+  = title
+.spoiler.target style="display: none;"
+  = body
+  span[
+    prevent-last-child-style-for-previous-element
+  ]

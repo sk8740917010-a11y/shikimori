@@ -1,0 +1,29 @@
+.b-animes-menu
+  - if @itemtype
+    = render 'spnsrs/ad', ad: Ad.new(:menu_240x400)
+  - else
+    .b-menu_logo
+      a[
+        href=resource.url
+        title=localized_name(resource)
+      ]
+        = render 'db_entries/poster',
+          db_entry: resource,
+          poster: resource.poster,
+          derivative: :main
+
+  - cache [resource, resource.clubs_scope.cache_key, resource.collections_scope, resource.favourites_scope, resource.news_topic_scope] do
+    = render 'db_entries/menu/favoured',
+      resource: resource,
+      url: favoured_character_url(resource)
+    = render 'db_entries/menu/clubs',
+      resource: resource,
+      url: clubs_character_url(resource)
+    = render 'db_entries/menu/collections',
+      resource: resource,
+      url: collections_character_url(resource)
+    = render 'db_entries/menu/news_topics',
+      resource: resource
+
+  - unless @itemtype
+    = render 'spnsrs/ad', ad: Ad.new(:menu_240x400)

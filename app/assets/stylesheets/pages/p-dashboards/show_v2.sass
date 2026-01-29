@@ -1,0 +1,293 @@
+@import layouts/l-page
+@import mixins/block
+@import mixins/clearfix
+@import mixins/ellipsis2
+@import mixins/flex_column
+@import mixins/link
+@import mixins/responsive
+@import mixins/font_shikimori
+
+=tag($color, $background, $border)
+  color: $color
+  background-color: $background
+  border: 1px solid $border
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease
+
+  +gte_laptop
+    &:hover
+      color: darken($color, 4%)
+      background-color: darken($background, 3%)
+      border-color: darken($border, 3%)
+
+=slider_column($columns, $gutter, $is_mobile)
+  $container-outer-padding: 0px
+
+  @if $is_mobile
+    $container-outer-padding: $l-page-mobile-padding
+  @else
+    $container-outer-padding: $l-page-desktop-padding
+
+  flex-shrink: 0
+  margin-left: 0
+  margin-right: $gutter
+  margin-top: 0px !important // overriders margin-top set by swiper
+  width: calc(#{100vw / $columns} - #{$gutter} - #{$container-outer-padding * 2 / $columns - $gutter / $columns})
+
+  &:last-child
+    margin-right: 0
+
+.p-dashboards-show .v2
+  +gte_ipad
+    padding-top: 5px
+
+  .fc-ongoings
+    overflow: hidden
+    position: relative
+
+    +iphone
+      .mobile-slider-prev:before,
+      .mobile-slider-next:before
+        max-height: 80%
+
+    .inner
+      +fcolumn-responsive($columns: 1, $laptop-columns: 7, $desktop-columns: 8, $gutter-laptop: 12px, $gutter-desktop: 15px, $selector: '.b-catalog_entry')
+
+      +lte_ipad
+        flex-wrap: nowrap
+        margin-left: 0
+
+      +gte_laptop
+        margin-left: -15.08px // костыль для firefox 125 https://shikimori.one/comments/10639462
+
+      .b-catalog_entry
+        +iphone-portrait
+          +slider-column(3, 12px, true)
+
+        +iphone-landscape
+          +slider-column(4, 12px, true)
+
+        +ipad
+          +slider-column(5, 12px, true)
+
+        +laptop
+          &:nth-child(8)
+            display: none
+
+  .fc-user-sections
+    +gte_ipad
+      display: flex
+
+    .f-user
+      +iphone
+        +block2
+        min-height: 121px
+
+      +gte_ipad
+        width: 270px
+        margin-right: 30px
+
+      p.auth-alert
+        color: $red
+        font-size: 16px
+        padding: 20px 0
+
+    .f-sections
+      +gte_ipad
+        width: calc(100% - 300px)
+
+      .fc-headlines,
+      .fc-tags
+        display: flex
+
+        +iphone-portrait
+          margin-left: -10px
+
+        +iphone-landscape-ipad
+          margin-left: -15px
+
+        +gte_laptop
+          margin-left: -30px
+
+      .fc-headlines .f-headline
+        +iphone-portrait
+          margin-left: 10px
+          width: calc(33% - 10px)
+
+        +iphone-landscape-ipad
+          margin-left: 15px
+          width: calc(33% - 15px)
+
+      .fc-tags
+        +lte_ipad
+          +clearfix
+          display: inline-block
+          margin: -8px 0 0 -10px
+
+          .f-tags
+            display: inline
+
+      .fc-headlines .f-headline,
+      .fc-tags .f-tags
+        +gte_laptop
+          margin-left: 30px
+
+        +laptop
+          &:not(:last-child)
+            width: calc(38% - 30px)
+
+          &:last-child
+            width: calc(23% - 30px)
+
+        +gte_desktop
+          width: calc(33% - 30px)
+
+    +iphone-portrait
+      .midheadline
+        padding: 0 8px 0 9px
+
+        & > a
+          padding-right: 5px
+          font-size: 14px
+
+          &:before
+            right: 10px
+
+    .f-tags.manga-tags
+      +iphone-portrait
+        .doujin
+          display: none
+
+      +ipad
+        .doujin,
+        .one_shot
+          display: none
+
+    .f-tags.ranobe-tags
+      +gte_ipad
+        display: flex
+        flex-direction: column
+
+      .forum-container
+        margin-top: auto
+
+        +iphone
+          clear: left
+          margin-left: 8px
+          padding-top: $block-offset
+          margin-bottom: -13px
+
+        +iphone-landscape-ipad
+          width: 50%
+
+        +ipad
+          clear: left
+          padding-bottom: 12px
+          padding-top: 30px
+          position: relative
+          width: 100%
+
+        .b-link_button
+          min-width: 0
+
+          +iphone
+            margin-bottom: -15px
+
+          +ipad
+            position: absolute
+            right: 0
+            width: 224px
+
+          +gte_laptop
+            max-width: 150px
+
+    .tags
+      +gte_laptop
+        margin: -8px 0 0 -10px
+
+    .tag-link
+      border-radius: 3px
+      display: inline-block
+      font-family: var(--font-alt)
+      font-size: 12px
+      line-height: 21px
+      margin: 8px 0 0 10px
+      padding: 0 10px
+
+      @media screen and (max-width: 320px)
+        font-size: 11px
+
+      +lte_ipad
+        float: left
+
+      &.anime-tag
+        +tag(hsl(357, 96%, 66%), hsl(365, 94%, 96%), hsl(365, 94%, 94%))
+
+      &.manga-tag
+        +tag(hsl(195, 71%, 65%), hsl(193, 94%, 96%), hsl(193, 94%, 94%))
+
+      &.ranobe-tag
+        +tag(hsl(92, 75%, 44%), hsl(100, 94%, 96%), hsl(100, 94%, 90%))
+
+      &:before
+        content: '#'
+        padding-right: 1px
+
+  .headline
+    // headline must be upper to flex container with negative margins below
+    position: relative
+    z-index: 1
+
+    .buttons
+      margin-left: auto
+
+      .options
+        +link_color(#4bf)
+        cursor: pointer
+
+        &:before
+          +font_shikimori('\e84e')
+          font-size: 18px
+
+  .headline.magenta a
+    +link_color(#f477ad)
+
+  .b-admin_panel
+    margin-top: -25px
+
+  .create-topic
+    +iphone
+      min-width: 30px
+      margin-top: 5px
+
+      &:before
+        padding-right: 0
+
+      span
+        display: none
+
+    +ipad
+      margin-top: 5px
+
+    +gte_ipad
+      &:before
+        font-size: 12px
+        padding-right: 6px
+
+    +gte_laptop
+      margin-top: 2px
+
+  .news_wall
+    +fcolumn-responsive($ipad-columns: 2, $laptop-columns: 3, $offset-mobile: 40px, $offset-desktop: 48px, $selector: '.b-news_wall-topic, .b-postloader')
+
+    &.latest-news
+      +lte_ipad
+        .b-news_wall-topic:last-child
+          display: none
+
+    &.other-news
+      +gte_laptop
+        .b-news_wall-topic:first-child
+          display: none
+
+    .b-postloader
+      width: 100%

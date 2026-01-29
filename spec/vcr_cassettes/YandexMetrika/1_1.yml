@@ -1,0 +1,483 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-03-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2021-12-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:19:46 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node01uvx1t2eqefstj0qma3tm9n9r12572439.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2021-12-29&endDate=2022-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2021-12-29&endDate=2022-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"1592989","sampleSpace":"15929893","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2021-12-29","end-date":"2022-03-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":91,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"5271740","ga:sessions":"15864510","ga:pageviews":"91369590"},"rows":[["20211229","103760","148910","903050"],["20211230","100870","144640","844760"],["20211231","87340","126830","720520"],["20220101","108480","155280","956060"],["20220102","124930","178320","1164370"],["20220103","136240","190610","1169650"],["20220104","137330","191220","1178220"],["20220105","129520","179890","1090850"],["20220106","124510","176070","1045580"],["20220107","119370","171180","1066590"],["20220108","128870","184980","1140670"],["20220109","141830","205610","1242400"],["20220110","138690","197710","1184830"],["20220111","131210","188530","1098700"],["20220112","122690","178750","1077820"],["20220113","119900","174240","1003230"],["20220114","120600","173230","1062800"],["20220115","128500","186660","1188590"],["20220116","138930","201400","1207160"],["20220117","127540","182450","1076190"],["20220118","120050","171740","981970"],["20220119","119400","171630","1006050"],["20220120","118740","171220","997910"],["20220121","122960","176190","975520"],["20220122","134020","191250","1110440"],["20220123","140580","203030","1153160"],["20220124","128880","185600","1068870"],["20220125","120010","171830","970540"],["20220126","121180","175900","986970"],["20220127","121470","173950","989680"],["20220128","119730","172700","1007440"],["20220129","128910","187630","1071850"],["20220130","138480","200010","1163840"],["20220131","133740","189760","1020110"],["20220201","126790","182540","1019450"],["20220202","128270","184390","1061690"],["20220203","126070","179870","1028840"],["20220204","126780","179730","1031730"],["20220205","133220","186600","1089970"],["20220206","139490","197800","1122340"],["20220207","132520","187900","1042380"],["20220208","127700","180980","1038550"],["20220209","129680","183050","1025810"],["20220210","126480","178760","998080"],["20220211","125270","176470","989890"],["20220212","132910","189040","1102660"],["20220213","144120","206300","1214010"],["20220214","132090","187710","1045000"],["20220215","125450","179710","1013980"],["20220216","117030","166820","931270"],["20220217","114180","164980","936490"],["20220218","114180","162650","877140"],["20220219","122250","175360","991350"],["20220220","133460","192950","1091010"],["20220221","118320","169910","938140"],["20220222","115710","166310","935330"],["20220223","124080","180690","992720"],["20220224","100880","145440","773720"],["20220225","102290","144760","805940"],["20220226","108670","155950","877620"],["20220227","118170","167400","904150"],["20220228","107750","153550","820330"],["20220301","100480","143410","797720"],["20220302","103760","147850","826540"],["20220303","102140","145650","803500"],["20220304","103310","145810","809880"],["20220305","109160","155260","840950"],["20220306","120840","175240","969210"],["20220307","124190","178410","1043160"],["20220308","118730","172150","993060"],["20220309","107970","154880","867540"],["20220310","102870","148630","867920"],["20220311","104820","150660","872350"],["20220312","117850","170350","993860"],["20220313","124090","179730","1076810"],["20220314","113380","161460","899870"],["20220315","107150","153070","867260"],["20220316","109760","154190","881150"],["20220317","106290","151490","863830"],["20220318","108090","153440","845150"],["20220319","114590","165830","925070"],["20220320","124930","181690","1006020"],["20220321","117630","168490","984550"],["20220322","115260","164170","945220"],["20220323","116770","166960","1012330"],["20220324","122950","172870","1050830"],["20220325","127870","177640","988990"],["20220326","142320","198020","1154680"],["20220327","170800","232990","1324900"],["20220328","143250","197080","1131360"],["20220329","137950","190520","1099900"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-03-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2021-12-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:19:58 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0170accuiy0pcifmmku9hfxlsu12572839.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2021-12-29&endDate=2022-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2021-12-29&endDate=2022-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":false,"sampleSize":"0","sampleSpace":"0","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2021-12-29","end-date":"2022-03-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":0,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"0","ga:sessions":"0","ga:pageviews":"0"},"rows":[]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-06-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-03-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:19:58 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0naa2yq3ygx9611ifiwbftwg7n12572841.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-03-29&endDate=2022-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-03-29&endDate=2022-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"905593","sampleSpace":"90559336","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-03-29","end-date":"2022-06-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":93,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"5459800","ga:sessions":"16596700","ga:pageviews":"94639400"},"rows":[["20220329","137800","191800","961600"],["20220330","134200","183900","978000"],["20220331","128200","184500","887400"],["20220401","134000","188600","1162000"],["20220402","152200","210800","1159300"],["20220403","157800","226300","1240900"],["20220404","132600","195200","1129500"],["20220405","128300","184100","1072000"],["20220406","123100","180500","1033000"],["20220407","120400","176700","945500"],["20220408","123300","179000","1023800"],["20220409","133400","191900","1041500"],["20220410","134800","198300","1230700"],["20220411","128500","192000","1049000"],["20220412","129400","185200","1006200"],["20220413","120600","180100","1007500"],["20220414","126700","185700","1090000"],["20220415","118900","168900","902900"],["20220416","121400","176800","1071400"],["20220417","133500","197700","1286600"],["20220418","127000","184800","1107900"],["20220419","118500","176600","1042100"],["20220420","113700","168600","997800"],["20220421","110700","163800","1035000"],["20220422","111300","163700","918600"],["20220423","121400","177700","1068600"],["20220424","128500","193200","1127800"],["20220425","119200","173000","992300"],["20220426","119400","168700","1072800"],["20220427","114200","172900","1093500"],["20220428","118500","167900","1050200"],["20220429","110000","156800","886700"],["20220430","122300","173900","903600"],["20220501","125600","177700","876900"],["20220502","123600","178500","1068600"],["20220503","128900","185800","1014400"],["20220504","114300","164400","829300"],["20220505","115500","164200","904800"],["20220506","114600","163900","902500"],["20220507","116200","171900","1009700"],["20220508","118900","177800","973700"],["20220509","124900","183200","1108700"],["20220510","125200","183600","974900"],["20220511","109100","160100","899900"],["20220512","116400","167500","962900"],["20220513","118600","166300","892400"],["20220514","129400","183600","991700"],["20220515","128000","188400","970200"],["20220516","116100","166900","932600"],["20220517","119000","172200","975500"],["20220518","112200","161400","781800"],["20220519","110900","158100","850400"],["20220520","115000","162300","866700"],["20220521","118200","168300","864100"],["20220522","122500","176900","1035200"],["20220523","122900","171500","847400"],["20220524","119900","174000","945200"],["20220525","119200","160500","899000"],["20220526","120800","169300","998700"],["20220527","118200","163800","1072700"],["20220528","125900","180400","1116100"],["20220529","135000","188000","1178000"],["20220530","126900","174700","944500"],["20220531","121500","169200","834400"],["20220601","122100","168700","956200"],["20220602","119300","171100","947100"],["20220603","120900","168800","838900"],["20220604","130000","178500","1005400"],["20220605","134600","193000","1058800"],["20220606","123800","176300","1014300"],["20220607","127300","178100","1001400"],["20220608","123200","171700","1104800"],["20220609","117300","167900","1032700"],["20220610","121100","167600","953100"],["20220611","123400","180400","1019800"],["20220612","136200","192900","1129700"],["20220613","136200","193200","995400"],["20220614","129700","184100","972100"],["20220615","123200","176200","1112000"],["20220616","124200","175500","1065800"],["20220617","124200","181800","1054700"],["20220618","128200","182200","968800"],["20220619","134000","190800","1089500"],["20220620","131000","183400","1079800"],["20220621","130700","184400","995900"],["20220622","125300","180800","1234200"],["20220623","128700","183800","952100"],["20220624","124500","183100","1127500"],["20220625","124900","180000","1088700"],["20220626","132300","194000","1263100"],["20220627","128100","187300","1191100"],["20220628","131600","188800","1130800"],["20220629","125900","178300","1157100"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-06-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-03-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:19:59 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0ypgw6e9btcd018pmsn1szccxi7714458.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-03-29&endDate=2022-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-03-29&endDate=2022-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":false,"sampleSize":"0","sampleSpace":"0","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-03-29","end-date":"2022-06-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":0,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"0","ga:sessions":"0","ga:pageviews":"0"},"rows":[]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-09-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-06-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:19:59 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0f1riurt5z406b4t5hj4a550n12572865.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-06-29&endDate=2022-09-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-06-29&endDate=2022-09-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"1753972","sampleSpace":"17539719","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-06-29","end-date":"2022-09-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":93,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"5411220","ga:sessions":"16663390","ga:pageviews":"100688300"},"rows":[["20220629","125470","177850","1112120"],["20220630","122760","175350","1078210"],["20220701","110700","158200","918840"],["20220702","122310","178070","1122190"],["20220703","128010","186440","1207000"],["20220704","135260","193990","1243280"],["20220705","135140","196180","1191400"],["20220706","130590","187800","1185160"],["20220707","130070","188010","1233940"],["20220708","123920","182450","1117070"],["20220709","127250","186980","1150100"],["20220710","135330","198920","1249090"],["20220711","136340","198070","1211000"],["20220712","130330","191810","1190410"],["20220713","127060","185310","1147910"],["20220714","125760","182070","1117070"],["20220715","122310","177960","1113170"],["20220716","119290","173060","1059030"],["20220717","125240","183090","1132000"],["20220718","125470","181080","1086670"],["20220719","128680","182500","1129350"],["20220720","126860","180850","1083560"],["20220721","125250","177060","1079880"],["20220722","121080","172620","1072490"],["20220723","119050","172300","1018520"],["20220724","125770","183150","1144100"],["20220725","130190","187660","1104830"],["20220726","124730","180820","1131720"],["20220727","123280","178330","1089130"],["20220728","124820","180500","1092250"],["20220729","119420","173950","1107320"],["20220730","119600","174150","1077620"],["20220731","125290","182410","1123170"],["20220801","124180","180270","1069180"],["20220802","122580","176390","1049610"],["20220803","122140","176020","1105170"],["20220804","121680","175430","1036100"],["20220805","125370","180060","1142900"],["20220806","127630","183970","1117770"],["20220807","132440","189420","1201360"],["20220808","130690","184820","1170560"],["20220809","129040","185740","1181050"],["20220810","132580","188850","1130440"],["20220811","122780","175540","1067740"],["20220812","123790","176350","1031510"],["20220813","124520","178830","1067250"],["20220814","131130","188960","1152060"],["20220815","129170","183610","1085790"],["20220816","128410","182050","1083200"],["20220817","128660","181380","1065780"],["20220818","129580","185320","1101410"],["20220819","129000","183640","1128220"],["20220820","127580","182370","1102820"],["20220821","131140","189130","1162220"],["20220822","130040","185340","1144310"],["20220823","126760","180490","1062190"],["20220824","124970","174940","1001170"],["20220825","124610","174400","1037530"],["20220826","123770","175900","1068340"],["20220827","124410","175090","1048510"],["20220828","127640","183610","1124300"],["20220829","126700","181990","1100080"],["20220830","126480","181180","1064990"],["20220831","123810","177610","1039570"],["20220901","117980","168510","943210"],["20220902","117140","164610","922780"],["20220903","123210","173670","1016970"],["20220904","127110","182050","1093030"],["20220905","114640","162070","955050"],["20220906","112680","160030","957670"],["20220907","112800","160150","918020"],["20220908","111380","156680","945220"],["20220909","115040","160800","913070"],["20220910","120980","171250","1007700"],["20220911","129870","184780","1093360"],["20220912","116520","165120","933600"],["20220913","119350","169440","940010"],["20220914","115930","166230","1006740"],["20220915","115390","164170","973630"],["20220916","133290","185560","1027290"],["20220917","133310","189380","1102150"],["20220918","140470","202620","1200500"],["20220919","132780","188440","1117260"],["20220920","121770","174190","1027310"],["20220921","112570","162680","932990"],["20220922","116020","167470","955110"],["20220923","115750","165770","974540"],["20220924","130130","189320","1190330"],["20220925","136740","200390","1267820"],["20220926","123630","179920","1127330"],["20220927","121020","174760","1040400"],["20220928","121010","173960","1043590"],["20220929","121000","171680","998890"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-09-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-06-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:01 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node01pa8sr83e6ztx13dq9i5nytlls12572908.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-06-29&endDate=2022-09-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-06-29&endDate=2022-09-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":false,"sampleSize":"0","sampleSpace":"0","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-06-29","end-date":"2022-09-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":0,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"0","ga:sessions":"0","ga:pageviews":"0"},"rows":[]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-12-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-09-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:01 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0p8ag2z8jay5y1os7nwp3r1cyy12572913.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-09-29&endDate=2022-12-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-09-29&endDate=2022-12-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"1663242","sampleSpace":"16632420","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-09-29","end-date":"2022-12-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":92,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"5526070","ga:sessions":"16536240","ga:pageviews":"99121340"},"rows":[["20220929","121000","171680","998890"],["20220930","118810","170060","997230"],["20221001","134730","192950","1241640"],["20221002","142650","207330","1257080"],["20221003","127300","183880","1143540"],["20221004","123260","178840","1107220"],["20221005","123310","176660","1094640"],["20221006","122160","175660","1046590"],["20221007","124100","176940","1103100"],["20221008","131150","187550","1115840"],["20221009","138810","201810","1268850"],["20221010","125330","180530","1095720"],["20221011","129410","189370","1178860"],["20221012","130670","191710","1231490"],["20221013","123260","180240","1087970"],["20221014","123570","177450","1038760"],["20221015","130570","188410","1134000"],["20221016","138780","201010","1279840"],["20221017","123790","176890","1045420"],["20221018","123220","179530","1144260"],["20221019","116280","167270","1012030"],["20221020","122160","174990","1034430"],["20221021","114170","161270","969200"],["20221022","129020","184310","1179620"],["20221023","140810","201300","1218190"],["20221024","122500","172560","1012020"],["20221025","113690","162950","960320"],["20221026","117780","170570","1014150"],["20221027","116160","165190","962280"],["20221028","121700","171110","992140"],["20221029","128050","182380","1109050"],["20221030","138610","197900","1202210"],["20221031","135650","190210","1111750"],["20221101","127080","181310","1068610"],["20221102","124120","174080","998600"],["20221103","124940","175500","1000060"],["20221104","127740","180520","1051630"],["20221105","134360","190280","1167670"],["20221106","138870","197940","1226400"],["20221107","127330","179120","1080230"],["20221108","122520","173490","1037900"],["20221109","119190","169280","998420"],["20221110","119020","167390","971890"],["20221111","117510","164680","928690"],["20221112","127720","181170","1055210"],["20221113","134570","193390","1200820"],["20221114","122620","173500","975450"],["20221115","116570","166230","923740"],["20221116","113670","162800","951840"],["20221117","118210","168060","1002200"],["20221118","119870","166300","966840"],["20221119","128760","180510","1069180"],["20221120","114330","159210","999000"],["20221121","122420","173620","1022720"],["20221122","151330","199980","1036580"],["20221123","118670","166410","968040"],["20221124","119180","167790","975220"],["20221125","122690","172050","1077180"],["20221126","130420","185600","1146940"],["20221127","139090","198740","1191940"],["20221128","126390","178440","1072450"],["20221129","124450","175940","1035500"],["20221130","123030","174080","1074690"],["20221201","133030","185900","1108050"],["20221202","135990","184740","1043970"],["20221203","136230","192300","1171640"],["20221204","143370","205550","1240860"],["20221205","127110","179150","1043460"],["20221206","123420","173510","1076960"],["20221207","121330","171730","1001330"],["20221208","120580","170910","999840"],["20221209","117020","164850","989300"],["20221210","128190","183060","1117720"],["20221211","138810","198630","1239370"],["20221212","126880","178030","1073870"],["20221213","121440","172340","1031030"],["20221214","120360","170850","994420"],["20221215","118120","169040","977150"],["20221216","119340","167780","978310"],["20221217","131930","187210","1127780"],["20221218","136890","195600","1182660"],["20221219","124080","174870","1037820"],["20221220","122240","174580","1010590"],["20221221","120480","171710","1067890"],["20221222","118430","172150","1091870"],["20221223","122330","173530","1043450"],["20221224","130780","188890","1141030"],["20221225","137220","201450","1234730"],["20221226","131460","188090","1091390"],["20221227","127870","184450","1112820"],["20221228","128910","187830","1141780"],["20221229","125420","179590","1086280"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2022-12-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-09-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:03 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node013pvx6lihkh4ieoswzj7iapw57714585.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-09-29&endDate=2022-12-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-09-29&endDate=2022-12-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":false,"sampleSize":"0","sampleSpace":"0","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-09-29","end-date":"2022-12-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":0,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"0","ga:sessions":"0","ga:pageviews":"0"},"rows":[]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2023-03-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-12-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:03 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0iii60zqb37711ut5hveig7zwx7714588.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-12-29&endDate=2023-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-12-29&endDate=2023-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"1784498","sampleSpace":"17844975","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-12-29","end-date":"2023-03-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":91,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"5902790","ga:sessions":"17750870","ga:pageviews":"108743920"},"rows":[["20221229","125420","179590","1086280"],["20221230","120660","173120","1118520"],["20221231","108370","156590","924000"],["20230101","130490","187360","1125070"],["20230102","152000","217150","1392730"],["20230103","149820","214480","1384550"],["20230104","151010","217590","1384110"],["20230105","151970","219120","1378210"],["20230106","152370","218400","1427400"],["20230107","158090","229080","1632300"],["20230108","163480","236290","1513460"],["20230109","152100","219420","1400120"],["20230110","146590","211350","1321400"],["20230111","142050","205580","1258270"],["20230112","141490","204390","1261750"],["20230113","138250","200070","1241550"],["20230114","146450","211170","1236920"],["20230115","151850","221570","1343790"],["20230116","135380","193940","1143490"],["20230117","134960","191710","1092850"],["20230118","133540","191380","1143600"],["20230119","131750","188830","1161890"],["20230120","133630","190760","1213920"],["20230121","142770","203800","1251860"],["20230122","149250","214950","1321970"],["20230123","132530","191070","1194210"],["20230124","128790","187350","1181500"],["20230125","126080","182990","1140190"],["20230126","126870","183050","1112570"],["20230127","129770","185460","1058440"],["20230128","118570","164970","992880"],["20230129","141910","206260","1320320"],["20230130","133360","191570","1247990"],["20230131","130870","189040","1199630"],["20230201","131170","188010","1199710"],["20230202","108320","152530","1002720"],["20230203","129530","186810","1231330"],["20230204","140650","202270","1286310"],["20230205","146150","213390","1395650"],["20230206","133080","189410","1146150"],["20230207","129950","185590","1123710"],["20230208","129600","185830","1163400"],["20230209","130020","184960","1118590"],["20230210","125900","179440","1068320"],["20230211","138550","198080","1247340"],["20230212","141510","204000","1221400"],["20230213","127270","182330","1091600"],["20230214","123120","176220","1077350"],["20230215","124060","178600","1107380"],["20230216","129980","184470","1132990"],["20230217","130010","184330","1116990"],["20230218","140320","202870","1241340"],["20230219","148370","213560","1319930"],["20230220","133940","189300","1078800"],["20230221","126830","179930","1017770"],["20230222","125760","176900","1050050"],["20230223","135350","192620","1160870"],["20230224","139340","198860","1190090"],["20230225","142430","202080","1221540"],["20230226","145540","208950","1250220"],["20230227","133680","190870","1152500"],["20230228","127000","180220","1022380"],["20230301","125930","176560","1026240"],["20230302","123880","175140","1053790"],["20230303","128530","182660","1011150"],["20230304","139310","202660","1238510"],["20230305","145490","211930","1320760"],["20230306","130460","188010","1107040"],["20230307","129160","183620","1067590"],["20230308","134060","194970","1154160"],["20230309","132830","189390","1119330"],["20230310","131770","185580","1065220"],["20230311","139010","198640","1204760"],["20230312","149380","214420","1325740"],["20230313","133850","189490","1130600"],["20230314","128730","183940","1110590"],["20230315","127610","183160","1097520"],["20230316","128910","185240","1130120"],["20230317","131430","185620","1090730"],["20230318","137200","196010","1190840"],["20230319","145180","209180","1264080"],["20230320","136400","195020","1132660"],["20230321","130580","187170","1091560"],["20230322","131710","186830","1116010"],["20230323","131630","188600","1155910"],["20230324","135030","193220","1182060"],["20230325","148560","217500","1432070"],["20230326","160790","234930","1572510"],["20230327","148660","214310","1259350"],["20230328","141770","204190","1232960"],["20230329","140740","201000","1215890"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2023-03-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2022-12-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:05 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node01sn7786ypw8iooh8bk3jqetq07714640.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-12-29&endDate=2023-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2022-12-29&endDate=2023-03-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":false,"sampleSize":"0","sampleSpace":"0","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2022-12-29","end-date":"2023-03-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":0,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"0","ga:sessions":"0","ga:pageviews":"0"},"rows":[]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2023-06-29&ids=ga:53670769&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2023-03-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:05 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node01pptypj55qihwgwf7dx08a5kr12573001.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2023-03-29&endDate=2023-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2023-03-29&endDate=2023-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A53670769","containsSampledData":true,"sampleSize":"319602","sampleSpace":"3196023","query":{"ids":"ga:53670769","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2023-03-29","end-date":"2023-06-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":93,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"1296680","ga:sessions":"3192800","ga:pageviews":"18973090"},"rows":[["20230329","140740","201000","1215890"],["20230330","140950","200540","1145940"],["20230331","136960","195710","1182820"],["20230401","145500","212520","1372930"],["20230402","156250","231300","1499560"],["20230403","143270","207620","1265760"],["20230404","136100","198520","1235430"],["20230405","122520","177380","987530"],["20230406","133470","192310","1199800"],["20230407","128170","184030","1103360"],["20230408","118390","172180","999370"],["20230409","153370","227220","1408380"],["20230410","136940","200010","1233930"],["20230411","130040","190210","1093310"],["20230412","130670","190240","1107290"],["20230413","105360","150170","821930"],["20230414","8870","13040","21640"],["20230415","5420","7840","12470"],["20230416","3870","5570","9520"],["20230417","2480","3790","5790"],["20230418","2020","2950","6190"],["20230419","1550","2190","3840"],["20230420","1310","1940","3220"],["20230421","1170","1660","2360"],["20230422","980","1480","1880"],["20230423","960","1390","1820"],["20230424","870","1110","1390"],["20230425","700","840","1080"],["20230426","650","870","1170"],["20230427","570","730","1090"],["20230428","680","930","1260"],["20230429","530","670","950"],["20230430","540","640","940"],["20230501","460","610","830"],["20230502","410","500","760"],["20230503","340","430","480"],["20230504","460","590","890"],["20230505","400","530","830"],["20230506","330","380","770"],["20230507","370","450","680"],["20230508","230","270","530"],["20230509","270","340","580"],["20230510","270","320","550"],["20230511","280","400","750"],["20230512","200","240","410"],["20230513","230","250","430"],["20230514","220","270","440"],["20230515","220","280","720"],["20230516","220","240","380"],["20230517","220","300","490"],["20230518","190","230","450"],["20230519","180","230","380"],["20230520","200","250","380"],["20230521","200","260","480"],["20230522","190","200","720"],["20230523","220","320","460"],["20230524","240","290","430"],["20230525","170","250","370"],["20230526","200","280","370"],["20230527","180","230","340"],["20230528","160","210","350"],["20230529","220","280","560"],["20230530","160","210","420"],["20230531","160","210","260"],["20230601","150","170","210"],["20230602","130","190","420"],["20230603","150","180","280"],["20230604","170","200","350"],["20230605","130","180","320"],["20230606","140","160","260"],["20230607","130","150","240"],["20230608","120","140","280"],["20230609","150","220","630"],["20230610","120","150","290"],["20230611","160","170","200"],["20230612","150","200","220"],["20230613","100","160","210"],["20230614","150","210","240"],["20230615","100","120","120"],["20230616","80","100","220"],["20230617","130","150","170"],["20230618","110","160","330"],["20230619","100","130","170"],["20230620","110","160","190"],["20230621","140","200","290"],["20230622","130","180","220"],["20230623","110","180","230"],["20230624","50","60","60"],["20230625","60","110","130"],["20230626","50","60","60"],["20230627","80","100","220"],["20230628","70","90","100"],["20230629","70","70","100"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+- request:
+    method: get
+    uri: https://api-metrika.yandex.ru/analytics/v3/data/ga?dimensions=ga:date&end-date=2023-06-29&ids=ga:93211525&metrics=ga:users,ga:sessions,ga:pageviews&sort=ga:date&start-date=2023-03-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Sat, 01 Jul 2023 14:20:06 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Set-Cookie:
+      - JSESSIONID=node0231ff8ay7sfh1n9eybg6blp1k7714658.node0; Path=/
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kind":"analytics#gaData","id":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2023-03-29&endDate=2023-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","selfLink":"https://api-metrika.yandex.net/analytics/v3/data/ga?startDate=2023-03-29&endDate=2023-06-29&metrics=ga%3Ausers%2Cga%3Asessions%2Cga%3Apageviews&dimensions=ga%3Adate&sort=ga%3Adate&lang=ru&start-index=1&max-results=1000&prettyPrint=false&ids=ga%3A93211525","containsSampledData":true,"sampleSize":"1117306","sampleSpace":"11173056","query":{"ids":"ga:93211525","dimensions":["ga:date"],"metrics":["ga:users","ga:sessions","ga:pageviews"],"sort":["+ga:date"],"start-date":"2023-03-29","end-date":"2023-06-29","start-index":1,"max-results":1000},"itemsPerPage":1000,"totalResults":78,"columnHeaders":[{"name":"ga:date","columnType":"DIMENSION","dataType":"STRING"},{"name":"ga:users","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:sessions","columnType":"METRIC","dataType":"FLOAT"},{"name":"ga:pageviews","columnType":"METRIC","dataType":"FLOAT"}],"totalsForAllResults":{"ga:users":"3385460","ga:sessions":"11196040","ga:pageviews":"75395550"},"rows":[["20230413","22110","23820","174090"],["20230414","71720","110700","826050"],["20230415","44490","85830","891720"],["20230416","58140","111160","1094760"],["20230417","58200","108220","973220"],["20230418","56730","103870","964750"],["20230419","54220","100330","874630"],["20230420","57120","104780","933800"],["20230421","56650","100460","875550"],["20230422","60730","110570","1022810"],["20230423","63020","114130","978260"],["20230424","63980","114420","959740"],["20230425","63520","111260","916770"],["20230426","65450","110220","828910"],["20230427","73520","116660","865930"],["20230428","72630","114390","841540"],["20230429","77690","121880","916060"],["20230430","83310","133220","999640"],["20230501","88200","139670","1039210"],["20230502","85510","131130","892810"],["20230503","88120","132590","865270"],["20230504","88250","134270","871750"],["20230505","85760","130690","876920"],["20230506","92290","141380","1008310"],["20230507","97320","149000","1065230"],["20230508","95600","148590","1041120"],["20230509","95930","148350","1047420"],["20230510","91900","140110","946550"],["20230511","92650","139840","962830"],["20230512","97670","145300","983870"],["20230513","102550","151860","989070"],["20230514","108080","162570","1055630"],["20230515","98640","147110","933260"],["20230516","96630","143080","845910"],["20230517","99460","145640","931660"],["20230518","99620","145440","882250"],["20230519","101630","148370","964480"],["20230520","101900","151510","981800"],["20230521","112300","167580","1144700"],["20230522","109330","157900","948200"],["20230523","101910","150560","895690"],["20230524","99490","146420","888490"],["20230525","101200","148260","926960"],["20230526","102790","151440","937910"],["20230527","106020","156750","1001890"],["20230528","110950","167650","1084100"],["20230529","105990","155570","981200"],["20230530","104910","153110","912080"],["20230531","104280","151680","892360"],["20230601","104280","150670","891120"],["20230602","103260","150630","901740"],["20230603","107570","155630","978190"],["20230604","113340","167200","1047180"],["20230605","107880","156340","948240"],["20230606","109090","156450","979030"],["20230607","108220","155410","951710"],["20230608","104480","150690","947950"],["20230609","102330","148220","884900"],["20230610","105090","153410","959730"],["20230611","109860","159970","1046050"],["20230612","110820","162290","1086910"],["20230613","107200","156230","996840"],["20230614","105620","154250","918770"],["20230615","106260","154740","937690"],["20230616","106280","153710","981360"],["20230617","106440","157840","1035980"],["20230618","117540","173670","1139780"],["20230619","113930","168540","1050930"],["20230620","115880","171710","1044650"],["20230621","115580","170180","1103480"],["20230622","118660","171360","1106420"],["20230623","115720","167060","1079230"],["20230624","109010","161600","985110"],["20230625","123120","183230","1170530"],["20230626","123120","180450","1154460"],["20230627","118430","172720","1091540"],["20230628","119020","175520","1096800"],["20230629","120980","176980","1142070"]]}'
+  recorded_at: Thu, 29 Jun 2023 21:00:00 GMT
+recorded_with: VCR 6.1.0

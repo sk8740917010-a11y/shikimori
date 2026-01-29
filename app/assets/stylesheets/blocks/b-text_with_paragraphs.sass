@@ -1,0 +1,36 @@
+.b-text_with_paragraphs
+  br
+    content: ''
+    display: block
+    height: 0 // must use margin-bottom, because height does not work in firefox
+    margin-bottom: 5px
+
+    &.br
+      content: none
+
+  p
+    margin-bottom: 5px
+
+  li,
+  p
+    br
+      content: none
+
+  li
+    margin-bottom: 5px
+
+    p:not(:last-child)
+      margin-bottom: 5px
+
+  .b-list,
+  .b-spoiler_block,
+  .b-quote,
+  .b-quote-v2,
+  .b-image,
+  .b-video,
+  .right-text,
+  center,
+  div[data-div],
+  div[data-dynamic]
+    & + br
+      content: none

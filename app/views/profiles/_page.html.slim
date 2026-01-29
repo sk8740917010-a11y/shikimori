@@ -1,0 +1,30 @@
+header.head.misc[
+  class=('is-own-profile' if @view.respond_to?(:own_profile?) && @view.own_profile?)
+]
+  h1[
+    class=(@user.nickname_changes? ? 'aliases' : '' if params[:controller] == 'profiles' && params[:action] == 'show')
+    title=(@user.nickname_changes? ? @user.nicknames_tooltip : '' if params[:controller] == 'profiles' && params[:action] == 'show')
+  ]
+    - if params[:action] != 'show' || @back_url
+      a.back[
+        href=(@back_url || @user.url)
+        title=t('back')
+        data-text=t('back')
+      ]
+    - if @user.will_save_change_to_nickname?
+      = @user.changes['nickname'][0]
+    - else
+      = @user.nickname(current_user&.id == @user.id)
+    = render 'profiles/status', view: @view
+    = yield :head_misc
+  - if og.notice.present?
+    .notice
+      == og.notice
+
+  = yield :head_notice
+  = render 'application/breadcrumbs'
+
+.block[
+  class=('is-own-profile' if @view.respond_to?(:own_profile?) && @view.own_profile?)
+]
+  = yield

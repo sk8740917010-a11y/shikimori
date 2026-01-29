@@ -1,0 +1,45 @@
+.cc-genres
+  .c-current_genres
+    .m5: b = t '.current_genres'
+    .cc-1
+      - @resource.genres.each do |genre|
+        .c-column.genre id=genre.id
+          .name = localization_span genre
+          .b-js-actions
+            .b-js-link.up = t '.up'
+            .b-js-link.down = t '.down'
+            .b-js-link.remove = t '.remove'
+
+  .c-all_genres
+    .m5: b = t '.all_genres'
+    .cc-3
+      - Genre.where(kind: @resource.object.class.base_class.name.downcase).sort_by { |v| localized_name v }.each do |genre|
+        .c-column.genre[
+          id=genre.id
+          class=(:included if @resource.genres.include? genre)
+        ]
+          .name = localization_span genre
+          .b-js-actions
+            .b-js-link.up = t '.up'
+            .b-js-link.down = t '.down'
+            .b-js-link.remove = t '.remove'
+
+.cc-2
+  .c-column
+    = simple_form_for [:moderations, Version.new(item: @resource, user_id: current_user.id)] do |f|
+      .block
+        = f.input :type, as: :hidden
+        = f.input :item_id, as: :hidden
+        = f.input :item_type, as: :hidden
+        = f.input :user_id, as: :hidden
+        = f.input :reason
+
+      .item_diff[
+        data-current_ids=@resource.genres.map(&:id).to_json
+        data-field='genre_ids'
+      ]
+        = f.input :item_diff, as: :hidden
+
+      .buttons
+        a.cancel href=resource.url = t 'actions.cancel'
+        = f.button :magic_submit

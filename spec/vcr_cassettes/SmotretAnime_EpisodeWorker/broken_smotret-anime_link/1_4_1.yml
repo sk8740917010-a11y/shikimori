@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://smotret-anime.online/api/series/999999999?fields=id,episodes
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - shikimori
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Jun 2019 20:15:19 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - PHPSESSID=pinc6uj1jee5ghj8s5bv6tcon7; path=/; secure; HttpOnly
+      - __cfduid=d8d36931ff7e75cea2e4edb04ea36d25d1560370519; expires=Thu, 11-Jun-20
+        20:15:19 GMT; path=/; domain=.smotretanime.ru; HttpOnly
+      - guestId=01b33f66516676e8550840c37f358847d1ddaaa584a22ef429325967a02931ae;
+        expires=Mon, 10-Jun-2024 20:15:19 GMT; Max-Age=157680000; path=/
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Pragma:
+      - no-cache
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 4e5e7f0138f38fdf-DME
+    body:
+      encoding: ASCII-8BIT
+      string: '{"error":{"code":404,"message":"Series not found."}}'
+    http_version: 
+  recorded_at: Tue, 11 Jun 2019 19:40:03 GMT
+recorded_with: VCR 4.0.0

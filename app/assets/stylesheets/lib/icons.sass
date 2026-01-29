@@ -1,0 +1,72 @@
+@import globals
+@import mixins/icons
+@import mixins/link
+
+.item-minus
+  +icon_button('-')
+
+.item-add
+  +icon_button('+')
+
+.item-sign
+  +icon_button('✓')
+
+.actions
+  li span
+    display: block
+
+  .comment
+    +menu_icon('f')
+  .critiques-edit
+    +menu_icon('\e820')
+  .list-add//, .new-topic
+    +menu_icon('+')
+  .list-remove
+    +menu_icon('-')
+  .edit-entry
+    +menu_icon('\e822')
+    // TODO: удалить из шрифта
+    +menu_icon('\e814')
+
+.profile-actions
+  .fav-add
+    +icon_button('\e819')
+  .fav-remove
+    +icon_button('\e819')
+    +link_color
+  .ban
+    +icon_button('\e80a')
+  .ignore-add
+    +icon_button('\e812')
+  .ignore-remove
+    +icon_button('\e812')
+    +link_color
+  .talk
+    +icon_button('\e81f')
+  .mail
+    +icon_button('\e81f')
+  .settings
+    +icon_button('\e822')
+
+/* переводы
+.translations
+  .translation_planned
+    +menu_icon('\e818')
+  .translation_finished
+    +menu_icon('\e825')
+
+.rss
+  +icon_button('\e81a')
+  color: $gray-2 !important
+  float: right
+  margin-right: -7px !important
+  margin-top: -3px
+  &:before
+    font-size: 12px !important
+  &:hover
+    color: $link-3 !important
+    text-decoration: none !important
+  &:active
+    color: $link-2 !important
+  &:after
+    content: '' !important

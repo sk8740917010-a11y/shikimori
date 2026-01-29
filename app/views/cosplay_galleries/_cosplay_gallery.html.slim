@@ -1,0 +1,20 @@
+.b-cosplay_gallery id="#{cosplay_gallery.id}"
+  - if defined?(with_headline)
+    h3
+      | Косплей&nbsp;
+      - if cosplay_gallery.title_components(@resource).first.size > 1 || cosplay_gallery.title_components(@resource).first.first != @resource
+        - cosplay_gallery.title_components(@resource).first.each do |component|
+          a.bubbled href="#{url_for component}" = localization_span component
+          - if component != cosplay_gallery.title_components(@resource).first.last
+            | &nbsp;и&nbsp;
+          - else
+            | &nbsp;
+      | от&nbsp;
+      = cosplay_gallery.title_components(@resource).second.map(&:name).join(' и ')
+
+  .b-gallery
+    .container
+      .grid_sizer
+      - cosplay_gallery.images.each do |image|
+        a.b-image href="#{cdn_image_url image, :original}" id="#{image.id}" rel="cosplay_gallery_#{cosplay_gallery.id}"
+          img src="#{cdn_image_url image, :preview}"

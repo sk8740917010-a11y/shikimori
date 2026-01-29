@@ -1,0 +1,37 @@
+header.head.m15
+  h1 = t '.title'
+  p.notice = t '.notice'
+
+= simple_form_for(resource, as: :user, url: registration_path(:user), html: { multipart: true }) do |f|
+  - if f.object.errors.any?
+    .b-errors
+      .subheadline.m5 = t 'form_errors'
+      .block
+        - if f.object.errors.any?
+          p == f.object.errors.full_messages.join('<br>')
+
+  .block
+    = f.input :nickname,
+      input_html: {\
+        autocorrect: 'none',
+        autocapitalize: 'none',
+        spellcheck: false,
+        autofocus: true\
+      }
+    = f.input :email,
+      input_html: {\
+        autocorrect: 'none',
+        autocapitalize: 'none',
+        spellcheck: false\
+      }
+    = f.input :password
+
+  .block
+    = render 'application/captcha'
+
+  .block
+    = f.button :magic_submit
+    a.cancel href=new_user_session_url = t '.sign_in'
+    a.cancel href=new_user_password_url = t '.forgot_password'
+
+  = render 'devise/social'

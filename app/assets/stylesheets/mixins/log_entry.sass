@@ -1,0 +1,124 @@
+@import globals
+@import mixins/date
+@import mixins/link
+@import mixins/responsive
+@import mixins/shiki_button
+@import mixins/spoiler
+
+=log_entry
+  align-items: baseline
+  display: flex
+  flex-wrap: wrap
+  line-height: 1.85
+
+  & > span:not(:last-child)
+    padding-right: 5px
+
+  .date
+    +date
+
+    +iphone
+      &:after
+        content: ''
+        width: 100%
+
+    +gte_ipad
+      padding-right: 8px
+
+    &.normal
+      padding-right: 5px
+
+  a,.link
+    +link
+
+    +gte_laptop
+      &:hover .id-label
+        color: var(--link-hover-color)
+
+  .id-label
+    padding-right: 1px
+    color: #777
+
+  .b-user16
+    margin-right: 0
+
+  .avatar
+    position: absolute
+    margin-top: 2px
+
+  .nickname
+    padding-left: 21px
+
+  .spoiler
+    +spoiler
+
+    &.collapse,
+    &.collapsed
+      font-size: 11px
+      margin: 0 0 0 auto
+      padding-left: 5px
+
+      span
+        +js_link
+        font-size: 11px
+        padding: 0
+
+    &.target
+      flex-basis: 100%
+
+  .quoteable
+    font-weight: bold
+
+    span.name
+      font-weight: normal
+      padding-left: 5px
+
+  .comment-block
+    border-top: none
+    min-height: 0
+
+    blockquote
+      margin-left: 5px
+    del
+      color: $red
+    ins
+      color: var(--link-color)
+
+  .comment-hash
+    color: $gray-2
+
+  .moderation
+    align-items: flex-start
+    display: flex
+    font-size: 12px
+    justify-content: flex-end
+    margin: 15px 0 15px 0
+
+    +iphone
+      flex-wrap: wrap
+
+    &:empty
+      display: none
+
+    &.inline
+      margin: 0 0 0 auto
+
+    a
+      &:not(.link)
+        +shiki_button
+
+      &.link
+        +iphone
+          +shiki_button
+
+        +gte_ipad
+          +js_link
+          font-size: 11px
+          margin-left: 10px
+          padding: 0
+
+      &:not(:first-child)
+        margin-left: 10px
+
+      &:hover
+        text-decoration: none

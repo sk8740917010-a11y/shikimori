@@ -1,0 +1,23 @@
+.block
+  .subheadline extended & button
+  .cc-3a
+    .c-column.m0
+      = render partial: 'user_rates/placeholder',
+        locals: { target: @resource, extended: true }
+    .c-column.m0
+      = render partial: 'user_rates/placeholder',
+        locals: { target: @resource, extended: false }
+
+.block
+  .subheadline button
+  .cc-3a
+    = render partial: 'animes/anime',
+      collection: @collection_1,
+      locals: { cover_notice: :studio, content_by: :block }
+
+.block
+  .subheadline catalog_entry
+  .cc-6
+    = render partial: 'animes/anime',
+      collection: @collection_2,
+      locals: { cover_notice: :year_kind }

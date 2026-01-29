@@ -1,0 +1,124 @@
+en:
+  topics:
+    show:
+      rss_title: Topic comments
+    moderation:
+      no_bans: No bans
+      no_abuse_requests: No abuse requests
+    missing:
+      user_topic: 'Topic #%{id}'
+      no_topic: >-
+        Topic is either deleted or never existed on Shikimori,
+        or you don't have enough access rights to read it
+    header:
+      mini: &header_mini
+        topic_ignored: &ignored ignored
+        topic_closed: closed
+        spoilers: Spoilers
+        censored: 18+
+      common:
+        <<: *header_mini
+        about: about
+        in: in
+    footer:
+      vote:
+        question:
+          critique: Is this critique helpful?
+          cosplay: Do you like it?
+          collection: Is this collection useful or interesting?
+          review: Is this review helpful?
+    comments:
+      your_comment: Your comment
+      return_to_reply: Return
+    inner:
+      read_more_link: Read more →
+      source: Source
+    form:
+      form:
+        topic_text: Topic text
+        news_text: News text
+        premoderation: Topic is under moderation
+        edit:
+          title: Edit topic
+        new:
+          title: New topic
+      type:
+        pick_topic_type: Choose topic type
+        common_topic: Common topic
+        news_topic: News topic
+      critique:
+        pick_target: Choose what a critique is about
+        go_next: Next →
+      rules:
+        go_next: Next →
+      video:
+        attach: Attach
+        topic_video: Video
+      posters:
+        drag_here: Click or drag&drop images here
+        topic_posters: Images
+      source:
+        hint: Link to the page where the news is taken from
+    status_line:
+      about: about
+      by: by
+      section_dates:
+        changed_at: Changed at %{date}
+        created_at: Created at %{date}
+    menu_actions:
+      create_topic: Create a topic
+      create_news: Write news
+      create_critique: Write a critique
+      create_article: Write an article
+      create_collection: Create a collection
+      reload_forum: refresh forum
+    page:
+      refresh: Refresh page
+    menu:
+      hide: '&mdash; hide'
+      new_club: Created new club
+      new_club_topic: Created new topic
+      new_club_page: Created new page
+      critiques: Critiques
+      show_more: '+ show more'
+      sticky_topics: Sticky Topics
+      to_clubs: To Clubs
+      to_critiques: To Critiques
+      user_critique: "%{author}'s critique"
+      contests: :dashboards.show.contests
+    cosplay:
+      info:
+        in_gallery: In gallery
+        character:
+          zero: Characters
+          one: Character
+          other: Characters
+        cosplayer:
+          zero: Cosplayers
+          one: Cosplayer
+          other: Cosplayers
+    contests:
+      started: &contest_started
+        name: Name
+        rounds: Number of Rounds
+        members: Number of Participants
+        dates: Dates
+      finished:
+        <<: *contest_started
+        winners: Winners
+    news_line:
+      inner:
+        <<: *header_mini
+        by: by
+    reviews:
+      inner:
+        in_author_list: In author's list
+        is_written_before_release:
+          anime: SUmmary written prior to the end of the anime
+          manga: Review written prior to the end of the manga
+          ranobe: Review written prior to the end of the light novel
+        go_to_review: go to review
+        moderation: Moderation
+        'on': 'on'
+        review_ignored: *ignored
+        review_closed: closed

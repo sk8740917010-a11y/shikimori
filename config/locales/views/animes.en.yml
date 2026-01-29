@@ -1,0 +1,145 @@
+en:
+  animes_collection:
+    menu:
+      anime:
+        status: &anime_statuses
+          anons: Announced
+          ongoing: Airing
+          released: Finished
+          latest: Aired Recently
+        kind:
+          tv_13:
+            name: Short
+            tooltip: '~13 episodes'
+          tv_24:
+            name: Average
+            tooltip: '~24 episodes'
+          tv_48:
+            name: Long
+            tooltip: ">30 episodes"
+        duration:
+          S: Less than 10 minutes
+          D: Less than 30 minutes
+          F: More than 30 minutes
+      manga: &manga_menu
+        status:
+          <<: *anime_statuses
+          ongoing: Publishing
+          released: Published
+          latest: Published Recently
+          paused: Paused
+          discontinued: Discontinued
+      ranobe:
+        <<: *manga_menu
+      show_list: Show list
+
+  animes: &animes
+    page:
+      actions:
+        comment: Write a comment
+        review: Write a review
+        critique: Write a critique
+        add_to_favorites: Add to Favorite
+        remove_from_favorites: Remove from Favorite
+        edit: Edit
+      characters: Characters
+      main_characters: Main Characters
+      supporting_characters: Supporting Characters
+      linked_directly: Linked Directly
+      chronology: Chronology
+      franchise: Franchise
+      create_critique: Create critique
+      create_review: Create review
+      upload_episode: Add episodes from tokyotosho.info
+      search_on:
+        toshokan: Search on Toshokan
+        rutracker: Search on Rutracker
+      subtitles:
+        type: Type
+        name: Name
+      new_torrent: New torrent
+      confirm_episode_date: 'Please provide the release date of the episode in the format DD.MM.YYYY HH:MM in your local time zone'
+      confirm_rollback: This action is irreversible. It will remove the topic about the episode and episode notifications from all users. Are you sure?
+      episode_notifications: Episodes list
+      parse_page: Parse page
+      parse: Parse
+      torrents:
+        torrents_480p: 480p videos
+        torrents_720p: 720p HD videos
+        torrents_1080p: 1080p FullHD videos
+        torrents: Other videos
+      and_more:
+        zero: And %{count} users more
+        one: And %{count} user more
+        other: And %{count} users more
+      episodes_preview: Episodes preview
+      anime_calendar:
+        episode: Episode
+        date: Date
+
+    watch_online:
+      watch_online: Watch Online
+
+    menu:
+      scores: Scores
+      in_users_lists: In lists of users
+      in_friends_lists: In lists of friends
+      many_users_have_it_in_their_lists: '%{user_count} users have it in their lists'
+      one_user_has_it_in_his_list: One user has it in his list
+      show_all: + show all
+      hide: hide
+      on_other_sites: on other sites
+      copyrighted: Links to other sites have been removed at the request of the copyright holder
+
+    resources:
+      staff: Staff
+      videos: Videos
+      screenshots: Screenshots
+      linked: Related
+      similar: Similar
+      show_all: show all
+      hide: hide
+
+    info:
+      anime_additionals: Anime has
+      art: Imageboard
+      cosplay: Cosplay
+      files: Files
+      first_episode: First episode
+      manga_additionals: Manga has
+      next_episode: Next episode
+      other_names: Alternative names
+      ranobe_additionals: Manga has
+
+    other_names:
+      other_names: Other names
+
+    studios_info:
+      studio_animes: "%{studio_name} animes"
+
+    content:
+      year: '%{year}'
+
+    cover:
+      released: released
+
+    reviews:
+      navigation:
+        opinion:
+          all: All
+          positive: Positive
+          neutral: Neutral
+          negative: Negative
+      group:
+        to_other_reviews: To all reviews
+        new_review: Write a review
+      missing:
+        no_review: Review is either deleted or never existed on Shikimori
+    critiques:
+      missing:
+        no_critique: Critique is either deleted or never existed on Shikimori
+
+  mangas:
+    <<: *animes
+    publishers_info:
+      publisher_mangas: "%{publisher_name} mangas"

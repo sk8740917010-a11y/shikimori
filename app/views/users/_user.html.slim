@@ -1,0 +1,98 @@
+.b-user.c-column[
+  id=user.id
+  class=content_by
+]
+  - if content_by == :detailed
+    .info
+      .image-name
+        a.name[
+          href=profile_url(user)
+          title=user.nickname
+        ] = user.nickname
+
+        a[
+          href=profile_url(user)
+          title=user.nickname
+        ]
+          img.image[
+            src=user.avatar_url(73)
+            srcset="#{user.avatar_url 148} 2x"
+            alt=user.nickname
+          ]
+
+      .last-online
+        = user.last_online
+
+    .history
+      - Profiles::HistoryView.new(user).preview(4).each do |entry|
+        .line
+          - if entry.special?
+            time.date[
+              datetime=entry.created_at.iso8601
+            ] = entry.localized_date
+            span.event = entry.action_info
+          - else
+            a.bubbled[
+              href=entry.url
+              title=entry.name
+            ]
+              time.date[
+                datetime=entry.created_at.iso8601
+              ] = entry.localized_date
+              span.event = entry.localized_name
+
+  - elsif content_by == :avatar || content_by == :avatar_fixed_margin
+    a.avatar[
+      href=profile_url(user)
+      title=user.nickname(true)
+    ]
+      img[
+        src=user.avatar_url(32)
+        srcset="#{user.avatar_url 64} 2x"
+        alt=user.nickname(true)
+      ]
+
+  - elsif content_by == :named_avatar
+    a.avatar[
+      href=profile_url(user)
+      title=user.nickname
+    ]
+      img[
+        src=user.avatar_url(80)
+        srcset="#{user.avatar_url 160} 2x"
+        alt=user.nickname
+      ]
+    a.name[
+      href=profile_url(user)
+      title=user.nickname
+    ] = user.nickname
+
+  - elsif content_by == :moderation
+    .info
+      .image-name
+        a.name[
+          href=profile_url(user)
+          title=user.nickname
+        ] = user.nickname
+
+        a[
+          href=profile_url(user)
+          title=user.nickname
+        ]
+          img.image[
+            src=user.avatar_url(73)
+            srcset="#{user.avatar_url 148} 2x"
+            alt=user.nickname
+          ]
+
+      .last-online
+        = I18n.l user.created_at, format: :full
+
+      .moderation
+        - if can? :manage, user
+          .id = user.id
+        - if user.banned?
+          .read_only_at = l user.read_only_at, format: :short
+
+  - else
+    - raise ArgumentError, content_by

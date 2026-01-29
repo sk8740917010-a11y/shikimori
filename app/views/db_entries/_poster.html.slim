@@ -1,0 +1,36 @@
+- is_censored = (db_entry.respond_to?(:banned?) && db_entry.banned?) || (poster.respond_to?(:moderation_censored?) && poster.moderation_censored?)
+- if poster && poster.image_data['derivatives']
+  - derivative = :main if derivative == :preview && (db_entry.anime? || db_entry.kinda_manga?) && (poster.image_data['metadata']['width'] >= poster.image_data['metadata']['height'])
+  - if local_assigns[:is_main_poster]
+    meta[
+      itemprop='image'
+      content=cdn_poster_url(poster: poster, derivative: :main_2x)
+    ]
+  picture
+    source[
+      srcset='#{cdn_poster_url poster: poster, derivative: derivative}, #{cdn_poster_url poster: poster, derivative: :"#{derivative}_2x"} 2x'
+      type='image/webp'
+    ]
+    img[
+      class=('is-moderation_censored' if is_censored)
+      alt=localized_name(db_entry)
+      src=cdn_poster_url(poster: poster, derivative: :"#{derivative}_alt")
+      srcset='#{cdn_poster_url poster: poster, derivative: :"#{derivative}_alt_2x"} 2x'
+      height=((poster.image.height / (poster.image.width.to_f / Uploaders::PosterUploader::MAIN_WIDTH)).ceil if local_assigns[:is_main_poster])
+      width=(Uploaders::PosterUploader::MAIN_WIDTH if local_assigns[:is_main_poster])
+    ]
+    / loading=(:lazy unless derivative == :main)
+- else
+  - if local_assigns[:is_main_poster]
+    meta[
+      itemprop='image'
+      content='/assets/globals/missing/main@2x.png'
+    ]
+  - preview_suffix = db_entry.anime? || db_entry.kinda_manga? ? '_animanga' : '_charperson' if derivative == :preview
+  img[
+    class=('is-moderation_censored' if is_censored)
+    alt=localized_name(db_entry)
+    src='/assets/globals/missing/#{derivative}#{preview_suffix}.png'
+    srcset='/assets/globals/missing/#{derivative}#{preview_suffix}@2x.png 2x'
+  ]
+    / loading=(:lazy unless derivative == :main)

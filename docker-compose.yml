@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: shikimori
+      POSTGRES_PASSWORD: shikimori
+      POSTGRES_DB: shikimori_development
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.23
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+
+  web:
+    build: .
+    # The 'web' service handles the Rails server and the Sidekiq Dashboard UI
+    command: bash -lc "bundle install && yarn install && bundle exec rails s -b 0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+      - elastic
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+
+  sidekiq:
+    build: .
+    # The 'sidekiq' service handles the actual execution of background jobs
+    command: bash -lc "bundle exec sidekiq"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - elastic
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+
+volumes:
+  db-data:

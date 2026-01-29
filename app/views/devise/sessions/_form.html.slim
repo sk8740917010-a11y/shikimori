@@ -1,0 +1,28 @@
+= simple_form_for resource, as: 'user', url: session_path('user') do |f|
+  - if f.object.errors.any?
+    .b-errors
+      .subheadline.m5 = t 'form_errors'
+      .block
+        - if f.object.errors.any?
+          p == f.object.errors.full_messages.join('<br>')
+
+  .block
+    = f.input :nickname,
+      input_html: {\
+        autocorrect: 'none',
+        autocapitalize: 'none',
+        spellcheck: false,
+        autofocus: devise_controller?\
+      }
+
+    = f.input :password
+
+  .block
+    = render 'application/captcha'
+
+  .block
+    = f.button :magic_submit
+    a.cancel href=new_user_registration_url = t '.sign_up'
+    a.cancel href=new_user_password_url = t '.forgot_password'
+
+  = render 'devise/social'

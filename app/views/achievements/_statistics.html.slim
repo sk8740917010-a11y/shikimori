@@ -1,0 +1,19 @@
+.block
+  - unless local_assigns[:hide_title]
+    p.m5
+      b #{t '.statistics'}
+
+  table.statistics
+    tr
+      th = t '.list_size'
+      th == t '.users'
+      th == t '.percent'
+
+    - achievement.statistics&.each do |stats|
+      tr
+        td
+          = stats[:label]
+        td
+          = stats[:users]
+        td
+          | #{format '%.2f', stats[:percent] * 100.0}%

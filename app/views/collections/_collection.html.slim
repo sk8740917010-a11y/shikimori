@@ -1,0 +1,32 @@
+- if collection.text.present?
+  .block
+    = collection.description_html
+
+    - if collection.coauthors.any?
+      .mt-2
+        b
+          ' #{t '.coauthor', count: collection.coauthors.count}:
+        - collection.coauthors.sort_by(&:nickname).each do |user|
+          = render 'users/user_16', user: user
+          | &nbsp;
+
+.collection-groups[
+  class=('to-process' if collection.texts.any?)
+  data-dynamic=(:text_annotated if collection.texts.any?)
+  data-texts=collection.texts.to_json
+]
+  - collection.groups.each_with_index do |(group, entries), index|
+    - if group.present?
+      .subheadline.m5 = group
+      / .subheadline = group
+    .cc-collection-groups[
+      data-index=index
+    ]
+      /# Template Dependency: animes/anime
+      /# Template Dependency: mangas/manga
+      /# Template Dependency: characters/character
+      /# Template Dependency: people/person
+      = render partial: "#{collection.kind.pluralize}/#{collection.kind}",
+        collection: entries,
+        locals: { cover_notice: :none },
+        cached: ->(entry) { cache_keys entry, :none }

@@ -1,0 +1,62 @@
+ru:
+  application:
+    aside:
+      report_bug: Сообщить об ошибке
+
+    top_menu:
+      legend:
+        database: База данных
+        community: Сообщество
+        misc: Разное
+        info: Информация
+        profile: Аккаунт
+        site: Сайт
+      items:
+        anime: :activerecord.models.anime.one
+        manga: :activerecord.models.manga.one
+        ranobe: :activerecord.models.ranobe.one
+        clubs: Клубы
+        collections: Коллекции
+        critiques: Рецензии
+        articles: Статьи
+        forum: :forum
+        users: Пользователи
+        contests: Турниры
+        current_contest: Текущий турнир
+        calendar: :calendar
+        info: :about_site
+        socials: Мы в соц. сетях
+        moderation: Модерация
+
+        profile: Профиль
+        anime_list: :anime_list
+        manga_list: :manga_list
+        mail: :mail
+        achievements: Достижения
+        clubs: Клубы
+        settings: :settings
+        site_rules: Правила сайта
+        faq: FAQ
+
+        characters: Персонажи
+        home: Главная
+        play: Аниме онлайн
+        # main: Shikimori
+        main_menu: Основное меню
+        other: Прочее
+        people: Люди
+        search: Поиск
+        sign_in: Вход
+        sign_out: Выход
+
+    hot_topics:
+      hot_topics: Темы дня
+
+    footer:
+      terms: Соглашение
+      privacy: Конфиденциальность
+      for_right_holders: Для правообладателей
+      sitemap: Карта сайта
+
+    captcha:
+      captcha_error: Ошибка проверки капчи

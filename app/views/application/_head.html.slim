@@ -1,0 +1,143 @@
+meta charset='utf-8'
+meta http-equiv='X-UA-Compatible' content="IE=edge,chrome=1"
+/ - unless Rails.env.production?
+/   meta content="noindex,nofollow" name='robots'
+meta content="width=device-width, initial-scale=1.0" name='viewport'
+
+/link type='text/plain' rel='author' href='/humans.txt'
+/ https://github.com/audreyr/favicon-cheat-sheet
+
+/ legacy
+link rel='icon' type='image/x-icon' href='/favicon.ico'
+/ common
+link rel='icon' type='image/png' href='/favicons/favicon-16x16.png' sizes='16x16'
+link rel='icon' type='image/png' href='/favicons/favicon-32x32.png' sizes='32x32'
+link rel='icon' type='image/png' href='/favicons/favicon-96x96.png' sizes='96x96'
+link rel='icon' type='image/png' href='/favicons/favicon-192x192.png' sizes='192x192'
+/ android
+link rel='manifest' href='/favicons/manifest.json'
+/ ios
+link rel='apple-touch-icon' sizes='57x57' href='/favicons/apple-touch-icon-57x57.png'
+link rel='apple-touch-icon' sizes='60x60' href='/favicons/apple-touch-icon-60x60.png'
+link rel='apple-touch-icon' sizes='72x72' href='/favicons/apple-touch-icon-72x72.png'
+link rel='apple-touch-icon' sizes='76x76' href='/favicons/apple-touch-icon-76x76.png'
+link rel='apple-touch-icon' sizes='114x114' href='/favicons/apple-touch-icon-114x114.png'
+link rel='apple-touch-icon' sizes='120x120' href='/favicons/apple-touch-icon-120x120.png'
+link rel='apple-touch-icon' sizes='144x144' href='/favicons/apple-touch-icon-144x144.png'
+link rel='apple-touch-icon' sizes='152x152' href='/favicons/apple-touch-icon-152x152.png'
+link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon-180x180.png'
+/ safari
+link rel='mask-icon' href='/favicons/safari-pinned-tab.svg' color='#123'
+meta name='theme-color' content="#000000"
+/ windows
+meta name='msapplication-TileColor' content='#000000'
+meta name='msapplication-TileImage' content='/favicons/ms-icon-144x144.png'
+meta name='msapplication-config' content='/favicons/browserconfig.xml'
+/ opera
+link rel='icon' href='/favicons/opera-icon-228x228.png' sizes='228x228'
+
+link[
+  rel='search'
+  type="application/opensearchdescription+xml"
+  title=Shikimori::DOMAIN
+  href='/search.xml'
+]
+link rel='yandex-tableau-widget' href='/yandex-tableau-widget-manifest.json'
+
+// optimization for counters
+link rel='preconnect' href='https://mc.yandex.ru'
+/ link rel='preconnect' href='https://www.google-analytics.com'
+// optimization for WebFont.load
+link rel='preconnect' href='https://fonts.googleapis.com'
+link rel='preconnect' href='https://fonts.gstatic.com'
+
+link rel='preconnect' href='https://fonts.googleapis.com'
+link rel='preconnect' href='https://fonts.gstatic.com'
+
+- Shikimori::STATIC_SUBDOMAINS.each do |subdomain|
+  link[
+    rel='preconnect'
+    href="#{Shikimori::PROTOCOLS[:production]}://#{subdomain}.#{Shikimori::DOMAINS[:production]}"
+  ]
+
+- if defined?(@collection) && @collection.respond_to?(:next_page?)
+  - if @collection.next_page?
+    link rel='next' href==current_url(page: @collection.next_page)
+  - if @collection.prev_page?
+    link rel='prev' href==current_url(page: @collection.prev_page == 1 ? nil : @collection.prev_page)
+
+- if og.canonical_url != request.url || !new_host?
+  link rel='canonical' href==(og.canonical_url || request.url).gsub(request.host, Shikimori::DOMAIN)
+
+- if og.type.present?
+  meta property='og:type' content=og.type
+meta property='og:title' content=og.headline(true)
+- if og.description.present?
+  meta property='og:description' content=og.description
+- if og.image
+  meta property='og:image' content=og.image
+- if og.image_type
+  meta property='og:image:type' content=og.image_type
+- if og.image_width
+  meta property='og:image:width' content=og.image_width
+- if og.image_height
+  meta property='og:image:height' content=og.image_height
+meta property='og:url' content==og.canonical_url
+meta property='og:site_name' content=og.site_name
+
+- if og.video_duration
+  meta property='video:duration' content=og.video_duration
+- if og.video_release_date
+  meta property='video:release_date' content=og.video_release_date.iso8601
+- if og.video_tags&.any?
+  - og.video_tags.each do |tag|
+    meta property='video:tag' content=tag
+- if og.book_release_date
+  meta property='book:release_date' content=og.book_release_date.iso8601
+- if og.book_tags&.any?
+  - og.book_tags.each do |tag|
+    meta property='book:tag' content=tag
+
+- if og.twitter_card
+  meta property='twitter:card' content=og.twitter_card
+meta name='twitter:title' content=og.headline(true)
+- if og.description.present?
+  meta name='twitter:description' content=og.description
+- if og.image
+  meta name='twitter:image' content=og.image
+meta name='twitter:site' content=og.site_name
+
+title = og.meta_title
+
+- if og.keywords.present?
+  meta name='keywords' content=og.keywords
+- if og.description.present?
+  meta name='description' content=og.description
+- if og.meta_robots
+  meta name='robots' content=og.meta_robots
+
+= csrf_meta_tag
+
+/ - if Rails.env.production?
+  = render partial: 'application/bugsnag'
+
+script[
+  src='/outdated-browser.js'
+  nomodule
+]
+
+- unless Rails.env.test?
+  = stylesheet_pack_tag 'application', media: 'all', data: { 'turbolinks-track' => 'reload'  }
+  = stylesheet_link_tag :application, media: 'all', data: { 'turbolinks-track' => 'reload' }
+
+  = yield :head
+
+  = javascript_pack_tag :application, data: { 'turbolinks-track' => 'reload' }
+
+  - if Rails.env.production?
+    - if new_host?
+      = render partial: 'application/counters/shikimori_one'
+    - elsif old_host?
+      = render partial: 'application/counters/shikimori_me'
+    / - elsif ru_host?
+    /   = render partial: 'application/counters/shikimori_org'

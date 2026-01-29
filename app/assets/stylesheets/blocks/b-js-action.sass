@@ -1,0 +1,22 @@
+@import mixins/link
+
+.b-js-action
+  +js-link
+  font-size: 11px
+  line-height: 1
+  margin-left: 10px
+
+  &:first-child
+    margin-left: 0
+
+  &.is-disabled
+    cursor: not-allowed
+
+    +gte_laptop
+      &:hover
+        color: var(--link-color)
+        border-bottom: 1px dotted var(--link-border-color)
+
+    &:active
+      color: var(--link-color)
+      border-bottom: 1px dotted var(--link-border-color)

@@ -1,0 +1,13 @@
+= render layout: 'page' do
+  h2.subheadline.m5 = og.headline
+  .block
+    - if @collection.any?
+      = render partial: 'versions/version',
+        collection: @collection
+    - else
+      p.b-nothing_here = t '.no_content_changes'
+
+    - if @collection.size == controller.class::VERSIONS_PER_PAGE
+      = render 'blocks/postloader',
+        filter: 'b-log_entry',
+        next_url: current_url(page: @page + 1)

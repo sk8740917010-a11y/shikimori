@@ -1,0 +1,40 @@
+@import mixins/dash_separated
+@import mixins/link
+
+.p-dashboards-show .v2
+  .my-list
+    background: #e9f7fb
+    border: 1px solid rgba(144, 213, 236, 0.45)
+    padding: 5px 10px 8px
+
+    +iphone-landscape
+      width: 320px
+
+    +gte_laptop
+      height: 100%
+
+    .label
+      align-items: baseline
+      display: flex
+      margin-bottom: 8px
+
+      span
+        color: #123
+        flex-shrink: 0
+        font-size: 13px
+        font-weight: bold
+
+      .misc-links
+        margin-left: 8px
+
+        a
+          +link
+          +dash_separated
+          font-weight: normal
+          display: inline
+          font-size: 11px
+          line-height: 1
+          text-transform: none
+
+    .b-nothing_here
+      margin-left: 0

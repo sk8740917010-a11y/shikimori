@@ -1,0 +1,21 @@
+= render layout: 'page' do
+  = render 'navigation'
+
+  .subheadline
+    = og.headline
+    - if params[:controller] == 'dialogs' && params[:action] == 'index'
+      .misc-links
+        a[
+          href=index_profile_messages_url(@resource, messages_type: :private)
+        ] = t '.unread_messages'
+
+  .block
+    - if @collection.empty?
+      .b-nothing_here = t '.no_messages'
+    - else
+      = render partial: 'dialog', collection: @collection
+
+    - if @add_postloader
+      = render 'blocks/postloader',
+        filter: 'b-dialog',
+        next_url: index_profile_dialogs_url(@resource, page: @page+1)

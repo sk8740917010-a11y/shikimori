@@ -1,0 +1,48 @@
+@import mixins/ellipsis2
+@import mixins/responsive
+
+$body_left_margin: 58px
+
+.b-topic-preview
+  margin-bottom: 35px
+
+  &:last-child
+    margin-bottom: 0
+
+  & > .b-comments
+    // в превью топика первый комментарий отобразим с дефолтным отступом и бордером
+    .b-comment:first-child
+      padding-top: 5px
+      border-top-width: 1px
+
+  // блок шики-эдитора
+  & > .editor-container
+    display: none
+
+    .hide
+      display: inline-block
+
+  & > .inner
+    header
+      .b-anime_status_tag
+        margin-right: 10px
+
+    .body
+      clear: none
+
+      +gte_ipad
+        margin-left: $body_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/i7BNJOKE9LQe4OFmgiPzUOCNMJ0Jos
+
+    .read_more-link
+      font-size: 12px
+      line-height: 1
+      margin-bottom: 6px
+      padding-top: 8px
+
+  & > .b-comments,
+  & > .inner footer
+    +iphone
+      padding-left: 25px
+
+    +gte_ipad
+      padding-left: $body_left_margin

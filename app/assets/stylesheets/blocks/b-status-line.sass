@@ -1,0 +1,95 @@
+@import mixins/ellipsis2
+@import mixins/responsive
+@import mixins/font_shikimori
+
+=status_line_block
+  border-left: 1px solid #acb1b4
+  margin-left: 15px
+  padding-left: 14px
+
+  &:first-child
+    border-left: none
+    margin-left: 0
+    padding-left: 0
+
+=status_line_block_icon($symbol)
+  +font_shikimori($symbol)
+  color: #333
+  font-size: 14px
+  padding-right: 5px
+
+.b-status-line
+  align-items: center
+  display: flex
+  flex-wrap: wrap
+  font-size: 12px
+  line-height: 23px
+
+  $border-height: 14px
+
+  .section
+    &:not(:last-child):after
+      content: ''
+      display: inline
+      line-height: $border-height
+      border-right: 1px solid #acb1b4
+      margin-right: 15px
+      padding-right: 14px
+
+    &.main
+      display: flex
+
+      &:after
+        align-self: center
+        height: $border-height
+
+      & > span
+        align-self: baseline
+
+        &:not(:last-child)
+          margin-right: 15px
+
+      .collection-size
+        color: #333
+
+        &:before
+          +font_shikimori('\f00a')
+          display: inline-block
+          font-size: 14px
+          padding-right: 5px
+
+      .comments
+        &:before
+          +status_line_block_icon('f')
+
+      .is-pinned
+        &:before
+          +status_line_block_icon('📌')
+          padding-right: 0
+
+    &.about
+      span.about
+        padding-left: 5px
+
+      .b-link
+        padding-left: 5px
+
+      .author
+        padding-left: 5px
+
+        .b-user16
+          margin-right: 0
+
+          img
+            margin-top: 1px
+
+    &.created_at
+      time
+        &:before
+          +status_line_block_icon('\e820')
+          padding-left: 3px
+
+    &.changed_at
+      time
+        &:before
+          +status_line_block_icon('\e808')

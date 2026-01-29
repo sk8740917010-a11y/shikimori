@@ -1,0 +1,51 @@
+@import globals
+@import mixins/responsive
+@import mixins/input
+@import mixins/textarea
+
+.b-input
+  margin-bottom: $block-offset / 2
+
+  &:last-child
+    margin-bottom: 0
+
+  &.boolean label
+    display: flex
+    align-items: center
+
+  input
+    +input
+
+    &.w-100
+      width: 100%
+      max-width: 100%
+
+  textarea
+    +textarea
+
+  input[type=checkbox]
+    margin-right: 6px
+    width: auto !important
+
+  input[disabled]
+    +input_disabled
+
+  select
+    max-width: 100%
+
+  label
+    display: block
+    line-height: $line_height
+
+  abbr
+    display: none
+
+  .error
+    display: block
+    color: $red
+
+  .hint
+    color: $gray-2
+    display: block
+    font-size: 11px
+    line-height: $line_height

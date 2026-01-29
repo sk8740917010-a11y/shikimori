@@ -1,0 +1,44 @@
+= render layout: 'page' do
+  = render 'navigation'
+
+  .subheadline
+    == t '.conversation_with_user',
+      user: (render 'users/user_16', user: @dialog.target_user)
+
+  .to-process[
+    data-dynamic='full_dialog'
+    data-faye=@dialog.faye_channels.to_json
+    data-appear_type='message'
+  ]
+    .b-comments
+      - if @add_postloader
+        = render 'dialogs/postloader',
+          next_url: show_profile_dialog_url(@dialog.user, @dialog.target_user.to_param, page: @page + 1)
+
+      = render @collection
+
+    - if @dialog.target_user.admin? && !current_user.staff?
+      .admin-message.block
+        .subheadline.red = t '.before_you_message_me'
+        ul.b-list.is-wide
+          == t '.admin_message'
+        p = t '.admin_message_postscriptum'
+
+    .editor-container
+      - if @dialog.target_user.ignores.where(target_id: @dialog.user.id).exists?
+        .subheadline.red
+          = t '.is_ignored_by_user',
+            user: @dialog.target_user.nickname,
+            gender: @dialog.target_user.sex
+      - else
+        - if @dialog.user.ignores.where(target_id: @dialog.target_user.id).exists?
+          .subheadline.red
+            = t '.is_ignored_by_you',
+              user: @dialog.target_user.nickname,
+              gender: @dialog.user.sex
+        - else
+          .subheadline = t '.your_message'
+
+        = render 'messages/form',
+          message: @dialog.new_message,
+          cache_key: "dialogs/#{@dialog.new_message.from_id}/#{@dialog.new_message.to_id}"

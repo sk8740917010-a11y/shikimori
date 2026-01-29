@@ -1,0 +1,159 @@
+.b-animes-menu[
+  data-history_source_url=(episode_torrents_anime_url(resource) if resource.episode_torrents?)
+]
+  - if !@itemtype
+    .b-menu_logo
+      a[
+        href=resource.url(params[:action] != 'index')
+        title=localized_name(resource)
+      ]
+        = render 'db_entries/poster',
+          db_entry: resource,
+          poster: resource.poster,
+          derivative: :main
+
+  .block
+    .subheadline = t '.scores'
+    #rates_scores_stats[
+      data-stats=resource.stats&.scores_stats.to_json
+      data-bar='horizontal'
+    ]
+
+  .block
+    .subheadline = t '.in_users_lists'
+    #rates_statuses_stats[
+      data-stats=resource.stats&.list_stats.to_json
+      data-bar='horizontal'
+      data-entry_type=resource.stats&.entry_type&.downcase
+    ]
+    - rates_count = resource.stats&.list_stats&.sum(&:second) || 0
+    - if rates_count > 0
+      .total-rates
+        - if rates_count > 1
+          = t '.many_users_have_it_in_their_lists',
+              user_count: rates_count,
+              users: i18n_i('person', rates_count, :genitive)
+        - else
+          = t '.one_user_has_it_in_his_list'
+
+  = render 'spnsrs/ad', ad: Ad.new(:menu_240x400)
+
+  - if user_signed_in?
+    - cache [:stats, resource, current_user, :v5], expired_in: 1.day do
+      - if resource.friend_rates.any?
+        .block
+          .subheadline.m5 = t '.in_friends_lists'
+          - resource.friend_rates.take(3).each do |rate|
+            .b-menu-line.friend-rate
+              .status
+                = rate.status_name
+                - if rate.score && rate.score != 0
+                  | &nbsp;&ndash;&nbsp;#{rate.score}
+              .b-user16
+                a[
+                  href=profile_url(rate.user)
+                  title=rate.user.nickname
+                ]
+                  img[
+                    src=rate.user.avatar_url(16)
+                    srcset="#{rate.user.avatar_url 32} 2x"
+                    alt=rate.user.nickname
+                  ]
+                  span
+                    = rate.user.nickname
+
+          - if resource.friend_rates.size > 3
+            .b-show_more.unprocessed = t '.show_all'
+            .b-show_more-more
+              - resource.friend_rates.slice(3, 99).each do |rate|
+                .friend-rate
+                  .status
+                    = rate.status_name
+                    - if rate.score && rate.score != 0
+                      | &nbsp;&ndash;&nbsp;#{rate.score}
+                  .b-user16
+                    a[
+                      href=profile_url(rate.user)
+                      title=rate.user.nickname
+                    ]
+                      img[
+                        src=rate.user.avatar_url(16)
+                        srcset="#{rate.user.avatar_url 32} 2x"
+                        alt=rate.user.nickname
+                      ]
+                      span
+                        = rate.user.nickname
+              .hide-more
+                | &mdash; #{t '.hide'}
+
+  - cache [resource, resource.clubs_scope.cache_key, resource.collections_scope, resource.favourites_scope, resource.news_topic_scope] do
+    = render 'db_entries/menu/favoured', resource: resource
+    = render 'db_entries/menu/clubs', resource: resource
+    = render 'db_entries/menu/collections', resource: resource
+
+    / - if resource.topic_views.any?
+      .block.menu-topics-block
+        .subheadline.m5 = i18n_i 'Forum'
+        /a.link href="{subforum_url resource.topic}" Форум
+        div
+          = render partial: 'animes/menu_topic',
+            collection: resource.topic_views,
+            as: :topic_view
+
+    - if resource.news_topic_views.any?
+      .b-menu-links.menu-topics-block.history.m30
+        .subheadline.m5 = t 'news'
+        .block
+          = render partial: 'animes/menu_topic',
+            collection: resource.news_topic_views,
+            as: :topic_view,
+            locals: { with_tooltip: true }
+
+  - if resource.menu_external_links.any?
+    .block
+      .subheadline.m8 = t '.on_other_sites'
+      = render partial: 'external_links/external_link',
+        collection: resource.menu_external_links,
+        locals: { class: 'b-menu-line' }
+
+      - if resource.manga? && Copyright::MANGA_IDS.include?(resource.id)
+        p.copyrighted = t '.copyrighted'
+
+  / - if user_signed_in? && current_user.day_registered?
+  - if user_signed_in?
+    - if resource.respond_to?(:fansubbers) && resource.fansubbers.any?
+      .block
+        .subheadline.m5 = Anime.human_attribute_name :fansubbers
+        - resource.sorted_fansubbers.take(5).each do |name|
+          .b-menu-line title=name = name
+        - if resource.sorted_fansubbers.size > 5
+          .b-show_more.unprocessed = t '.show_all'
+          .b-show_more-more
+            - resource.sorted_fansubbers.slice(5, 99).each do |name|
+              .b-menu-line title=name = name
+            .hide-more
+              | &mdash; #{t '.hide'}
+
+    - if resource.respond_to?(:fandubbers) && resource.fandubbers.any?
+      .block
+        .subheadline.m5 = Anime.human_attribute_name :fandubbers
+        - resource.sorted_fandubbers.take(5).each do |name|
+          .b-menu-line title=name = name
+        - if resource.sorted_fandubbers.size > 5
+          .b-show_more.unprocessed = t '.show_all'
+          .b-show_more-more
+            - resource.sorted_fandubbers.slice(5, 99).each do |name|
+              .b-menu-line title=name = name
+            .hide-more
+              | &mdash; #{t '.hide'}
+
+  - if show_social?
+    .block
+      .subheadline = t 'share'
+      .addthis_toolbox.addthis_default_style.addthis_32x32_style
+        a.addthis_button_vk
+        a.addthis_button_facebook
+        a.addthis_button_twitter
+        a.addthis_button_google_plusone_share
+        a.addthis_button_odnoklassniki_ru
+        a.addthis_button_compact

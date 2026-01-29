@@ -1,0 +1,189 @@
+- item_type = local_assigns[:f] ? local_assigns[:f].object.class.name.downcase : 'comment'
+
+.controls
+  aside.buttons
+    .editor-controls
+      span.editor-bold.b-tooltipped.unprocessed[
+        title=t('.bold')
+        data-direction='top'
+      ]
+      span.editor-italic.b-tooltipped.unprocessed[
+        title=t('.italic')
+        data-direction='top'
+      ]
+      span.editor-underline.b-tooltipped.unprocessed[
+        title=t('.underline')
+        data-direction='top'
+      ]
+      span.editor-strike.b-tooltipped.unprocessed[
+        title=t('.striked')
+        data-direction='top'
+      ]
+
+      span.editor-link.b-tooltipped.unprocessed[
+        title=t('.link')
+        data-direction='top'
+      ]
+      span.editor-image.b-tooltipped.unprocessed[
+        title=t('.image_link')
+        data-direction='top'
+      ]
+      span.editor-quote.b-tooltipped.unprocessed[
+        title=t('.quote')
+        data-direction='top'
+      ]
+      span.editor-spoiler.b-tooltipped.unprocessed[
+        title=t('.spoiler')
+        data-direction='top'
+      ]
+
+      label.editor-file.b-tooltipped.unprocessed[
+        title=t('.upload_image')
+        data-direction='top'
+      ]
+        input type='file'
+      span.editor-smiley.b-tooltipped.unprocessed[
+        title=t('.smiley')
+        data-direction='top'
+      ]
+
+  - if local_assigns[:f] && f.object.new_record?
+    aside.markers
+      - if f.object.respond_to?(:offtopic?) && (!f.object.respond_to?(:allowed_offtopic?) || f.object.allowed_offtopic?)
+        .b-offtopic_marker.active[
+          class=(:off unless f.object.offtopic?)
+          data-text=t('markers.offtopic')
+        ]
+  - if block_given?
+    = yield
+
+.smileys.hidden data-href=smileys_comments_url
+  .ajax-loading title=t('loading')
+
+// NOTE: do not remove .hidden-block. it is used in custom styles
+.links.hidden.hidden-block
+  label
+    = radio_button_tag 'link_type', :url, false,
+      'data-placeholder' => t('.links.placeholder.page_url'),
+      id: nil
+    span = t '.links.text.link'
+
+  label
+    = radio_button_tag 'link_type', :anime, false,
+      'data-placeholder' => t('.links.placeholder.anime_title'),
+      'data-autocomplete' => autocomplete_animes_url,
+      id: nil
+    span = Anime.model_name.human.downcase
+
+  label
+    = radio_button_tag 'link_type', :manga, false,
+      'data-placeholder' => t('.links.placeholder.manga_title'),
+      'data-autocomplete' => autocomplete_mangas_url,
+      id: nil
+    span = Manga.model_name.human.downcase
+
+  label
+    = radio_button_tag 'link_type', :ranobe, false,
+      'data-placeholder' => t('.links.placeholder.ranobe_title'),
+      'data-autocomplete' => autocomplete_ranobe_index_url,
+      id: nil
+    span = Ranobe.model_name.human.downcase
+
+  label
+    = radio_button_tag 'link_type', :character, false,
+      'data-placeholder' => t('.links.placeholder.character_name'),
+      'data-autocomplete' => autocomplete_characters_url,
+      id: nil
+    span = Character.model_name.human.downcase
+
+  label
+    = radio_button_tag 'link_type', :person, false,
+      'data-placeholder' => t('.links.placeholder.person_name'),
+      'data-autocomplete' => autocomplete_people_url,
+      id: nil
+    span = Person.model_name.human.downcase
+
+  .input-container
+    = text_field_tag 'link_value', '',
+      class: 'link-value ac_input',
+      id: nil
+    .b-button.ok data-type='links' OK
+
+.images.hidden.hidden-block
+  span = t '.insert_image'
+  .input-container
+    = text_field_tag 'image_value', '',
+      class: 'link-value',
+      placeholder: t('.links.placeholder.image_url'),
+      id: nil
+
+    .b-button.ok data-type='images' OK
+
+.quotes.hidden.hidden-block
+  span = t '.quote_user'
+  .input-container
+    = text_field_tag 'quote_value', '',
+      class: 'link-value ac_input',
+      placeholder: t('.links.placeholder.user_name'),
+      'data-autocomplete' => autocomplete_users_url,
+      id:nil
+
+    .b-button.ok data-type='quotes' OK
+
+= render 'blocks/upload_progress'
+
+.body
+  .editor
+    - if local_assigns[:f]
+      = f.input :body,
+        as: :text,
+        input_html: {\
+          class: "editor-area",
+          placeholder: t('.comment'),
+          tabindex: 0,
+          'data-upload_url' => api_user_images_url(linked_type: item_type.classify),
+          'data-item_type' => item_type,
+          id: nil\
+        }
+    - else
+      = text_area_tag field_name, text,
+        class: 'comment_body editor-area',
+        placeholder: t('.text'),
+        tabindex: 0,
+        'data-upload_url' => api_user_images_url(linked_type: nil),
+        'data-item_type' => item_type,
+        id: nil
+  .preview
+
+footer
+  - if local_assigns[:f]
+    - if f.object.persisted?
+      = f.button :magic_submit, id: "submit_#{rand * 1000000}"
+      .b-button.preview[
+        tabindex='0'
+        data-preview_url=preview_comments_url
+      ] = t '.preview'
+      .unpreview tabindex='0' = t '.back_to_editing'
+      .cancel tabindex='0' = t 'actions.cancel'
+
+    - else
+      = f.button :magic_submit, id: "submit_#{rand * 1000000}"
+      .unpreview tabindex='0' = t '.back_to_editing'
+      .b-button.preview[
+        tabindex='0'
+        data-preview_url=preview_comments_url
+      ] = t '.preview'
+      .hide = t '.hide'
+
+  - else
+    .b-button.preview[
+      tabindex='0'
+      data-preview_url=preview_comments_url
+    ] = t '.preview'
+    .unpreview tabindex='0' = t '.back_to_editing'
+
+  .about-bb_codes
+    a[
+      href=bb_codes_pages_url
+      target='_blaNK'
+    ] = t '.bb_codes_guide'

@@ -1,0 +1,42 @@
+.b-ban
+  span
+    a href=moderations_ban_url(ban)
+      span.id-label #
+      = ban.id
+  span.date = ban.created_at.strftime('%d.%m.%Y')
+
+  span
+    = render 'users/user_16', user: ban.user
+
+  - if ban.warning?
+    span.duration-warning = t '.warning'
+  - else
+    span.duration-ban = t '.ban'
+    span = t '.banned_on'
+    span.duration = ban.duration.humanize
+
+  span = t '.for'
+  span.reason = BbCodes::Text.call(ban.reason)
+
+  - if ban.target
+    span
+      == Messages::MentionSource.call( \
+        ban.comment ? ban.comment.commentable : ban.target,
+        comment_id: ban.comment_id \
+      )
+    span: a.b-link.comment-hash href=Messages::MentionSource.mention_url(ban.target) #
+  - elsif ban.comment_id
+    span = t '.for_deleted_comment'
+
+  - if can? :destroy, ban
+    a.destroy[
+      data-method='delete'
+      data-confirm=t('actions.confirm')
+      href=moderations_ban_url(ban)
+    ]
+
+  .moderator
+    = render 'users/user_16', user: ban.moderator
+    - if can?(:manage, Ban) && ban.abuse_request
+      span: a.abuser href=profile_url(ban.abuse_request.user)
+        = ban.abuse_request.user.nickname

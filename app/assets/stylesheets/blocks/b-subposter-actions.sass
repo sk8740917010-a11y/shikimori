@@ -1,0 +1,82 @@
+@import mixins/icons
+
+.b-subposter-actions
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-around
+
+  +iphone-portrait
+    align-items: center
+    flex-direction: column
+
+.b-subposter-action
+  +link_color(var(--icon-color))
+  cursor: pointer
+  display: inline-block
+  height: $icon_mobile_size
+  text-align: center
+  width: $icon_mobile_size
+
+  &.selected
+    +link_color
+
+  &:before
+    display: inline-block
+    font-size: 18px
+    line-height: $icon_mobile_size
+
+    +iphone
+      font-size: 22px
+
+  &:before
+    +font_shikimori
+    text-align: center
+
+  +iphone-portrait
+    display: flex
+    align-items: center
+    text-align: left
+    height: auto
+
+    &:not(:last-child)
+      margin-bottom: 5px
+
+    &:before
+      font-size: 18px
+      width: 20px
+      height: 30px
+      line-height: 30px
+
+  // db_entry
+  &.fav-add:before
+    content: '\e819'
+  &.fav-remove
+    +link_color
+    &:before
+      content: '\e819'
+  &.edit:before
+    content: '\e822'
+  &.new_critique:before
+    content: '\e820'
+  &.new_comment:before
+    content: 'f'
+  &.new_review:before
+    content: '\e837'
+
+  // club
+  &.edit-alt:before
+    content: '\e84e'
+  &.upload:before
+    content: '\e80c'
+  &.broadcast:before
+    content: '\e837'
+  &.invite:before
+    content: '\e826'
+  &.leave:before
+    content: '\e844'
+
+  &.plus:before
+    content: '\002B'
+  &.minus:before
+    content: '\002D'
+

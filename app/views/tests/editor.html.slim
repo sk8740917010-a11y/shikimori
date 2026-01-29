@@ -1,0 +1,26 @@
+.block
+  .headline
+    a href=current_url(i: params[:i].to_i + 1) editor #{params[:i].to_i}
+
+.block
+  .subheadline vue component
+  = render 'blocks/shiki_editor',
+    text: '',
+    field_name: 'zzz',
+    shiki_editor_v2: true
+
+.block
+  .fc-2
+    .f-column
+      .block
+        .subheadline raw editor
+        .raw-editor
+      .block
+        .subheadline raw editor 2
+        .raw-editor-2
+    .f-column
+      .subheadline old shiki-editor
+      .b-shiki_editor.to-process.no-preview-avatar data-dynamic='shiki_editor'
+        = render 'comments/shiki_editor',
+          text: '',
+          field_name: 'zzz'

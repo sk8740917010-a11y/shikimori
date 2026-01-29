@@ -1,0 +1,68 @@
+header.head.misc
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+- if @resource.errors.any?
+  .b-errors
+    .subheadline.m5 = i18n_i 'error', :other
+    == @resource.errors.full_messages.join('<br>')
+
+#poll_form[
+  data-poll=PollSerializer.new(@resource).to_json
+]
+  = simple_form_for @resource,
+      url: @resource.persisted? ? profile_poll_url(@user, @resource) : profile_polls_url(@user),
+      html: { class: 'b-form bold-labels' } do |f|
+
+    div class=(@resource.may_start? ? 'cc-3_2' : 'cc-2_3')
+      - if @resource.may_start?
+        .c-column.block
+          .block
+            = BbCodes::Text.call @resource.bb_code
+
+          - if @resource.may_start?
+            a.b-button[
+              href=start_profile_poll_url(@user, @resource)
+              title=t('actions.start')
+              data-method="post"
+              data-confirm=t('actions.confirm')
+            ] = t 'actions.start'
+
+      .c-column.m0
+        = f.input :user_id, as: :hidden
+        = f.input :name, autofocus: @resource.name.blank?
+        = f.input :width, include_blank: false
+
+        .block
+          = render 'blocks/shiki_editor',
+            text: @resource.text,
+            field_name: 'poll[text]',
+            no_preview_avatar: true,
+            is_text_with_paragraphs: true
+
+        / .b-input
+          label #{Poll.human_attribute_name :state}: #{@resource.aasm.human_state.downcase}
+
+        .b-input
+          label = Poll.human_attribute_name :state
+          div
+            = @resource.aasm.human_state
+          - unless @resource.may_start?
+            .hint = t 'polls.form.start_hint'
+
+        .b-input.m5
+          label = t 'polls.form.poll_variants'
+        #vue_poll_variants
+          .b-nothing_here = t 'loading'
+
+        .buttons
+          a.cancel href=profile_polls_url(@user) = t 'actions.cancel'
+          = f.button :magic_submit
+
+        - if @resource.persisted?
+          a.remove[
+            href=profile_poll_url(@user, @resource)
+            title=t('actions.delete')
+            data-method="delete"
+            data-confirm=t('actions.confirm')
+          ] = t 'actions.delete'

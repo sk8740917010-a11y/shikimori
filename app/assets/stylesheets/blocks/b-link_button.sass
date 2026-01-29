@@ -1,0 +1,202 @@
+@import mixins/ellipsis2
+@import mixins/responsive
+@import mixins/font_shikimori
+
+=link_button_icon($icon, $is-before: true)
+  @if $is-before
+    &:before
+      +font_shikimori($icon)
+      font-weight: normal
+      padding-right: 8px
+  @else
+    &:after
+      +font_shikimori($icon)
+      font-weight: normal
+      padding-left: 8px
+
+.b-link_button
+  +ellipsis2
+  background-color: #eeeef1
+  border: 0
+  border: 1px solid darken(#eeeef1, 3%)
+  color: #123
+  display: block
+  font-size: 15px
+  font-family: var(--font-alt)
+  cursor: pointer
+  font-weight: 600
+  line-height: 1
+  margin-bottom: 10px
+  min-width: 154px
+  padding: 8px 20px
+  text-align: center
+  transition: background-color 0.25s ease, border-color 0.25s ease
+  user-select: none
+
+  &:last-child
+    margin-bottom: 0
+
+  +gte_laptop
+    &:hover
+      // background-color: #B11C2F
+      // border-color: darken(#B11C2F, 3%)
+      background-color: $link-3
+      border-color: darken($link-3, 2%)
+      color: #fff
+      text-decoration: none
+
+    & > a.b-link:hover
+      border-bottom: none !important
+      color: inherit !important
+      text-decoration: none !important
+
+  &:active
+    // background-color: lighten(#B11C2F, 5%)
+    // border-color: darken(lighten(#B11C2F, 5%), 3%)
+    background-color: $link-2
+    border-color: darken($link-4, 2%)
+    color: #fff
+
+  &.inline
+    display: inline-block
+
+  &.dark-2
+    background-color: #678
+    border-color: darken(#678, 3%)
+    color: #fff
+
+    +gte_laptop
+      &:hover
+        background-color: $link-3
+        border-color: darken($link-3, 2%)
+        color: #fff
+
+    &:active
+      background-color: $link-2
+      border-color: darken($link-4, 2%)
+      color: #fff
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:active
+      background-color: #7b8590
+      border-color: darken(#7b8590, 3%)
+      cursor: default
+
+  &.blue
+    color: #fff
+    background-color: #19669c
+    border-color: darken(#19669c, 2%)
+    border-width: 1px
+
+    +gte_laptop
+      &:hover
+        background-color: $link-4
+        border-color: darken($link-4, 2%)
+        color: #fff
+
+    &:active
+      background-color: $link-2
+      border-color: darken($link-4, 2%)
+      color: #fff
+
+  &.light-green
+    transition: background-color 0.25s ease, border-color 0.25s ease
+    background-color: $green
+    border-color: darken($green, 3%)
+    color: #fff
+
+    +gte_laptop
+      &:hover
+        background-color: $link-3
+        border-color: darken($link-3, 2%)
+        color: #fff
+
+    &:active
+      background-color: $link-2
+      border-color: darken($link-4, 2%)
+      color: #fff
+
+  &.light-red
+    transition: background-color 0.25s ease, border-color 0.25s ease
+    background-color: $red
+    border-color: darken($red, 3%)
+    color: #fff
+
+    +gte_laptop
+      &:hover
+        background-color: $link-3
+        border-color: darken($link-3, 2%)
+        color: #fff
+
+    &:active
+      background-color: $link-2
+      border-color: darken($link-4, 2%)
+      color: #fff
+
+  // forum
+  &.create-topic
+    +link_button_icon('\002b')
+
+    &:before
+      font-weight: bold
+
+  &.create-critique
+    +link_button_icon('\e820')
+
+    &:before
+      font-size: 15px
+
+  &.create-review
+    +link_button_icon('\e837')
+
+  &.create-article
+    +link_button_icon('\e830')
+
+  &.create-collection
+    +link_button_icon('\f00a')
+
+  &.join-club
+    +link_button_icon('\002b')
+
+  &.arrow-right
+    +link_button_icon('\E850', false)
+
+  &.maxi
+    font-size: 18px
+    letter-spacing: 0.33px
+    padding: 9px 20px
+
+  &.mini
+    font-size: 13px
+    padding: 5px 10px
+
+  &.dark
+    background-color: #456
+    border-color: darken(#456, 3%)
+    color: #fff
+
+    +gte_laptop
+      &:hover
+        background-color: $link-3
+        border-color: darken($link-3, 2%)
+        color: #fff
+
+    &:active
+      background-color: $link-2
+      border-color: darken($link-4, 2%)
+      color: #fff
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:active
+      background-color: #7b8590
+      border-color: darken(#7b8590, 3%)
+      cursor: default
+
+  &.active,
+  &.active:hover,
+  &.active:active
+    background-color: #4c7fa4
+    border-color: darken(#4c7fa4, 3%)
+    cursor: default

@@ -1,0 +1,91 @@
+- if user_signed_in? && club.persisted?
+  - if can?(:join, club) && !club.member?(current_user)
+    .block
+      a.b-link_button.dark.join-club[
+        href=club_club_roles_path(club, club_role: { user_id: current_user.id, club_id: club.id })
+        data-method='post'
+        data-text=t('.join_club')
+      ] = t '.join_club'
+
+  - if club.member?(current_user) || can?(:manage, Club)
+    .b-subposter-actions
+      - unless club.logo.exists?
+        .subheadline.m5 = i18n_i 'action', :other
+
+      - if can? :edit, club
+        a.b-subposter-action.edit-alt.b-tooltipped.unprocessed[
+          href=edit_club_url(club, section: :main)
+          title=t('.edit_club')
+          data-direction='top'
+          data-text=t('.edit_club')
+        ]
+      - elsif can? :edit_pages, club
+        a.b-subposter-action.edit-alt.b-tooltipped.unprocessed[
+          href=edit_club_url(club, section: :pages)
+          title=t('.edit_club')
+          data-direction='top'
+          data-text=t('.edit_club')
+        ]
+
+      - if can? :broadcast, club
+        a.b-subposter-action.broadcast.b-tooltipped.unprocessed[
+          href=broadcast_club_comments_url(club)
+          title=t('.broadcast')
+          data-direction='top'
+          data-text=t('.broadcast')
+        ]
+
+      - if can? :upload_image, club
+        = form_tag club_club_images_url(club),
+            method: :post,
+            multipart: true,
+            class: 'upload-form' do
+          label.b-subposter-action.upload.b-tooltipped.unprocessed[
+            title=t('actions.upload_image')
+            data-direction='top'
+            data-text=t('actions.upload_image')
+          ]
+            input type='file' name='images[]' multiple='true'
+          // .upload не должен быть последним элементом - ему margin 0 присвоится
+          span
+
+      - if can? :invite, club
+        .b-subposter-action.invite.b-tooltipped.unprocessed[
+          title=t('.invite_to_club')
+          data-direction='top'
+          data-text=t('.invite_to_club')
+        ]
+
+      - if can?(:leave, club) && club.member?(current_user)
+        a.b-subposter-action.leave.b-tooltipped.unprocessed[
+          href=club_club_role_path(club, club.member_role(current_user))
+          title=t('.leave_club')
+          data-direction='top'
+          data-method='delete'
+          data-text=t('.leave_club')
+          data-confirm=t('.confirm_leave_club')
+        ]
+
+    .invite
+      .subheadline.m5 = i18n_i 'invitation'
+      = simple_form_for [club, club.new_invite],
+          remote: true,
+          authenticity_token: true,
+          html: { 'data-type' => :json } do |f|
+        = f.input :club_id, as: :hidden
+        = f.input :src_id, as: :hidden
+        = f.input :dst_id,
+          as: :string,
+          placeholder: t('username'),
+          input_html: { \
+            'data-autocomplete': autocomplete_users_url \
+          }
+
+        = f.button :magic_submit
+        .cancel = t 'actions.cancel'
+
+    - if can? :create_topic, club
+      .block
+        a.b-link_button.dark.create-topic[
+          href=club.new_topic_url
+        ] = t 'topics.menu_actions.create_topic'

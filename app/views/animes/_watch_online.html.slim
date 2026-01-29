@@ -1,0 +1,19 @@
+- @resource.watch_online_external_links.each_with_index do |external_link, index|
+  - if index.zero?
+    .line
+      .b-link_button.dark.linkeable[
+        data-href=external_link.url
+        title=external_link.kind_text
+        target='_blank'
+        rel="nofollow"
+      ] = t '.watch_online'
+    .kind = external_link.kind_text
+  - else
+    .linkeable.kind[
+      data-href=external_link.url
+      title=external_link.kind_text
+      target='_blank'
+      rel="nofollow"
+    ]
+      = external_link.kind_text
+      span

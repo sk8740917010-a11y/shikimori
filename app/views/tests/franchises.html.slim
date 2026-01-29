@@ -1,0 +1,99 @@
+.block
+  .subheadline
+    | Franchises
+    - if @minimum_titles != controller.class::DEFAULT_MINIMUM_TITLES || @maximum_titles.present? || @minimum_duration != controller.class::DEFAULT_MINIMUM_DURATION || @maximum_duration.present? || @minimum_user_rates != controller.class::DEFAULT_MINIMUM_USER_RATES || @maximum_user_rates.present? || @without_achievement.present?
+      .misc-links
+        a.b-link[
+          href=current_url(minimum_titles: nil, maximum_titles: nil, minimum_duration: nil, maximum_duration: nil, minimum_user_rates: nil, maximum_user_rates: nil, without_achievement: nil)
+        ] reset
+
+  form.b-form method="get"
+    .cc-2.m15
+      .c-column.m0
+        .b-input
+          label Minimum Titles
+          input name="minimum_titles" value=@minimum_titles
+
+      .c-column.m0
+        .b-input
+          label Maximum Titles
+          input name="maximum_titles" value=@maximum_titles
+
+    .cc-2.m15
+      .c-column.m0
+        .b-input
+          label Minimum Duration
+          input name="minimum_duration" value=@minimum_duration
+
+      .c-column.m0
+        .b-input
+          label Maximum Duration
+          input name="maximum_duration" value=@maximum_duration
+
+    .cc-2.m15
+      .c-column.m0
+        .b-input
+          label Minimum User Rates
+          input name="minimum_user_rates" value=@minimum_user_rates
+
+      .c-column.m0
+        .b-input
+          label Maximum User Rates
+          input name="maximum_user_rates" value=@maximum_user_rates
+
+    .b-input
+      label
+        input[
+          name="without_achievement"
+          type="checkbox"
+          checked=@without_achievement.present?
+        ]
+        | Without Achievement
+
+    input type="submit" value="Submit"
+
+.block
+  .cc-2
+    .c-column
+      .b-options-floated
+        = @matched_collection.size
+      .subheadline Matched
+      ul.b-list.is-wide
+        - @matched_collection.each do |franchise, infos|
+          li
+            a href=animes_collection_url(franchise: franchise)
+              = franchise.titleize
+            - if NekoRepository.instance.find(franchise, 1) != Neko::Rule::NO_RULE
+              .matched
+                a href=achievement_url(:franchise, franchise) ✓
+            .infos
+              - infos.each do |_key, info|
+                .info
+                  span.b-tooltipped.dotted.unprocessed[
+                    data-direction='top'
+                    title=info[:tooltip]
+                  ] = info[:text]
+
+      / ul.b-list.is-wide
+        - @matched_collection.each do |franchise, infos|
+          li = franchise
+
+    .c-column
+      .b-options-floated
+        = @not_matched_collection.size
+      .subheadline Not Matched
+      ul.b-list.is-wide
+        - @not_matched_collection.each do |franchise, infos|
+          li
+            a href=animes_collection_url(franchise: franchise)
+              = franchise.titleize
+            - if NekoRepository.instance.find(franchise, 1) != Neko::Rule::NO_RULE
+              .not-matched
+                a href=achievement_url(:franchise, franchise) ✕
+            .infos
+              - infos.each do |_key, info|
+                .info
+                  span.b-tooltipped.dotted.unprocessed[
+                    data-direction='top'
+                    title=info[:tooltip]
+                  ] = info[:text]

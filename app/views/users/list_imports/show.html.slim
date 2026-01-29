@@ -1,0 +1,37 @@
+= render layout: 'page' do
+  .subheadline.m5 = @resource.name
+  .b-entry-info
+    = info_line ListImport.human_attribute_name(:list) do
+      = @resource.list_file_name
+      // XSS here since direct link can lead to XML file containing javascript
+      / - if @resource.list.exists?
+      /   a href=@resource.list.url
+      /     = @resource.list_file_name
+      / - else
+      /   = @resource.list_file_name
+
+    = info_line ListImport.human_attribute_name(:list_type), @resource.list_type_text
+    = info_line ListImport.human_attribute_name(:duplicate_policy), @resource.duplicate_policy_text
+    = info_line ListImport.human_attribute_name(:state) do
+      span.state class=@resource.state
+        = @resource.aasm.human_state.capitalize
+        - if @resource.failed? && @resource.output
+          span.error-info
+            | .&nbsp;
+            - if @view.empty_list_error?
+              = t 'users.list_imports.show.empty_list'
+            - elsif @view.broken_file_error?
+              = t 'users.list_imports.show.broken_file'
+            - elsif @view.mismatched_list_type_error?
+              = t 'users.list_imports.show.mismatched_list_type'
+            - elsif @view.missing_fields_error?
+              = t 'users.list_imports.show.missing_fields',
+                fields: '`' + @view.missing_fields.join('`, `') + '`'
+            - elsif @resource.output&.dig('error', 'class').present?
+              ' #{@resource.output.dig 'error', 'class'}:
+              = @resource.output.dig 'error', 'message'
+
+  - unless @resource.failed?
+    = render "users/list_imports/#{@resource.state}",
+      list_import: @resource,
+      view: @view

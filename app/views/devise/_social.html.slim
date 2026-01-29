@@ -1,0 +1,20 @@
+.social
+  - if local_assigns[:is_p]
+    p.m5 = t '.social_networks'
+  - else
+    .subheadline = t '.social_networks'
+
+  div
+    - %i[vkontakte twitter facebook].each do |network|
+      - is_broken_network = network.in? %i[facebook twitter]
+      a.b-oauth_token.b-tooltipped.unprocessed[
+        class=network
+        href=(is_broken_network ? send(:"#{network}_pages_url") : send(:"user_#{network}_omniauth_authorize_url"))
+        title=(network == :facebook && local_assigns[:is_compact] ? "#{t(".#{network}")}. #{t('facebook')}" : t(".#{network}"))
+        data-turbolinks=('false' unless is_broken_network)
+        data-method=('post' unless is_broken_network)
+        data-direction='top'
+      ]
+
+  - unless local_assigns[:is_compact]
+    small == t 'facebook_html'

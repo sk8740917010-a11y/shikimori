@@ -1,0 +1,57 @@
+= render 'application/note_from_club_page', club_page_id: 2285, is_version: true
+
+= simple_form_for resource.object do |f|
+  = f.input :poster_data_uri,
+    as: :hidden,
+    input_html: { value: '' }
+  = f.input :poster_id,
+    as: :hidden,
+    input_html: { value: resource.poster&.id }
+  = f.input :poster_crop_data,
+    as: :hidden,
+    input_html: { value: resource.poster&.crop_data&.to_json || '{}' }
+
+  .template-html.hidden
+    .derivative-preview
+      p В каталоге аниме
+      = render 'db_entries/poster',
+        db_entry: resource,
+        poster: resource.poster,
+        derivative: :preview
+    .derivative-mini[
+      class=('is-need-rescale' if resource.anime? || resource.manga?)
+    ]
+      p В избранном/клубах
+      .rescale-cutter
+        = render 'db_entries/poster',
+          db_entry: resource,
+          poster: resource.poster,
+          derivative: :mini
+
+  .block
+    #vue_app[
+      data-src=resource.poster&.image&.url
+      data-preview-width=(resource.anime? || resource.kinda_manga? ? Uploaders::PosterUploader::PREVIEW_WIDTH : Uploaders::PosterUploader::MAIN_WIDTH)
+      data-preview-height=(resource.anime? || resource.kinda_manga? ? Uploaders::PosterUploader::PREVIEW_ANIME_HEIGHT : Uploaders::PosterUploader::MAIN_HEIGHT)
+      data-is-two_lines_hint=(!resource.anime? && !resource.kinda_manga?).to_json
+    ]
+      .block_m.b-nothing_here = t 'loading'
+
+  / // use resource.object! becase in person decorator these methods are redefined
+  / - unless resource.object.anime? || resource.object.manga? || resource.object.ranobe?
+  /   p: b #{t '.image_size', size: '225x350'}
+  / .b-warning
+  /   div
+  /     span.warning = t '.warning'
+  /   / p.hint TODO: пришлите, пожалуйста, @morr в личку текст, который сюда вставить.<br>
+  /     Когда и в каких случаях менять картинки?<br>
+  /     Не нужно менять постеры анонсам, для них на MAL поставят картинку.<br>
+  /     Картинки хентая должны быть зацензурены белыми квадратиками.<br>
+
+  .cc-2
+    .c-column
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

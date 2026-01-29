@@ -1,0 +1,10 @@
+= simple_form_for @resource.object, url: @resource.url do |f|
+  input type='hidden' name='section' value=@section
+
+  = f.input :notification_settings,
+    as: :check_boxes,
+    label: false
+
+  .block
+    = f.button :magic_submit
+    a.cancel href=@resource.url = t 'actions.cancel'

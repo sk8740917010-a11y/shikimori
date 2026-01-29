@@ -1,0 +1,124 @@
+ru:
+  topics:
+    show:
+      rss_title: Комментарии топика
+    moderation:
+      no_bans: Нет банов
+      no_abuse_requests: Нет жалоб
+    missing:
+      user_topic: 'Топик № %{id}'
+      no_topic: >-
+        Топик был или удалён, или никогда не существовал на сайте,
+        или у тебя нет прав для его просмотра
+    header:
+      mini: &header_mini
+        topic_ignored: &ignored в игноре
+        topic_closed: закрыт
+        spoilers: Спойлеры
+        censored: 18+
+      common:
+        <<: *header_mini
+        about: о
+        in: в
+    footer:
+      vote:
+        question:
+          critique: Эта рецензия полезна?
+          cosplay: Тебе нравится?
+          collection: Эта коллекция полезна или интересна?
+          review: Этот отзыв полезен?
+    comments:
+      your_comment: Твой комментарий
+      return_to_reply: Назад
+    inner:
+      read_more_link: Читать дальше →
+      source: Источник
+    form:
+      form:
+        topic_text: Текст топика
+        news_text: Текст новости
+        premoderation: Топик находится на модерации
+        edit:
+          title: Редактирование топика
+        new:
+          title: Новый топик
+      type:
+        pick_topic_type: Выбери тип топика
+        common_topic: Обычный топик
+        news_topic: Новостной топик
+      critique:
+        pick_target: Выбери, о чём рецензия
+        go_next: Далее
+      rules:
+        go_next: Далее
+      video:
+        attach: Прикрепить
+        topic_video: Видео
+      posters:
+        drag_here: Нажми сюда или перетаскивай картинки на область
+        topic_posters: Картинки
+      source:
+        hint: Ссылка на страницу, откуда взята новость
+    status_line:
+      about: о
+      by: от
+      section_dates:
+        changed_at: Изменено %{date}
+        created_at: Создано %{date}
+    menu_actions:
+      create_topic: Создать топик
+      create_news: Написать новость
+      create_critique: Написать рецензию
+      create_article: Написать статью
+      create_collection: Создать коллекцию
+      reload_forum: обновить форум
+    page:
+      refresh: Обновить страницу
+    menu:
+      hide: '&mdash; спрятать'
+      new_club: Создан новый клуб
+      new_club_topic: Создан новый топик
+      new_club_page: Создана новая страница
+      critiques: Рецензии
+      show_more: '+ показать ещё'
+      sticky_topics: Прикреплённое
+      to_clubs: К клубам
+      to_critiques: К рецензиям
+      user_critique: 'Рецензия %{author}'
+      contests: :dashboards.show.contests
+    cosplay:
+      info:
+        in_gallery: В галерее
+        character:
+          one: Персонаж
+          few: Персонажи
+          many: Персонажи
+        cosplayer:
+          one: Косплеит
+          few: Косплеят
+          many: Косплеят
+    contests:
+      started: &contest_started
+        name: Название
+        rounds: Число раундов
+        members: Число участников
+        dates: Даты
+      finished:
+        <<: *contest_started
+        winners: Победители
+    news_line:
+      inner:
+        <<: *header_mini
+        by: от
+    reviews:
+      inner:
+        in_author_list: В списке у автора
+        is_written_before_release:
+          anime: Отзыв написан до завершения показа аниме
+          manga: Отзыв написан до завершения манги
+          ranobe: Отзыв написан до завершения ранобэ
+        go_to_review: к отзыву
+        moderation: Модерация
+        'on': к
+        review_ignored: *ignored
+        review_closed: закрыто

@@ -1,0 +1,251 @@
+@import globals
+@import mixins/ellipsis2
+@import mixins/float_column
+@import mixins/link
+@import mixins/font_shikimori
+@import mixins/two_line_ellipsis
+@import mixins/responsive
+
+$max_minified_width: 162px
+$max_width: 167px
+
+.b-catalog_entry
+  max-width: 460px
+
+  &.cc
+    & > .cover
+      +column(2, 0.4)
+    .content
+      +column(2, 0.6)
+
+    &.column-2
+      +iphone-landscape
+        .cover
+          +column(2, 0.35)
+        .content
+          +column(2, 0.65)
+
+  +lte_ipad
+    .cover .image-decor > .text.is-focused
+      display: block
+      max-height: none
+
+  +gte_laptop
+    &:hover .cover .image-decor > .text
+      display: block
+      max-height: none
+
+  .cover
+    +link_color(#333333)
+    font-size: 12px
+
+    +lte_ipad
+      font-size: 13px
+    +gte_desktop
+      font-size: 13px
+
+    display: block
+
+    .image-decor
+      display: block
+      line-height: 0px
+      position: relative
+      //padding: 2.5%
+      //max-width: $max_width
+
+      .image-cutter
+        display: block
+        line-height: 0
+        //max-height: 239px
+        //max-width: $max_minified_width - 2px
+        overflow: hidden
+        position: relative // для кнопки удаления в рекомендациях
+
+      img
+        width: 100%
+
+      // используется для отображения текста в коллекциях
+      & > .text
+        +two_line_ellipsis(12px, $line_height)
+        transition: all 0.25s ease
+        background: linear-gradient(to bottom, rgba(#000, 0.6) 5%, rgba(#000, 0.8) 66%)
+        bottom: 0
+        color: #fff
+        font-size: 12px
+        letter-spacing: 0.13px
+        line-height: 1.45
+        padding: 2px 5px
+        position: absolute
+        width: 100%
+        z-index: 2
+
+        &:before
+          background: rgba(#fff, 0.25)
+          content: ''
+          height: 100%
+          margin: -2px -5px
+          pointer-events: none
+          position: absolute
+          width: 100%
+
+        .b-link
+          color: #fff
+          text-decoration: underline
+
+        .b-image .marker
+          display: none
+
+        .b-video
+          max-width: 100%
+
+    .title
+      +ellipsis2
+      +link
+      display: block
+      font-weight: bold
+      line-height: $line_height
+      margin-top: 5px
+      //max-width: $max_width
+
+      &.two_lined
+        +two_line_ellipsis(13px, $line_height)
+
+    +gte_laptop
+      &:hover .title
+        color: var(--link-hover-color)
+        text-decoration: underline
+
+    .misc
+      color: #555
+      display: flex
+      font-size: 11px
+      gap: 5px
+      justify-content: space-between
+      line-height: 17px
+
+      &.centered
+        text-align: center
+
+      span
+        +ellipsis2
+        color: #123
+        display: block
+
+        &.relation
+          line-height: 1.4
+          margin-top: 2px
+          padding-right: 0
+          //text-align: center
+          white-space: normal
+
+        &.anons
+          color: #307a3d
+
+        &.released
+          color: #ca4929
+
+        &.role
+          overflow: visible
+          text-align: center
+          white-space: normal
+
+  .content
+    .tooltip-details
+      min-height: 100px
+
+  $background-size: 28px
+  $border-size: 2px
+  $foreground-size: $background-size + $border-size * 2
+
+  &.planned, &.watching, &.completed, &.rewatching, &.on_hold, &.dropped
+    .image-decor
+      position: relative
+
+      &::before,
+      &::after
+        position: absolute
+        right: 4px
+        top: 4px
+
+      &::before
+        border: $border-size solid #fff
+        border-radius: $background-size
+        height: $background-size
+        width: $background-size
+        line-height: $background-size
+        content: ''
+        z-index: 1
+
+      &::after
+        +font_shikimori
+        width: $foreground-size
+        line-height: $foreground-size
+        font-size: 20px
+        text-align: center
+        z-index: 2
+
+  &.planned .image-decor
+    &:before
+      background: #fff
+      border-color: var(--link-color)
+    &:after
+      color: var(--link-color)
+      content: $icon-planned
+      font-size: 24px
+
+  &.on_hold .image-decor
+    &:before
+      background: $gray-3
+    &:after
+      color: #fff
+      content: $icon-on_hold
+
+  &.watching .image-decor
+    &:before
+      background: var(--link-color)
+    &:after
+      color: #fff
+      content: $icon-watching
+      font-size: 21px
+
+  &.rewatching .image-decor
+    &:before
+      background: var(--link-color)
+    &:after
+      color: #fff
+      content: $icon-rewatching
+      font-size: 17px
+
+  &.completed .image-decor
+    &:before
+      background: $released_tag
+    &:after
+      color: #fff
+      content: $icon-completed
+
+  &.dropped .image-decor
+    &:before
+      background: $anons_tag
+    &:after
+      color: #fff
+      content: $icon-dropped
+      width: $foreground-size - 1px
+
+  &.planned, &.watching, &.completed, &.rewatching, &.on_hold, &.dropped
+    .user_rates-minified .image-decor
+      &::before,
+      &::after
+        right: 3px
+        top: 3px
+
+      &::before
+        border-width: 1px
+        border-radius: 0
+        height: 16px
+        width: 16px
+        line-height: 16px
+
+      &::after
+        width: 19px
+        line-height: 19px
+        font-size: 13px

@@ -1,0 +1,31 @@
+- cache topic_view.cache_key do
+  a[
+    href=topic_view.url
+    title=topic_view.topic_title
+  ]
+    .title
+      span = topic_view.topic_title_html
+
+    .status-line
+      - Array(topic_view.action_tag).each do |tag|
+        .b-anime_status_tag[
+          class=tag.type
+          data-text=tag.text
+        ]
+      - unless topic_view.db_entry_topic?
+        time[
+          datetime=topic_view.created_at.iso8601
+          data-no-tooltip='true'
+        ] = Topics::View.format_date topic_view.created_at
+        span = t '.by'
+        .author
+          img[
+            src=topic_view.user.avatar_url(16)
+            srcset="#{topic_view.user.avatar_url 32} 2x"
+            alt=topic_view.user.nickname
+          ]
+          span
+            = topic_view.user.nickname
+
+      .comments == topic_view.comments_count.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1 ')
+

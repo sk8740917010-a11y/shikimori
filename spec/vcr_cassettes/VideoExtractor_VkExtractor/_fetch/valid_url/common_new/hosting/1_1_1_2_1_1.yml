@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.vk.com/method/video.get?access_token=USER_ACCESS_TOKEN_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&v=5.131&videos=31645372_163523215
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/39.0.2171.71 Safari/537.36
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - kittenx
+      Date:
+      - Sat, 04 Sep 2021 11:57:11 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '712'
+      Connection:
+      - keep-alive
+      X-Powered-By:
+      - KPHP/7.4.108474
+      Set-Cookie:
+      - remixir=DELETED; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; domain=.vk.com;
+        secure; HttpOnly
+      Cache-Control:
+      - no-store
+      X-Frame-Options:
+      - DENY
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZSI6eyJjb3VudCI6MSwiaXRlbXMiOlt7ImNhbl9jb21tZW50IjoxLCJjYW5fbGlrZSI6MSwiY2FuX3JlcG9zdCI6MSwiY2FuX3N1YnNjcmliZSI6MSwiY2FuX2FkZF90b19mYXZlcyI6MSwiY2FuX2FkZCI6MSwiY29tbWVudHMiOjI1LCJkYXRlIjoxMzQ5MTA5ODY1LCJkZXNjcmlwdGlvbiI6IjQ1LiDQnNC+0ZEg0YHQtdGA0LTRhtC1INGB0LvQvtCy0L3QviDQsdGD0LzQtdGA0LDQvdCzIVxu0JrQvtC90LXRhi5cbtCd0LDQtCDQv9C10YDQtdCy0L7QtNC+0Lwg0L3QsCDRgNGD0YHRgdC60LjQtSDRgdGD0LHRgtC40YLRgNGLINGA0LDQsdC+0YLQsNC70LAg0LPRgNGD0L/Qv9CwOlxuaHR0cDpcL1wvdmsuY29tXC9sZWRpZWdlb3JnaWVcbtCh0L/QsNGB0LjQsdC+INCx0L7Qu9GM0YjQvtC1INC30LAg0LDQvdC40LzQtS4iLCJkdXJhdGlvbiI6MTQzMywiaW1hZ2UiOlt7ImhlaWdodCI6OTYsInVybCI6Imh0dHBzOlwvXC9zdW45LTY1LnVzZXJhcGkuY29tXC9jNTE4MzA3XC91NzY0NDkyOFwvdmlkZW9cL3NfZDIwNTk4MjEuanBnIiwid2lkdGgiOjEzMCwid2l0aF9wYWRkaW5nIjoxfSx7ImhlaWdodCI6MTIwLCJ1cmwiOiJodHRwczpcL1wvc3VuOS01OC51c2VyYXBpLmNvbVwvYzUxODMwN1wvdTc2NDQ5MjhcL3ZpZGVvXC9tXzZhNzY2ZWIxLmpwZyIsIndpZHRoIjoxNjAsIndpdGhfcGFkZGluZyI6MX0seyJoZWlnaHQiOjI0MCwidXJsIjoiaHR0cHM6XC9cL3N1bjktNDIudXNlcmFwaS5jb21cL2M1MTgzMDdcL3U3NjQ0OTI4XC92aWRlb1wvbF8wMzIwZDMzNi5qcGciLCJ3aWR0aCI6MzIwLCJ3aXRoX3BhZGRpbmciOjF9XSwid2lkdGgiOjY0MCwiaGVpZ2h0Ijo0ODAsImlkIjoxNjM1MjMyMTUsIm93bmVyX2lkIjozMTY0NTM3MiwidGl0bGUiOiLQm9C10LTQuCDQlNC20L7RgNC00LbQuNGPIFwvIExhZHkgR2VvcmdpZSDRgdC10YDQuNGPIDQ1INC40LcgNDUgKCDRgNGD0YEu0YHRg9CxLikiLCJpc19mYXZvcml0ZSI6ZmFsc2UsInBsYXllciI6Imh0dHBzOlwvXC92ay5jb21cL3ZpZGVvX2V4dC5waHA/b2lkPTMxNjQ1MzcyJmlkPTE2MzUyMzIxNSZoYXNoPTNmYmE4NDNhYWViMmE4YWUmX19yZWY9dmsuYXBpJmFwaV9oYXNoPTE2MzA3NTY2MzEyNDY5NWFmZGU5MTNkZmY0ZWFfR0VaVE1PQlZHSVpUUyIsInR5cGUiOiJ2aWRlbyIsInZpZXdzIjozMTgxLCJhbGJ1bV9pZCI6NDQ2MzMwOTR9XX19
+  recorded_at: Sat, 04 Sep 2021 11:57:11 GMT
+recorded_with: VCR 6.0.0

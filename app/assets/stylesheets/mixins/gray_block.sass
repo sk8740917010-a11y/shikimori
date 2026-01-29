@@ -1,0 +1,19 @@
+@import globals
+@import mixins/responsive
+
+=gray-block
+  background: #f9f9f9
+  color: #555
+  cursor: pointer
+  line-height: $line_height
+  padding: 5px 10px
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s
+
+  +gte_laptop
+    &:hover
+      background-color: #eee
+      color: #123
+
+  &:active
+    background-color: #e7e7e7
+    color: #123

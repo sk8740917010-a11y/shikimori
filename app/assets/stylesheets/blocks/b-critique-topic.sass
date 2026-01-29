@@ -1,0 +1,108 @@
+@import globals
+@import mixins/clear_right
+@import mixins/ellipsis2
+@import mixins/link
+@import mixins/responsive
+@import mixins/forum_entry
+
+.b-critique-topic
+  &.b-topic-preview > .inner
+    min-height: 45px
+
+    // .body,
+    // .b-height_shortener,
+    .name-date,
+    .b-status-line
+      margin-left: 0
+
+    .b-status-line
+      margin-bottom: 2px !important
+
+    .critique-entry_cover
+      margin-top: 3px
+      float: left
+      width: 115px
+
+      img
+        width: 100%
+
+    .body
+      margin-left: 130px
+
+    .critique-stars
+      +iphone_portrait
+        display: none
+
+      .star-line:last-child
+        margin-bottom: 0
+
+      .b-rate
+        .stars,
+        .score-value
+          font-size: 24px
+
+        .text-score
+          width: 60px
+
+  .b-critique_votes .warn
+    display: inline-block
+
+  .critique-poster
+    max-width: calc(100% - 264px)
+
+  @media screen and (max-width: 480px)
+    .critique-poster
+      max-width: 100%
+
+  // changing margin-left property may break poster shortening
+  .critique-stars
+    float: right
+    margin-left: $block-offset
+    position: relative // без height-shortener для рецензий некорректно отрабатывает
+
+    +iphone_portrait
+      align-items: center
+      display: flex
+      flex-direction: column
+      float: none
+      margin-left: 0
+      margin-top: 20px
+
+    .text-score
+      +iphone_portrait
+        width: 70px
+
+      +gte_iphone-landscape
+        flex-grow: 1
+
+    .title
+      color: #123
+      font-size: 13px
+      font-weight: bold
+      line-height: 1
+
+    .star-line
+      margin-bottom: 10px
+
+      +iphone_portrait
+        margin-bottom: 7px
+
+        .b-rate
+          .stars,
+          .score-value
+            font-size: 28px
+
+      &:last-child
+        margin-bottom: 20px
+
+      .b-rate
+        +iphone_portrait
+          margin-top: -5px
+
+.b-critique-topic.b-topic-preview
+  +iphone_portrait
+    .critique-stars
+      margin-top: 0
+
+    .text-score
+      display: none

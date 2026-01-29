@@ -1,0 +1,47 @@
+@import globals
+@import mixins/brackets_surrounded
+@import mixins/float_column
+@import mixins/icons
+@import mixins/responsive
+
+.p-characters
+  .item-edit
+    +icon_button('\e814')
+    +link(#123)
+
+.p-characters-index
+  .b-postloader
+    clear: left
+    margin-bottom: 0
+
+.p-characters-show
+  +gte_ipad
+    .b-db_entry .c-image
+      margin-bottom: 0
+
+  .c-info-right
+    .subheadline span
+      +brackets_surrounded
+      font-weight: normal
+
+    .c-person
+      +column(3)
+
+  .cc-roles
+    +cc
+
+    .c-column
+      +gte_ipad
+        +column(7)
+
+      +iphone-portrait
+        +column(3)
+
+        &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7)
+          display: none
+
+      +iphone-landscape
+        +column(5)
+
+        &:nth-child(6), &:nth-child(7)
+          display: none

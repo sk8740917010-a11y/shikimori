@@ -1,0 +1,83 @@
+@import 'themes/_colors';
+
+$font-main: Helvetica Neue, Arial, Verdana, sans-serif;
+$font-alt: Open Sans, Helvetica Neue, Arial, Verdana, sans-serif;
+$font-code: Monaco, Menlo, Consolas, Ubuntu Mono, Courier New, monospace;
+
+$variables: (
+  --font-size-base-desktop: 13px,
+  --font-size-base-mobile: 13px,
+  --font-main: $font-main,
+  --font-alt: $font-alt,
+  --font-code: $font-code,
+  --font-alt-hadline-letter-spacing: 0.18px,
+  --font-alt-text-letter-spacing: -0.13px,
+  --top-menu-height: 46px,
+);
+
+$line_height: 1.65;
+
+// site content
+$site-body-width: 1200px;
+
+// default offset
+$block-offset: 30px;
+
+// default sizes of standard media element
+$media_height: 132px;
+$media_width: 235px;
+
+$flex-gutter-mobile: 32px;
+$flex-gutter-desktop: 50px;
+
+// $flex-offset-mobile: 40px;
+$flex-offset-mobile: $block-offset;
+// $flex-offset-desktop: 48px;
+$flex-offset-desktop: $block-offset;
+
+// adaptive
+/*320px for common smartphones including iPhone at portrait orientation */
+/*480px and below for iPhones at landscape orientation and many of the HTC handsets */
+/*768px – 980px for iPad and other tablets */
+/*980px and upwards for desktop monitors */
+/*1200px and upwards for larger desktop monitors */
+$phone: 320px;
+$iphone: 480px;
+$ipad: 768px;
+
+//$iphone_max: 568px
+//$iphone_max: 640px // эта цифра и для последних самсунговских плафонов
+$iphone_max: 767px;
+$ipad_max: 1023px;
+$laptop_max: 1199px;
+
+// icons
+$icon-planned: "\e838";
+$icon-on_hold: "\e836";
+$icon-watching: "\e823";
+$icon-rewatching: "\e825";
+$icon-completed: "\e824";
+$icon-dropped: "\e828";
+
+// Cool
+$aqua: #7fdbff;
+$blue: #0074d9;
+$navy: #001f3f;
+$teal: #39cccc;
+$green: #2ecc40;
+$olive: #3d9970;
+$lime: #01ff70;
+
+// warm
+$yellow: #ffdc00;
+$orange: #ff851b;
+$red: #ff4136;
+$fuchsia: #f012be;
+$purple: #b10dc9;
+$maroon: #85144b;
+
+// Gray Scale
+$white: white;
+$silver: #dddddd;
+$gray: #aaaaaa;
+$black: #111111;

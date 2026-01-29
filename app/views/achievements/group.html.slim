@@ -1,0 +1,64 @@
+header.head
+  h1
+    = og.headline
+  = render 'application/breadcrumbs'
+
+/ - if params[:group] == 'author'
+  .headline.purple.m20 #{t 'page_under_development'}
+
+.p-achievements-global
+  - cache NekoRepository.instance.statistics_cache_key(params[:group], :v6)  do
+    - if params[:group].to_sym == ::Types::Achievement::NekoGroup[:franchise]
+      .cc-2
+        - @collection.group_by(&:neko_id).each do |neko_id, achievements|
+          - achievement = achievements.find { |v| v.level == 1 }
+          .c-column
+            .block_m
+              .subheadline
+                a[
+                  href=achievement_url(achievement.group, neko_id)
+                ] = achievement.title(current_user)
+
+              .cc-2a
+                .c-column
+                  = render 'users/achievements/achievement',
+                    achievement: achievement
+                .c-column
+                  = render 'achievements/statistics',
+                    achievement: achievement,
+                    hide_title: true
+
+              = render 'achievements/info', view: Achievements::InfoView.new(achievements)
+
+    - else
+      - @collection.group_by(&:neko_id).each do |neko_id, achievements|
+        - achievement = achievements.find { |v| v.level == 1 }
+        .block
+          .subheadline
+            a[
+              href=achievement_url(achievement.group, neko_id)
+            ] = achievement.neko_name
+
+          .cc-2
+            .c-column
+              = render 'users/achievements/achievement',
+                achievement: achievement,
+                images: true,
+                is_half_sized: achievement.author?
+            .c-column
+              = render 'achievements/info', view: Achievements::InfoView.new(achievements)
+
+          .incomplete[
+            data-label=t('.incomplete_achievement')
+          ]
+            - achievements.each do |achievement|
+              - if achievement.image.blank? || achievement.title(current_user).blank? || achievement.text.blank?
+                .incomplete-achievement
+                  .label = t '.level', level: achievement.level
+
+                  - if achievement.image.blank?
+                    .field = t '.image'
+                  - if achievement.title(current_user).blank?
+                    .field = t '.title'
+                  - if achievement.text.blank?
+                    .field = t '.text'

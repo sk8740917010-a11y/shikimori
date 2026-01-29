@@ -1,0 +1,79 @@
+doctype html
+html[
+  data-color-mode='light'
+]
+  head
+    = render 'application/head'
+
+  / refactor to LayoutView. put top_menu to LayoutView
+  - @layout ||= LayoutView.new # for devise controllers
+  body[
+    id=@layout.body_id
+    class=@layout.body_class
+    data-env=Rails.env
+    data-user=@layout.user_data.to_json
+    data-locale=I18n.locale
+    data-server_time=Time.zone.now.iso8601
+    data-localized_names=@layout.localized_names
+    data-localized_genres=@layout.localized_genres
+    data-faye_url=FayePublisher.faye_url
+    data-camo_url=UrlGenerator.instance.camo_root_url(false)
+    data-faye=(current_user.faye_channels.to_json if user_signed_in?)
+    data-js_export_supervisor_keys=JsExports::Supervisor.user_keys(current_user).to_json
+  ]
+    = @layout.custom_styles
+    #outdated
+
+    - if defined?(notice) && notice
+      p.flash-notice
+        = notice
+    - if defined?(alert) && alert
+      p.flash-alert
+        = alert
+
+    - if @layout.blank_layout?
+      = sweep_js_exports do
+        = yield
+
+    - else
+      header.l-top_menu-v2
+        - unless Rails.env.development? && params.key?(:no_menu)
+          = render 'application/top_menu'
+
+      section.l-page *itemprop
+        / - unless old_host? || cookies[:red_alert]
+          .b-hot_topics-v2.red-alert
+            a href='/forum/site/284035-novyy-domen-shikimori-one'
+              | shikimori.org забанен мосгорсудом
+            .b-close data-cookie-name='red_alert'
+
+        - unless Rails.env.development? && params.key?(:no_menu)
+          - if @layout.hot_topics?
+            = render 'application/hot_topics', layout: @layout
+        div
+          = sweep_js_exports do
+            = yield
+
+        footer.l-footer
+          - unless Rails.env.development? && params.key?(:no_menu)
+              = render 'application/footer'
+
+        / = render 'spnsrs/ad', ad: Ad.new(:footer)
+      .b-shade
+      .b-to-top
+        .slide
+        .arrow
+
+    - if shikimori? && (!user_signed_in? || (user_signed_in? && !current_user.banned?))
+      .b-feedback
+        .hover-activator
+        span.marker-positioner[
+          data-remote='true'
+          data-action=feedback_pages_url
+          data-type='html'
+        ]
+          .marker-text data-text=t('application.aside.report_bug')
+    javascript[id='js_export']:
+      window.JS_EXPORTS = #{{JsExports::Supervisor.instance.export(current_user).to_json}};
+    = yield :tail
+    = Gon::Base.render_data

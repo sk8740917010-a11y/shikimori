@@ -1,0 +1,48 @@
+.b-log_entry.mobile-multiline[
+  id=news.id
+]
+  span
+    a.bubbled[
+      href=UrlGenerator.instance.topic_url(news)
+      data-tooltip_url=topic_tooltip_url(news)
+    ]
+      span.id-label #
+      = news.id
+
+  span.date
+    = news.created_at.strftime '%d.%m.%Y'
+
+  span.author
+    = render 'users/user_16', user: news.user
+
+  span
+    = news.title
+
+  span: a.b-link.comment-hash href=UrlGenerator.instance.topic_url(news) #
+
+  span.state.inline class=news.moderation_state
+    = t "activerecord.attributes.topics/news_topic.moderation_state/#{news.moderation_state}"
+
+  - if can? :moderate, news
+    - if news.may_accept? || news.may_reject? || news.may_cancel?
+      .moderation.inline
+        - if news.may_accept?
+          a.link.accept[
+            href=accept_moderations_news_path(news)
+            data-method='post'
+          ] = t '.accept'
+        - if news.may_reject?
+          a.link.reject[
+            href=reject_moderations_news_path(news)
+            data-method='post'
+          ] = t '.move_to_offtopic'
+        - if news.moderation_state != 'accepted'
+          a.link.destroy[
+            title=t('actions.delete')
+            data-text=t('actions.delete')
+            data-action=topic_url(news)
+            data-confirm=t('actions.confirm_delete')
+            data-type='json'
+            data-remote='true'
+            data-method='DELETE'
+          ] = t('actions.delete').downcase

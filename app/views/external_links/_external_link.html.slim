@@ -1,0 +1,8 @@
+.b-external_link[
+  class=external_link.icon_kind
+  class=local_assigns[:class]
+]
+  - if external_link.url == ExternalLink::NO_URL
+    .none = external_link.label
+  - else
+    .linkeable.b-link data-href=external_link.url = external_link.label

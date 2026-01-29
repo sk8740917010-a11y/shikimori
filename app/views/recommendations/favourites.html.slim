@@ -1,0 +1,46 @@
+header.head.ajaxable
+  h1
+    = og.headline
+
+  - if @view.klass == Anime
+    a.misc href=recommendations_favourites_manga_url = Manga.model_name.human.downcase
+    a.misc href=recommendations_favourites_ranobe_url = Ranobe.model_name.human.downcase
+  - elsif @view.klass == Manga
+    a.misc href=recommendations_favourites_anime_url = Anime.model_name.human.downcase
+    a.misc href=recommendations_favourites_ranobe_url = Ranobe.model_name.human.downcase
+  - else
+    a.misc href=recommendations_favourites_anime_url = Anime.model_name.human.downcase
+    a.misc href=recommendations_favourites_manga_url = Manga.model_name.human.downcase
+
+  .notice
+    p = t '.here_we_have_put_together', kind: i18n_i("best_#{@view.klass.name.downcase}", 1, :genitive)
+
+    - if @view.klass == Anime
+      p
+        = t '.not_interested'
+        '
+        == t '.pick_anime_to_your_liking', url: RecommendationsController::TOPIC_URL
+
+    - if @view.klass == Anime || @view.klass == Manga
+      p
+        == t ".get_personalized_#{@view.klass.name.downcase}_recommendations",
+          register: (t('.register', kind: t('.kind.' + @view.klass.name.downcase)) unless user_signed_in?),
+          url: recommendations_url(klass: @view.klass.name.downcase)
+
+.block
+  - if @collection.any?
+    - kinds_with_colors.each do |data|
+      - next unless @collection[data[:kind]]
+
+      .headline class="#{data[:color]}"
+        = t "titles/collection_title.kind.#{@view.klass.name.downcase}.long.#{data[:kind]}"
+
+      - if @view.klass == Anime
+        .m0 class="cc-#{data[:kind] == 'tv' || data[:kind] == 'movie' ? 'entries' : 8}"
+          = render @collection[data[:kind]], cover_notice: :studio, content_by: :tooltip
+      - else
+        .m0 class="cc-#{data[:kind] != 'one_shot' && data[:kind] != 'doujin' ? 'entries' : 8}"
+          = render @collection[data[:kind]], cover_notice: :studio, content_by: :tooltip
+
+  - else
+    p.b-nothing_here = t 'nothing_found'

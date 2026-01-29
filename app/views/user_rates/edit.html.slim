@@ -1,0 +1,13 @@
+- if params[:detailed]
+  .b-user_rate-extended
+    .subheadline.m5 = localization_span @user_rate.target
+    .cc
+      .c-column
+        = render 'user_rates/form', resource: @user_rate
+
+      .c-column
+        = render @user_rate.target.decorate,
+          cover_notice: :studio,
+          content_by: :block
+- else
+  = render 'user_rates/form', resource: @user_rate

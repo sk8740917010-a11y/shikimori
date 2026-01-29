@@ -1,0 +1,27 @@
+- stars_by_kind = { \
+  storyline: critique.storyline.present? && !critique.storyline.zero?,
+  characters: critique.characters.present? && !critique.characters.zero?, 
+  animation: critique.animation.present? && !critique.animation.zero?,
+  music: critique.target.is_a?(Anime) && critique.music.present? && !critique.music.zero?,
+  overall: critique.overall.present? && !critique.overall.zero? \
+}
+- stars_limit = local_assigns[:is_preview] ? 2 : stars_by_kind.size
+- stars_displayed = 0
+
+- if local_assigns[:is_edit] || stars_by_kind.any?(&:second)
+  .critique-stars
+    - stars_by_kind.keys.each do |kind|
+      - if local_assigns[:is_edit] || (stars_by_kind[kind] && stars_displayed < stars_limit)
+        - stars_displayed += 1
+        .star-line
+          .title = t ".#{kind}"
+          = render partial: 'blocks/rate',
+            locals: { \
+              score: critique.send(kind) || 0,
+              input_selector: ("#critique_#{kind}" if local_assigns[:is_edit]) \
+            }
+          - if local_assigns[:is_edit]
+            = hidden_field_tag "critique[#{kind}]", critique.send(kind)
+
+- if stars_by_kind[:overall]
+  meta itemprop='critiqueRating' content=critique.overall

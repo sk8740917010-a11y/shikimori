@@ -1,0 +1,24 @@
+.block
+  .b-options-floated.count
+    = contest.certain_suggestions.size
+  .subheadline
+    = contest.uncertain_suggestions.any? ? t('.likely_candidates') : t('.candidates')
+  .proposing
+    - if contest.certain_suggestions.any?
+      = render partial: 'private_suggestion',
+        collection: contest.certain_suggestions,
+        as: :suggestion,
+        locals: { contest: contest }
+    - else
+      p = t '.no_candidates'
+
+- if contest.uncertain_suggestions.any?
+  .block
+    .b-options-floated.count
+      = contest.uncertain_suggestions.size
+    .subheadline.m5 = t '.unlikely_candidates'
+    .proposing
+      = render partial: 'private_suggestion',
+        collection: contest.uncertain_suggestions,
+        as: :suggestion,
+        locals: { contest: contest }

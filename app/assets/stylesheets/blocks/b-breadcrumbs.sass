@@ -1,0 +1,22 @@
+@import globals
+@import mixins/ellipsis2
+
+.b-breadcrumbs
+  +ellipsis2
+  clear: left
+  color: #333
+  font-size: 12px
+  line-height: $line_height
+  margin: 2px 0 2px 1px
+
+  & > span
+    &:after
+      content: '/'
+      color: $gray-1
+      padding: 0 5px
+
+    &:last-child:after
+      display: none
+
+  .no-url
+    color: $gray-3

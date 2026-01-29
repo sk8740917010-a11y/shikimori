@@ -1,0 +1,53 @@
+header.head
+  h1
+    = og.headline
+  p.notice На данной странице представлены основные разделы сайта
+
+.cc-2
+  .c-column
+    .subheadline Общее
+    ul.block.b-list.is-wide
+      - @forums.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+    h2.subheadline Аниме
+    ul.block.b-list.is-wide
+      - @anime_seasons.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+
+    h2.subheadline5 Манга
+    ul.block.b-list.is-wide
+      - @manga_seasons.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+    h2.subheadline Ранобэ
+    ul.block.b-list.is-wide
+      - @ranobe_forums.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+  .c-column
+    .subheadline Жанры аниме
+    ul.block.b-list.is-wide
+      - @anime_genres_demographic.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+    ul.block.b-list.is-wide
+      - @anime_genres_genre.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+    ul.block.b-list.is-wide
+      - @anime_genres_theme.each do |title, url|
+        li
+          a.b-link href=url title=title = title
+
+    ul.block.b-list.is-wide
+      - @anime_misc_genres.each do |title, url|
+        li
+          a.b-link href=url title=title = title

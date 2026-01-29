@@ -1,0 +1,27 @@
+.b-stats_bar class=stats_bar.type.downcase
+  - if view.own_profile?
+    .compatibility
+      a href=similar_users_url(klass: stats_bar.type.downcase)
+        = t '.similar_users'
+
+  - elsif view.compatibility_view.value stats_bar.type
+    .compatibility
+      - if can? :access_list, user
+        a href=userlist_comparer_path(user_1: current_user, user_2: view.user, list_type: stats_bar.type.downcase)
+          = render 'profiles/stats_bar_compatibility',
+            class_name: stats_bar.type,
+            view: view.compatibility_view
+
+      - else
+        span.link-replacement
+          = render 'profiles/stats_bar_compatibility',
+            class_name: stats_bar.type,
+            view: view.compatibility_view
+
+  - if can? :access_list, user
+    a.title href=profile_user_rates_url(user, list_type: stats_bar.type.downcase)
+      = t "#{stats_bar.type.downcase}_list"
+  - else
+    .title = t "#{stats_bar.type.downcase}_list"
+
+  = render 'profiles/stats_bar_inner', stats_bar: stats_bar, user: user

@@ -1,0 +1,50 @@
+ru:
+  achievements:
+    group:
+      common: Общие
+      genre: Жанровые
+      franchise: Франшизы
+      author: Авторы
+    neko_name:
+      action: Боевик
+      animelist: Список аниме
+      comedy: Комедия
+      dementia_psychological: Безумие / Психологическое
+      detektiv: Детектив
+      drama: Драма
+      fantasy: Фэнтези
+      fujoshi: Фудзёси
+      gar: ГАР
+      historical: Историческое
+      horror_thriller: Хоррор / Триллер
+      josei: Дзёсей
+      kids: Детское
+      kuudere: Кудере
+      longshounen: Длиннотайтлы
+      mahou_shoujo: Махо-сёдзё
+      mecha: Меха
+      military: Военное
+      moe: Моэ
+      music: Музыка
+      oldfag: Классика
+      oniichan: Запретная любовь
+      otaku: Искусствовед
+      romance: Романтика
+      scifi: Фантастика
+      seinen: Сейнен
+      shortie: Короткометражки
+      slice_of_life: Повседневность
+      sovietanime: Наши в аниме
+      stop_motion: Покадровая анимация
+      space: Космос
+      sports: Спорт
+      supernatural: Сверхъестественное
+      test: Неизвестное достижение
+      tsundere: Цундере
+      yandere: Яндере
+      yuuri: Юри
+      genki: Генки
+      world_masterpiece_theater: Театр Мировых Шедевров
+    hint:
+      default: '%{neko_name} %{level}-го уровня'
+      animelist: '%{threshold} просмотренных аниме'

@@ -1,0 +1,32 @@
+.b-footer_vote
+  .star
+  .notice
+    - if topic_type_policy.critique_topic?
+      = t '.question.critique'
+    - elsif topic_type_policy.cosplay_gallery_topic?
+      = t '.question.cosplay'
+    - elsif topic_type_policy.collection_topic?
+      = t '.question.collection'
+    - elsif topic_type_policy.review_topic?
+      = t '.question.review'
+    - else
+      - raise "unexpected type of #{topic_type_policy.object.class.name.downcase}.id=#{topic_type_policy.object.id}"
+
+  .vote-group
+    .vote.yes.to-process[
+      data-action=votes_url(votable_id: votable.id, votable_type: votable.class.name, vote: 'yes')
+      data-dynamic='authorized'
+      data-method='post'
+      data-remote='true'
+      data-type='json'
+    ]
+      span = t('answers.yes').capitalize
+    .separator
+    .vote.no.to-process[
+      data-action=votes_url(votable_id: votable.id, votable_type: votable.class.name, vote: 'no')
+      data-dynamic='authorized'
+      data-method='post'
+      data-remote='true'
+      data-type='json'
+    ]
+      span = t('answers.no').capitalize

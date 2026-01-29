@@ -1,0 +1,88 @@
+header.head
+  h1 = og.headline
+  = render 'application/breadcrumbs'
+
+/ .subheadline.m10 Группы фансаба/фандаба, которые автоматически распознаёт сайт
+/ .block
+  - AnimeOnline::FixAnimeVideoAuthors::STUDIOS.sort.each do |studio|
+    .b-tag = studio
+
+- if can? :manage_fansub_authors, Anime
+  .subheadline.m10 = t 'navigation'
+  ul.b-list.is-wide.block
+    - if params.key? :is_verified
+      li
+        a.b-link[
+          href=current_url(is_verified: nil)
+        ] Все авторы
+    li
+      a.b-js-link[
+        class=(:active if params[:is_verified] == 'true')
+        href=current_url(is_verified: ('true' if params[:is_verified] != 'true'))
+      ] Только проверенные авторы
+    li.m15
+      a.b-js-link[
+        class=(:active if params[:is_verified] == 'false')
+        href=current_url(is_verified: ('false' if params[:is_verified] != 'false'))
+      ] Только не проверенные авторы
+
+.b-collection_search
+  .field
+    form
+      - if params[:is_verified].present?
+        input type='hidden' name='is_verified' value=params[:is_verified]
+      - if params[:fansub].present?
+        input type='hidden' name='fansub' value=params[:fansub]
+
+      input[
+        type='text'
+        placeholder='Имя автора'
+        value=params[:search]
+        name='search'
+      ]
+      - if params[:search].present?
+        a.clear[
+          href=current_url(search: nil)
+        ]
+
+      input.b-button type='submit' value='Поиск'
+
+  = cache [Anime.all.cache_key, AnimeVideoAuthor.all.cache_key, params.values, can?(:manage_fansub_authors, Anime)] do
+    .block.search-results
+      .b-options-floated
+        = collection.size
+      .subheadline.m10
+        / - if @anime
+          ' Авторы аниме
+          a.b-link.bubbled href=anime_url(@anime)
+            = localization_span @anime
+          .misc-links
+            a href=current_url(anime_id: nil) без аниме
+        / - else
+        | Авторы #{params[:fansub] ? 'фансаба' : 'фандаба'}
+        .misc-links
+          a[
+            href=(params[:fansub] ? current_url(fansub: nil) : current_url(fansub: '1'))
+          ] = params[:fansub] ? 'фандаба' : 'фансаба'
+
+      .block
+        - if collection.any?
+          - collection.each do |author|
+            .b-log_entry
+              a[
+                href=edit_moderations_authors_url(author: { name: author.name }, back_url: current_url)
+              ] = author.name
+              - if can? :manage_fansub_authors, Anime
+                - if author.is_verified
+                  a.is-verified[
+                    href=moderations_authors_url(author: { name: author.name, is_verified: false }, back_url: current_url)
+                    data-method='patch'
+                  ] ✓
+                - else
+                  a.not-verified[
+                    href=moderations_authors_url(author: { name: author.name, is_verified: true }, back_url: current_url)
+                    data-method='patch'
+                  ] ✕
+
+        - else
+          .b-nothing_here Нет авторов

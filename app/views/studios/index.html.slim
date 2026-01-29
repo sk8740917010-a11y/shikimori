@@ -1,0 +1,34 @@
+header.head
+  h1
+    = og.headline
+  p.notice
+    = og.description
+
+.block
+  = cache Studio.all.cache_key, expires_in: 1.day do
+    / - @collection.select(&:is_visible).each do |studio|
+    - @collection.each do |studio|
+      .studio
+        - if studio.image_file_name
+          - if user_signed_in?
+            a href=animes_collection_url(studio: studio) title=studio.name
+              img.logo[
+                src=cdn_image_url(studio, :original)
+                alt=studio.name
+                title=studio.name
+              ]
+          - else
+            img.logo[
+              src=studio.image.url
+              alt=studio.name
+              title=studio.name
+            ]
+        a.name href=animes_collection_url(studio: studio) title=studio.name
+          = studio.name
+        .animes
+          | #{t '.anime_produced'}:&nbsp;
+          span.num = studio.animes_count
+        - if studio.min_year
+          .years
+            | #{t '.over_the_period'}:&nbsp;
+            span.num #{studio.min_year.year}-#{[Time.zone.today.year, studio.max_year.year].min}

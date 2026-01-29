@@ -1,0 +1,204 @@
+- content_for :head do
+  = stylesheet_link_tag :cosplay_edit
+
+- content_for :tail do
+  = javascript_include_tag :cosplay_edit
+
+header.head.misc
+  h1
+    = @gallery.target || @gallery.cos_rain_id
+    /= link_to 'нормальный режим', cosplayer_path(@cosplayer, @gallery), class: 'misc'
+    = link_to 'создать', new_cosplay_url, class: 'misc'
+  = render 'application/breadcrumbs'
+
+= form_for @gallery, url: cosplay_cosplay_gallery_url(@cosplayer, @gallery), namespace: 'cosplay_gallery' do |f|
+  .cosplay-mod.edit
+    .menu-right
+      .completable-title
+        span.character.item-minus
+        span.character.item-add
+        .subheadline.m5 Персонажи
+      .m30.completable-block
+        - (@characters || []).each do |v|
+          .entry.character-entry
+            input type='hidden' name='characters[]' value=v.id
+            = render partial: 'characters/suggest',
+              locals: { character: v, render_after_name: '<span class="item-minus"></span>', url_builder: :character_url, render_link: true }
+
+      .completable-title
+        span.anime.item-minus
+        span.anime.item-add
+        .subheadline.m5 Аниме
+      .m30.completable-block
+        - (@animes || []).each do |v|
+          .entry.anime-entry
+            span.item-minus
+            input type='hidden' name='animes[]' value=v.id
+            a.title title=v.name href=anime_url(v)
+              == v.name
+
+      .completable-title
+        span.manga.item-minus
+        span.manga.item-add
+        .subheadline.m5 Манга
+      .m30.completable-block
+        - (@mangas || []).each do |v|
+          .entry.manga-entry
+            span.item-minus
+            input type='hidden' name='mangas[]' value=v.id
+            a.title title=v.name href=manga_url(v)
+              = v.name
+
+      .hidden
+        .completable-title
+          span.tag.item-minus
+          span.tag.item-add
+          .subheadline.m5 Теги
+        .m40.completable-block
+          - (@tags || []).each do |v|
+            .entry.tag-entry
+              span.item-minus
+              input type='hidden' name='tags[]' value=v
+              span.title title=v
+                = v
+
+      .subheadline Другой косплей
+      - chronology.each do |month, group|
+        .block-title
+          = month
+        ul.b-block_list.m20
+          - group.each do |entry|
+            li class="cosplay-month#{' selected' if f.object.id == entry.id}" style="#{'text-decoration: line-through;' if entry.confirmed?}"
+              a href="#{edit_cosplay_cosplay_gallery_url @cosplayer, entry}"
+                span.num.right
+                  = entry.images.count
+                = "#{entry.id}-#{entry.target}"
+
+    .main-content
+      .block
+        .b-options-floated
+          .item-save сохранить
+        .subheadline.m5 Общая информация
+
+        .right
+          p
+            = f.radio_button :confirmed, true
+            | &nbsp;
+            = f.label :confirmed_true, 'Опубликовано'
+          p
+            = f.radio_button :confirmed, false
+            | &nbsp;
+            = f.label :confirmed_false, 'Не опубликовано'
+
+        .field-name Название
+        .b-input
+          = f.text_field :target
+
+        - if f.object.description_cos_rain.present?
+          p.m5
+            == f.object.description_cos_rain
+        .field-name Описание
+        = f.text_area :description
+
+        p
+          b Косплеер#{f.object.cosplayers.count > 1 ? 'ы' : ''}:&nbsp;
+          - f.object.cosplayers.each do |cosplayer|
+            = cosplayer.name
+            - if cosplayer != f.object.cosplayers.last
+              | ,&nbsp;
+
+        - if @keywords
+          p
+            b Ключевые слова:&nbsp;
+            span.keywords
+              - (@keywords + @tags).uniq.each do |v|
+                = v
+                - if v != (@keywords + @tags).uniq.last
+                  | ,&nbsp;
+        p
+          b ID:&nbsp;
+          = f.object.id
+        p
+          b Источник:&nbsp;
+          = f.object.source
+        p.m5
+          b SourceID:&nbsp;
+          = f.object.cos_rain_id
+
+      .block
+        .subheadline.m5 = t 'actions.actions'
+        p
+          = label_tag :move_from_confirm, "Перенести <b>в эту</b> галерею фото из другой галереи".html_safe
+          = check_box_tag 'move_from[confirm]', '1', false, 'autocomplete' => 'off'
+          b style="display: none;" &nbsp;ID:&nbsp;
+          = text_field_tag 'move_from[id]', '', style: 'display: none; width: 50px;', 'autocomplete' => 'off'
+          span style="display: none;" &nbsp;(нажать enter для переноса)
+        .b-input
+          = label_tag :move_to_confirm, "Перенести <b>из этой</b> галереи фото в другую галерею".html_safe
+          = check_box_tag 'move_to[confirm]', '1', false, 'autocomplete' => 'off'
+          b style="display: none;" &nbsp;ID:&nbsp;
+          = text_field_tag 'move_to[id]', '', style: 'display: none; width: 50px;', 'autocomplete' => 'off'
+          span style="display: none;" &nbsp;(нажать enter для переноса)
+        - unless f.object.deleted?
+          p.m15
+            | [
+            a href="#{cosplay_cosplay_gallery_delete_url(f.object.cosplayers.first, f.object)}" data-confirm="Подтверди удаление этой галереи" удалить эту галерею
+            | ]
+        - else
+          h1 style="color: red;" Галерея удалена
+          p.m15
+            | [
+            a href="#{cosplay_cosplay_gallery_undelete_url(f.object.cosplayers.first, f.object)}" data-confirm="Подтверди отмену удаления этой галереи" отменить удаление
+            | ]
+
+      .block
+        .subheadline.m5 = t 'gallery'
+        = f.fields_for :images do |ff|
+          .gallery
+            .info
+              p.m3
+                span ID:&nbsp;
+                = ff.object.id
+              p.m3
+                span Размеры:&nbsp;
+                - if File.exist? ff.object.image.path || ''
+                  = Paperclip::Geometry.from_file(ff.object.image.path)
+                - else
+                  span.red файл не найден
+              .b-input
+                = ff.label :position, 'Позиция'
+                = ff.text_field :position
+              p.m3
+                = ff.label :deleted, t(:delete)
+                = ff.check_box :deleted
+            .images-list
+              = render partial: 'club_images/club_image.html', object: ff.object, locals: {group_name: 'images', style: :original}
+
+      - if f.object.deleted_images.any?
+        .block
+          .subheadline.m5 Удалённое
+          = f.fields_for :deleted_images do |ff|
+            .gallery
+              .info
+                p.m3
+                  span ID:&nbsp;
+                  = ff.object.id
+                p.m3
+                  span Размеры:&nbsp;
+                  - if File.exist? ff.object.image.path || ''
+                    = Paperclip::Geometry.from_file(ff.object.image.path)
+                  - else
+                    span.red файл не найден
+                p.m3
+                  span Позиция:&nbsp;
+                  = ff.object.position
+                p.m3
+                  = ff.label :deleted, 'Удалено'
+                  = ff.check_box :deleted
+              .images-list
+                = render partial: 'club_images/club_image.html', object: ff.object, locals: {group_name: 'images', style: :original}
+
+      p.buttons
+        span.save.b-button Сохранить
+
+  .clearfix

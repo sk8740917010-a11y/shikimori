@@ -1,0 +1,19 @@
+= render 'application/note_from_club_page', club_page_id: 2905, is_version: true
+
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      = render 'db_entries/fields/incomplete_date_field',
+        field: :russia_released_on,
+        start_year: Time.zone.now.year + 3,
+        end_year: 1920,
+        f: f
+      = f.input :russia_released_on_hint
+
+      = render 'versions/reason'
+
+      span = "#{t('previous_value')}: #{resource.object.russia_released_on.human false}"
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

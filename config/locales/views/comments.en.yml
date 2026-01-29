@@ -1,0 +1,41 @@
+en:
+  comments:
+    comment:
+      broadcast: broadcast
+    show:
+      replies: Replies
+    missing:
+      no_comment: >-
+        Comment is either deleted or never existed on Shikimori,
+        or you don't have enough access rights to read it
+    shiki_editor:
+      back_to_editing: Back to Editing
+      bb_codes_guide: BBCode Guide
+      bold: Bold
+      comment: Type your comment here
+      links:
+        text:
+          link: url
+        placeholder:
+          page_url: Enter page URL...
+          anime_title: Enter anime title...
+          manga_title: Enter manga title...
+          ranobe_title: Enter light novel title...
+          character_name: Enter character name...
+          person_name: Enter person name...
+          image_url: Enter image URL...
+          user_name: Enter user name...
+      hide: Hide
+      image_link: Image Link
+      insert_image: 'Insert image:'
+      italic: Italic
+      link: Link
+      preview: Preview
+      quote: Quote
+      quote_user: 'Quote user:'
+      smiley: Smiley
+      spoiler: Spoiler
+      striked: Deleted
+      text: Text
+      underline: Underlined
+      upload_image: Upload Image

@@ -1,0 +1,17 @@
+- content_for :head_misc
+  a.misc[
+    href=new_profile_poll_url(@user, 'poll[user_id]' => @user.id)
+    title=t('polls.index.new')
+  ] = t('actions.create').downcase
+
+= render layout: 'page' do
+  - if @collection.any?
+    = cache @collection do
+      = render partial: 'users/polls/poll',
+        collection: @collection,
+        locals: { user: @user }
+    - if @collection.next_page
+      = render 'blocks/postloader',
+        next_url: current_url(page: @collection.next_page)
+  - else
+    .b-nothing_here = t 'polls.index.no_polls'

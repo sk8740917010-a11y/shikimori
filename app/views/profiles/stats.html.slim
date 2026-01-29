@@ -1,0 +1,48 @@
+= render layout: 'page' do
+  /h2.subheadline = og.headline
+
+  .cc-3_4
+    .c-column
+      /- if @kind == :anime
+      .cc-2
+        .c-column.genres
+          .subheadline Жанры
+          = render 'category_stats', resource: @resource, klass: Anime.name.downcase.to_sym, category: :genres, caption: 'Жанры'
+
+        .c-column.studios
+          .subheadline Студии
+          = render 'category_stats', resource: @resource, klass: Anime.name.downcase.to_sym, category: :studios, caption: 'Студии'
+        /- else
+          /.genres
+            /.subheadline Жанры
+            /= render 'category_stats', resource: @resource, klass: Manga.name.downcase.to_sym, category: :genres, caption: 'Жанры'
+
+          /.studios
+            /.subheadline Издатели
+            /= render 'category_stats', resource: @resource, klass: Manga.name.downcase.to_sym, category: :publishers, caption: 'Студии'
+
+    .c-column
+      /.mini-charts
+        /.scores
+          /.b-options-floated
+            /- if @resource.list_stats.anime? && @resource.list_stats.kinda_manga?
+              /a.link class="#{@kind == :anime ? 'selected' : ''}" href="#{profile_url @resource, :anime}" Аниме
+              /a.link class="#{@kind == :manga ? 'selected' : ''}" href="#{profile_url @resource, :manga}" Манга
+          /.subheadline.m5 Оценки
+          /#scores data-stats="#{@resource.list_stats.scores[@kind].to_json}" data-bar="horizontal"
+
+        /.types
+          /.subheadline.m5 Типы
+          /#types data-stats="#{@resource.list_stats.kinds[@kind].to_json}" data-bar="horizontal"
+
+        /- if @kind != :manga
+          /.ratings
+            /.subheadline.m5 Рейтинги
+            /#ratings data-stats="#{@resource.list_stats.ratings[@kind].to_json}" data-bar="horizontal"
+
+  /.activity
+    /.subheadline Активность
+    /- if @resource.list_stats.activity.any?
+      /#activity_inc data-stats="#{@resource.list_stats.activity.to_json}" data-bar="vertical" data-flattened="true"
+    /- else
+      /p.stat-sorry Недостаточно данных для формирования статистики

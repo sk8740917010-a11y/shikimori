@@ -1,0 +1,138 @@
+= render layout: 'page' do
+  = cache [@resource, user_signed_in?, :v1] do
+    meta itemprop='url' content=@resource.url
+    meta itemprop='headline' content=@resource.name
+
+    - if @resource.russian
+      meta itemprop='alternativeHeadline' content=@resource.russian
+
+    - if @resource.anime? && @resource.kind_movie? && (@resource.aired_on.present? || @resource.released_on.present?)
+      meta[
+        itemprop='datePublished'
+        content=(@resource.aired_on.presence || @resource.released_on).date.to_s
+      ]
+    - elsif @resource.anime?
+      - if @resource.aired_on.present?
+        meta itemprop='dateCreated' content=@resource.aired_on.date.iso8601
+
+    .b-db_entry
+      .c-image
+        .cc.block
+          .c-poster
+            = render 'db_entries/poster_magnificable',
+              resource: @resource,
+              poster: @resource.poster,
+              is_main_poster: true
+
+          .c-actions
+            .b-subposter-actions
+              a.b-subposter-action.new_comment.b-tooltipped.unprocessed.to-process[
+                title=t('.actions.comment')
+                data-direction='top'
+                data-dynamic='day_registered'
+                data-text=t('.actions.comment')
+              ]
+              a.b-subposter-action.new_review.b-tooltipped.unprocessed.to-process[
+                href=@resource.new_review_url
+                title=t('.actions.review')
+                data-direction='top'
+                data-dynamic='day_registered'
+                data-text=t('.actions.review')
+              ]
+              a.b-subposter-action.new_critique.b-tooltipped.unprocessed.to-process[
+                href=@resource.new_critique_url
+                title=t('.actions.critique')
+                data-direction='top'
+                data-dynamic='week_registered'
+                data-text=t('.actions.critique')
+              ]
+              a.b-subposter-action.fav-add.b-tooltipped.unprocessed.to-process[
+                href=toggle_api_favorites_url(linked_type: @resource.object.class.name, linked_id: @resource.id)
+                data-remote='true'
+                data-type='json'
+                data-kind=''
+                data-direction='top'
+                data-dynamic='authorized'
+                data-add_text=t('.actions.add_to_favorites')
+                data-remove_text=t('.actions.remove_from_favorites')
+              ]
+              a.b-subposter-action.edit.b-tooltipped.unprocessed.to-process[
+                href=@resource.edit_url
+                title=t('.actions.edit')
+                data-direction='top'
+                data-dynamic='authorized'
+                data-text=t('.actions.edit')
+              ]
+
+        = render partial: 'user_rates/placeholder',
+          locals: { target: @resource, extended: true }
+
+      .c-about
+        .cc
+          .c-info-left
+            .subheadline = t 'information'
+            .block
+              = render 'animes/info', entry: @resource
+
+          .c-info-right
+            - if @resource.with_score?
+              .block[
+                itemscope
+                itemprop='aggregateRating'
+                itemtype='http://schema.org/AggregateRating'
+              ]
+                .subheadline.m5 = Anime.human_attribute_name(:score)
+                .scores
+                  meta itemprop='bestRating' content='10'
+                  meta itemprop='ratingValue' content=@resource.score
+                  - if @resource.cached_rates_count > 0
+                    meta[
+                      itemprop='ratingCount'
+                      content=@resource.cached_rates_count
+                    ]
+                  = render 'blocks/rate', score: @resource.score
+
+            - if @resource.anime? && @resource.contest_winners.any?
+              = render 'db_entries/contest_winners',
+                contest_winners: @resource.contest_winners
+
+            - if @resource.respond_to?(:studios) && @resource.studios.any?
+              .block
+                .subheadline
+                  = i18n_io 'Producer', @resource.real_studios.size > 1 ? :few : :one
+                .block
+                  = render 'animes/studios_info', entry: @resource
+
+            - if @resource.respond_to?(:publishers) && @resource.publishers.any?
+              .block
+                .subheadline
+                  = i18n_io 'Publisher', @resource.real_publishers.size > 1 ? :few : :one
+                .block
+                  = render 'mangas/publishers_info', entry: @resource
+
+            - if @resource.watch_online_external_links.any?
+              - if user_signed_in?
+                .watch-online
+                  = render 'watch_online'
+              - else
+                .watch-online.to-process[
+                  data-dynamic='postloaded'
+                  data-postloaded-url=watch_online_anime_url(@resource)
+                ]
+
+      .c-description
+        .subheadline.m5 = Anime.human_attribute_name :description
+        .block
+          - if @resource.rkn_abused?
+            .text-red Распространение данного произведения запрещено Роскомнадзором.
+          - else
+            = render 'blocks/description', resource: @resource
+
+    - if user_signed_in?
+      = render 'resources'
+
+    - else
+      .resources-loader.to-process.b-ajax[
+        data-dynamic='postloaded'
+        data-postloaded-url=@resource.resources_url
+      ]

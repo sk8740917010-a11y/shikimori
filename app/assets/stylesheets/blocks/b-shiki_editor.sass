@@ -1,0 +1,270 @@
+@import globals
+@import mixins/block
+@import mixins/icons
+@import mixins/link
+@import mixins/placeholder
+@import mixins/responsive
+@import mixins/textarea
+
+.b-shiki_editor
+  +block
+  transition: opacity 0.5s ease
+
+  &.no-preview-avatar .preview .b-comment
+    header
+      display: none
+
+    .body
+      margin-left: 0
+
+  .field-name
+    font-weight: bold
+    margin-bottom: 7px
+
+  .controls
+    display: flex
+    align-items: center
+    margin-bottom: 5px
+
+    +lte_ipad
+      height: 25px
+
+    +gte_laptop
+      height: 20px
+
+  .links,
+  .images,
+  .quotes,
+  .upload
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    line-height: inherit
+    margin-top: -5px
+
+    +iphone
+      padding: 4px 0
+
+    label,
+    .input-container
+      align-items: center
+      cursor: pointer
+      display: flex
+
+    label
+      height: 26px
+      margin-right: 15px
+
+    .input-container
+      +iphone
+        flex-basis: 100%
+        height: 42px
+
+      +gte_ipad
+        height: 36px
+
+    .link-value
+      +input_colors
+      padding: 0 5px
+
+      +iphone
+        flex-shrink: 0
+        flex-grow: 1
+
+      +gte_ipad
+        width: 380px
+
+    .link-value,
+    .b-button.ok
+      line-height: 24px
+
+    .b-button.ok
+      margin-left: 15px
+      font-size: 11px
+      padding: 0 5px
+
+  .links
+    input[type=radio]
+      margin-right: 5px
+
+  .images,
+  .quotes
+    flex-wrap: wrap
+
+    span
+      +iphone
+        line-height: 31px
+        flex-basis: 100%
+        margin-bottom: -5px
+
+      +gte_ipad
+        margin-right: 10px
+
+  .smileys
+    div
+      margin-bottom: 5px
+
+    img
+      cursor: pointer
+      margin-right: 3px
+      margin-bottom: 3px
+
+  .b-upload_progress.active
+    margin-bottom: 1px
+
+  .body
+    .preview
+      // background: #fcfcfc
+      // border: 1px solid #ddd
+      display: none
+      // margin-bottom: 10px
+      padding: 4px 8px // textarea paddings + 1px to compensate missing border
+
+      .b-comment
+        border: none
+        margin: 0
+        padding: 0
+
+    .editor
+      label
+        display: none
+
+      .prose-mirror
+        +textarea
+        max-width: 100% !important
+        outline: none
+
+      textarea
+        +textarea
+        position: relative
+
+  &.size-xl .body .editor
+    textarea,
+    .prose-mirror
+      max-height: 556px
+      min-height: 259px
+
+  .ajax-loading
+    height: 100%
+
+  aside.markers
+    margin-left: auto
+    display: flex
+    height: 15px
+
+    +lte_ipad
+      height: 20px
+
+    .b-offtopic_marker
+      float: none
+      margin-top: 0
+
+      +lte_ipad
+        &:before
+          line-height: 18px
+
+  aside.buttons
+    float: none !important
+    overflow: hidden
+    white-space: nowrap
+
+    .editor-link,
+    .editor-file
+      +gte_laptop
+        margin-left: $block-offset
+
+      +ipad
+        margin-left: $block-offset * 2
+
+    +iphone-portrait
+      span
+        display: none
+
+      .editor-spoiler,
+      .editor-file,
+      .editor-smiley
+        display: inline-block
+
+      .editor-spoiler
+        margin-left: 0
+
+    +iphone-landscape
+      .editor-bold,
+      .editor-italic,
+      .editor-strike,
+      .editor-underline
+        display: none
+
+      .editor-link
+        margin-left: 0
+
+    +ipad-portrait
+      .editor-strike
+        display: none
+
+  footer
+    margin-top: 10px
+    display: flex
+    align-items: center
+    +iphone
+      flex-wrap: wrap
+
+    input[type=submit],
+    .unpreview,
+    .preview
+      margin-right: 20px
+
+    .unpreview,
+    .cancel,
+    .hide
+      font-size: 13px
+      margin-left: 0
+
+    .unpreview
+      +link
+
+    .unpreview:not(.link),
+    .cancel,
+    .hide
+      +js-link
+
+    .hide
+      display: none
+
+    .unpreview
+      display: none!important
+
+    .about-bb_codes
+      +link
+      font-size: 11px
+      line-height: 1.2
+      margin-left: auto
+
+      +iphone-portrait
+        flex-basis: 100%
+        margin-top: 15px
+        text-align: right
+
+  &.previewed
+    & > .buttons,
+    .controls
+      display: none
+
+    .body
+      .editor
+        display: none
+
+      .preview
+        display: block
+
+        & > div
+          padding-top: 0
+          border-top: none
+
+    footer
+      .unpreview
+        display: inline-block !important
+
+      .cancel,
+      .b-button.preview
+        display: none

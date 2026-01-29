@@ -1,0 +1,63 @@
+@import mixins/block
+@import mixins/ellipsis2
+@import mixins/link
+@import mixins/font_shikimori
+
+.b-forums
+  +block
+
+  .b-form
+    overflow: visible
+    display: flex
+    flex-direction: column
+
+  .forum.common + .forum.special
+    margin-top: 10px
+
+  .forum
+    input
+      margin-right: 6px
+
+    .link-with-input
+      +ellipsis2
+
+      .link
+        +link
+        font-size: 13px
+        font-weight: bold
+
+    .topics
+      color: $gray-2
+      float: right
+      font-size: 11px
+      margin-left: 5px
+      margin-top: 2pe
+
+  .ajax-loading,
+  .reload
+    display: none
+    margin-top: 5px
+
+  .ajax-loading
+    width: 32px
+
+  .reload
+    font-size: 12px
+    +link_color
+
+    &:hover
+      &:after
+        +font_shikimori('\e801')
+        display: inline-block
+        font-size: 12px
+        margin-left: 7px
+        color: inherit
+
+    &.active
+      font-weight: normal // fix .active from +b-link
+
+      &:after
+        animation: rotating 0.75s linear infinite
+
+    a
+      +js_link

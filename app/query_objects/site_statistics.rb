@@ -1,0 +1,189 @@
+class SiteStatistics
+  CACHE_VERSION = :v1_4
+  METRIKA_MONTHS = 18
+  CLASS_MONTHS = 6
+
+  USERS_LIMIT = 31
+
+  TRANSALTION_SCORE_SQL = <<-SQL.squish
+    sum(
+      case
+        when versions.state='accepted' and
+          (item_diff->>#{ApplicationRecord.sanitize :description}) is not null
+        then 7
+        else 1
+      end
+    )
+  SQL
+
+  ACHIEVEMENT_USER_IDS = [3824, 210, 16398, 34807, 29386, 84020, 72620, 50587, 100600, 77362, 7642, 9158] # rubocop:disable all
+  THANKS_TO_USER_IDS = [2, 11, 19, 861, 950, 1945, 864, 6452, 28_133, 23_002, 30_214, 124_689, 76_437] # rubocop:disable all
+
+  def traffic
+    YandexMetrika.call METRIKA_MONTHS
+  end
+
+  def comments
+    by_class Comment, CLASS_MONTHS.month
+  end
+
+  def users
+    by_class(
+      User.where('read_only_at is null or read_only_at < ?', 10.years.from_now),
+      CLASS_MONTHS.month
+    )
+  end
+
+  def comments_count
+    Comment.last.try(:id)
+  end
+
+  def users_count
+    User.last.id
+  end
+
+  def main_moderators
+    role_moderators Types::User::Roles[:super_moderator]
+  end
+
+  def contests_moderators
+    role_moderators Types::User::Roles[:contest_moderator]
+  end
+
+  def critiques_moderators
+    role_moderators [
+      Types::User::Roles[:critique_moderator],
+      Types::User::Roles[:article_moderator]
+    ]
+  end
+
+  def collections_moderators
+    role_moderators Types::User::Roles[:collection_moderator]
+  end
+
+  def news_moderators
+    role_moderators Types::User::Roles[:news_moderator]
+  end
+
+  def developers
+    User.where(id: [User::MORR_ID, User::NEYOKI_ID])
+  end
+
+  def achievements
+    (
+      User
+        .where(id: ACHIEVEMENT_USER_IDS)
+        .sort_by { |v| ACHIEVEMENT_USER_IDS.index v.id } +
+          role_moderators(Types::User::Roles[:statistics_moderator])
+    ).uniq
+  end
+
+  def thanks_to
+    User
+      .where(id: THANKS_TO_USER_IDS)
+      .order(:id)
+  end
+
+  def versions_moderators
+    User
+      .where("roles && '{#{Types::User::VERSION_ROLES.join(',')}}'")
+      .where.not(id: User::MORR_ID)
+      .sort_by { |v| v.nickname.downcase }
+  end
+
+  def retired_moderators
+    role_moderators Types::User::Roles[:retired_moderator]
+  end
+
+  def forum_moderators
+    role_moderators Types::User::Roles[:forum_moderator]
+  end
+
+  def cosplay_moderators
+    User.where(id: User::COSPLAY_MODERATORS - User::ADMINS)
+  end
+
+  def vk_admins
+    User.where(id: [210_569]) # vibrant
+  end
+
+  def discord_admins
+    User.where(id: [210_569]) # vibrant
+  end
+
+  def translators
+    User
+      .joins(:versions)
+      .where.not("roles && '{#{Types::User::Roles[:bot]}}'")
+      .where.not(id: [User::MORR_ID, User::GUEST_ID])
+      .where(versions: { state: %i[accepted taken auto_accepted] })
+      .where.not(versions: { item_type: AnimeVideo.name })
+      .group('users.id')
+      .having("#{TRANSALTION_SCORE_SQL} > 10")
+      .order(Arel.sql("#{TRANSALTION_SCORE_SQL} desc"))
+      .limit(USERS_LIMIT * 4)
+  end
+
+  def critiqueers
+    User
+      .joins(:critiques)
+      .where.not(critiques: { moderation_state: :rejected })
+      .group('users.id')
+      .order(Arel.sql('count(critiques.id) desc'))
+      .limit(USERS_LIMIT)
+  end
+
+  def newsmakers
+    newsmakers = Topics::NewsTopic
+      .where(generated: false)
+      .group(:user_id)
+      .count
+
+    newsmarker_ids = newsmakers
+      .sort_by { |_k, v| -v }
+      .map(&:first)
+      .take(USERS_LIMIT)
+
+    User.where(id: newsmarker_ids).sort_by { |v| newsmarker_ids.index(v.id) }
+  end
+
+  def cache_key
+    [:about_block, CACHE_VERSION, Time.zone.today]
+  end
+
+private
+
+  def role_moderators role
+    User
+      .where("roles && '{#{Array(role).join(',')}}'")
+      .where.not(id: User::MORR_ID)
+      .sort_by { |v| v.nickname.downcase }
+  end
+
+  def by_class klass, interval
+    start_date = Time.zone.today - interval
+
+    entries_by_date = klass
+      .where('created_at > ?', start_date)
+      .where('created_at < ?', Time.zone.today)
+      .group('cast(created_at as date)')
+      .order(Arel.sql('cast(created_at as date)'))
+      .select('cast(created_at as date) as date, count(*) as count')
+      .each_with_object({}) { |v, memo| memo[v.date.to_s] = v.count }
+
+    date = start_date
+    statistics = {}
+
+    while date < Time.zone.today
+      statistics[date.to_s] = entries_by_date[date.to_s] || 0
+      date += 1.day
+    end
+
+    statistics.map do |k, v|
+      {
+        date: k,
+        count: v
+      }
+    end
+  end
+end

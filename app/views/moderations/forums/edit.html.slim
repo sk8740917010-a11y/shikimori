@@ -1,0 +1,23 @@
+header.head
+  h1 = og.headline
+  .notice = t '.notice'
+  = render 'application/breadcrumbs'
+
+= simple_form_for @resource, url: update_moderations_forum_url(@resource.id) do |f|
+  - if @resource.errors.any?
+    .errors
+      .subheadline.red Errors
+      .subcontent
+        == @resource.errors.full_messages.join('<br>')
+      div
+  - else
+      .subheadline.m5 = Forum.model_name.human
+
+  .inputs.block
+    = f.input :name_ru
+    = f.input :name_en
+    = f.input :position
+    = f.input :permalink
+
+  = f.button :magic_submit
+  = link_to t('actions.cancel'), moderations_forums_path, class: 'cancel'

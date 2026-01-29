@@ -1,0 +1,87 @@
+@import globals
+@import mixins/block
+@import mixins/ellipsis2
+@import mixins/font_shikimori
+@import mixins/link
+@import mixins/responsive
+
+.b-animes-menu
+  #rates_statuses_stats
+    .x_label
+      font-weight: normal
+      font-size: 11px
+
+    .bar-container
+      margin-right: 92px
+
+  .total-rates
+    color: #123
+    font-size: 12px
+    margin-top: 10px
+
+  .friend-rate
+    .status
+      float: right
+      font-size: 11px
+
+    .b-user16
+      +ellipsis2
+      display: block
+      line-height: inherit
+      position: static // otherwise avatar will be not visible
+
+  .menu-topics-block
+    +block
+
+    .entry
+      display: block
+
+      +gte_laptop
+        &:hover .name
+          color: var(--link-hover-color)
+          text-decoration: underline
+
+      &:active .name
+        color: var(--link-hover-active)
+
+      .name
+        +ellipsis2
+        +link
+        display: block
+
+      .time
+        color: #777
+        float: right
+        font-size: 10px
+        padding-left: 4px
+
+    .history-entry-tooltip
+      display: none
+
+      .tooltip-details
+        +ellipsis2
+
+        a
+          +link
+          +ellipsis2
+          font-size: 12px
+          display: block
+
+        .ajax-loading
+          margin-top: 35px
+
+  .copyrighted
+    font-size: 11px
+    color: $gray-4
+    line-height: 1.35
+    margin-top: 5px
+    display: flex
+    align-items: center
+
+    &:before
+      +font_shikimori('!')
+      flex-shrink: 0
+      font-size: 18px
+      margin-right: 6px
+      text-align: center
+      width: 19px

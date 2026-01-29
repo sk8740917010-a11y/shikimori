@@ -1,0 +1,67 @@
+@import ./responsive
+@import ./placeholder
+
+=input_focus
+  border-color: $link-4
+
+=input_colors
+  background-color: #fcfcfc
+  border: 1px solid #ddd
+  color: #123
+
+  &:focus
+    +input_focus
+
+  +placeholder
+    color: #999
+
+=input_sizes
+  border-radius: 0
+  line-height: 27px
+  margin: 0
+  padding: 0 7px
+
+  +iphone
+    line-height: 31px
+
+  +lte_ipad
+    font-size: 16px
+
+=input_disabled
+  background: #eee
+  color: #666
+
+=input
+  +input_colors
+  +input_sizes
+  width: 100%
+
+  &[type=submit],
+  &[type=text],
+  &[type=password],
+  &[type=email]
+    -webkit-appearance: none
+
+  &[type=text],
+  &[type=url]
+    +ellipsis2
+
+  &[type=file]
+    background: transparent
+    border: none
+    padding: 0
+
+  &[type=number]
+    max-width: 100px
+
+  +placeholder
+    line-height: 27px
+    padding-top: 1px
+
+    +iphone
+      padding-top: 0
+      line-height: 31px
+
+  +gte_ipad
+    &:not(textarea)
+      max-width: 375px

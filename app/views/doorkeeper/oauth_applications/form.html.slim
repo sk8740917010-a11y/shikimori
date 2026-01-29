@@ -1,0 +1,122 @@
+header.head.misc
+  h1
+    - if @back_url
+      a.back[
+        href=@back_url
+        title=t('back_to_page')
+        data-text=t('back')
+      ]
+    = og.headline
+  = render 'application/breadcrumbs'
+
+- if @resource.errors.any?
+  .b-errors
+    .subheadline.m5 = i18n_i 'error', :other
+    == @resource.errors.full_messages.join('<br>')
+
+= simple_form_for @resource do |f|
+  .cc-2
+    .c-column.m0
+      - if @resource.new_record?
+        = f.input :owner_id, as: :hidden
+        = f.input :owner_type, as: :hidden
+      = f.input :name, autofocus: @resource.name.blank?
+
+      .m15
+        = f.input :image, hint: '320x320'
+        - if @resource.persisted?
+          div
+            img[
+              src=cdn_image_url(@resource, :x160)
+              srcset="#{cdn_image_url @resource, :x320} 2x"
+              alt=@resource.name
+              title=@resource.name
+            ]
+
+    .c-column.m0
+      - if @resource.persisted?
+        .m10
+          b OAuth2 Credentials
+        .b-input
+          p = OauthApplication.human_attribute_name :uid
+          p = @resource.uid
+        .b-input
+          p = OauthApplication.human_attribute_name :secret
+          p = @resource.secret
+
+  = f.input :redirect_uri,
+    as: :text,
+    hint: "Set <span class='b-js-link sample'>#{Doorkeeper.configuration.native_redirect_uri}</span> for mobile and standalone apps".html_safe
+
+  .cc-2
+    .c-column
+      .b-input
+        label Scopes
+        span.hint.m5 Ask Shikimori administrator if you need access to disabled scopes
+        - I18n.t('doorkeeper.scopes').each do |scope, text|
+          .m5
+            label
+              input[
+                type='checkbox'
+                value=scope
+                name='oauth_application[scopes][]'
+                checked=@resource.scopes.include?(scope.to_s)
+                disabled=!@resource.allowed_scopes.include?(scope.to_s)
+              ]
+              = scope
+              span.hint = t "doorkeeper.scopes.#{scope}"
+    .c-column
+      - if current_user.admin?
+        .b-input
+          label Allowed scopes
+          span.hint.m5 style='color: #ff4136'
+            | Scopes must be manually removed in console from Doorkeeper::AccessGrant and Doorkeeper::AccessToken!
+          - I18n.t('doorkeeper.scopes').each do |scope, text|
+            .m5
+              label
+                input[
+                  type='checkbox'
+                  value=scope
+                  name='oauth_application[allowed_scopes][]'
+                  checked=@resource.allowed_scopes.include?(scope.to_s)
+                ]
+                = scope
+                span.hint = t "doorkeeper.scopes.#{scope}"
+
+  / .cc-2
+  /   .c-column
+  .block
+    div
+      .b-input.m5
+        label class="text optional control-label" for="oauth_application_description_ru"
+          b = OauthApplication.human_attribute_name :description_ru
+
+      .b-shiki_editor.to-process.no-preview-avatar data-dynamic='shiki_editor'
+        = render 'comments/shiki_editor',
+          text: f.object.description_ru,
+          field_name: 'oauth_application[description_ru]'
+
+    .c-column.hidden
+      .b-input.m5
+        label class="text optional control-label" for="oauth_application_description_en"
+          b = OauthApplication.human_attribute_name :description_en
+
+      .b-shiki_editor.to-process.no-preview-avatar data-dynamic='shiki_editor'
+        = render 'comments/shiki_editor',
+          text: f.object.description_en,
+          field_name: 'oauth_application[description_en]'
+
+  .cc-2
+    .c-column
+
+      .buttons
+        a.cancel href=oauth_applications_url = t 'actions.cancel'
+        = f.button :magic_submit
+
+      - if @resource.persisted?
+        a.remove[
+          href=oauth_application_url(@resource)
+          title=t('actions.delete')
+          data-method="delete"
+          data-confirm=t('actions.confirm')
+        ] = t 'actions.delete'

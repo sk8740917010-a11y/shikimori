@@ -1,0 +1,34 @@
+@import globals
+@import mixins/responsive
+
+=static_marker($color, $background, $hover_color: darken($background, 4%), $active_color: darken($background, 2%), $border_color: darken($background, 1.5%), $border_hover_color: darken($hover_color, 1.5%), $border_active_color: darken($active_color, 1.5%))
+  background-color: $background
+  border: 1px solid $border_color
+  color: $color
+  cursor: default
+  display: inline-block
+  font-family: var(--font-alt)
+  font-size: 12px
+  letter-spacing: var(--font-alt-text-letter-spacing)
+  line-height: 1.4
+  padding: 0 5px
+  text-align: center
+
+  +gte_laptop
+    transition: all 0.25s ease
+
+  &[data-text]
+    &:before
+      content: attr(data-text)
+
+  &[href]
+    cursor: pointer
+
+    +gte_laptop
+      &:hover
+        background-color: $hover_color
+        border-color: $border_hover_color
+
+      &:active
+        background-color: $active_color
+        border-color: $border_active_color

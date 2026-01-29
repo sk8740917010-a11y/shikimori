@@ -1,0 +1,61 @@
+header.head
+  h2
+    a.back href=@back_url data-text=t('back')
+    = og.headline
+  = render 'application/breadcrumbs'
+
+= form_tag(moderations_authors_url, method: 'patch', class: 'b-form block') do
+  input name='back_url' type='hidden' value=params[:back_url]
+  input name='author[name]' type='hidden' value=params[:author][:name]
+  input name='author[is_verified]' type='hidden' value=(author&.is_verified || false)
+
+  .b-input
+    label = AnimeVideoAuthor.human_attribute_name :name
+    input[
+      name='author[new_name]'
+      value=params[:author][:name]
+      disabled=!can?(:manage_fansub_authors, Anime)
+    ]
+
+  - if can? :manage_fansub_authors, Anime
+    .b-input
+      label
+        input[
+          name='author[is_verified]'
+          type='checkbox'
+          checked=author&.is_verified
+          value='1'
+          disabled=!can?(:manage_fansub_authors, Anime)
+        ]
+        = AnimeVideoAuthor.human_attribute_name :is_verified
+
+    input[
+      type='submit'
+      value=t('simple_form.magic_submit.default.submit')
+      class='btn-primary btn-submit btn'
+      data-disable-with=t('simple_form.magic_submit.default.disable_with').html_safe
+      disabled=!can?(:manage_fansub_authors, Anime)
+    ]
+
+.fc-2
+  .f-column
+    .block
+      .b-options-floated = @fansub_animes.size
+      .subheadline = t '.fansub_animes'
+      - if @fansub_animes.any?
+        - @fansub_animes.each do |anime|
+          div.m5
+            a.bubbled href=anime_url(anime) = localized_name anime
+      - else
+        .b-nothing_here = t 'nothing_here'
+
+  .f-column
+    .block
+      .b-options-floated = @fandub_animes.size
+      .subheadline = t '.fandub_animes'
+      - if @fandub_animes.any?
+        - @fandub_animes.each do |anime|
+          div.m5
+            a.bubbled href=anime_url(anime) = localized_name anime
+      - else
+        .b-nothing_here = t 'nothing_here'

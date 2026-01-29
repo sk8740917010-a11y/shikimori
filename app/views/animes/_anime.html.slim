@@ -1,0 +1,83 @@
+- cover_by ||= (json? || user_signed_in?) ? :link : :linkeable
+- content_by ||= :tooltip
+- cover_notice ||= :none
+- cover_title ||= :present
+- cover_derivative ||= :preview
+- content_title ||= :present
+- content_text ||= :present
+
+article.c-column.b-catalog_entry[
+  class="c-#{anime.anime? ? :anime : :manga} entry-#{anime.id} #{:cc if content_by == :block}"
+  id=anime.id
+  itemscope
+  itemtype=anime.itemtype
+  data-track_user_rate=JsExports::UserRatesExport.instance.placeholder(:catalog_entry, anime)
+]
+  - if cover_by == :link || cover_by == :image_link
+    a.cover[
+      class=('anime-tooltip' if content_by == :tooltip)
+      class=('user_rates-minified' if cover_derivative == :mini || local_assigns[:is_user_rates_minified])
+      href=anime.url
+      title=anime.name
+      data-delay='150'
+      data-predelay=(tooltip_predelay if defined? tooltip_predelay)
+      data-tooltip_url=anime.tooltip_url
+    ]
+      = render partial: 'animes/cover',
+        object: anime,
+        as: :anime,
+        locals: { \
+          cover_by: cover_by,
+          cover_title: cover_title,
+          cover_notice: cover_notice,
+          cover_derivative: cover_derivative,
+          score_order_type: local_assigns[:score_order_type],
+          is_search_russian: local_assigns[:is_search_russian] \
+        }
+
+  - elsif cover_by == :linkeable
+    .cover.linkeable[
+      class=('anime-tooltip' if content_by == :tooltip)
+      data-href=anime.url
+      data-title=anime.name
+      data-delay='150'
+      data-tooltip_url=anime.tooltip_url
+    ]
+      = render partial: 'animes/cover',
+        object: anime,
+        as: :anime,
+        locals: { \
+          cover_by: cover_by,
+          cover_title: cover_title,
+          cover_notice: cover_notice,
+          cover_derivative: cover_derivative,
+          score_order_type: local_assigns[:score_order_type],
+          is_search_russian: local_assigns[:is_search_russian] \
+        }
+
+  - else
+    - raise ArgumentError, cover_by
+
+  - unless content_by == :tooltip || content_by == :none
+    .content
+      - if content_by == :block
+        = render 'animes/content',
+          anime: anime,
+          cover_by: cover_by,
+          content_title: content_title,
+          content_text: content_text,
+          no_flexible_button: cover_notice == :none
+
+      - else
+        - raise ArgumentError, content_by
+
+  meta[
+    itemprop='image'
+    content=meta_image_url(anime.image, :original, false)
+  ]
+  meta[
+    itemprop='thumbnailUrl'
+    content=meta_image_url(anime.image, :x48, false)
+  ]
+  - if anime.aired_on.present?
+    meta itemprop='dateCreated' content=anime.aired_on.date.iso8601

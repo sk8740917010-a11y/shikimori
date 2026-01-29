@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title WebM player test
+    - unless Rails.env.test?
+      = stylesheet_link_tag :application, media: 'all'
+      = javascript_include_tag :application
+      = stylesheet_link_tag 'tests/webm'
+      = javascript_include_tag 'tests/webm'
+  body
+    h1 WebM player test
+
+    /= BbCodes::Text.call 'https://www.dropbox.com/home?preview=Twerk+Flashmob+in+Odessa+on+Deribasovska+street_VP8.webm'
+    = BbCodes::Text.call 'https://dl.dropbox.com/s/9h9bv0fxtkqx8t6/1402578180457.webm'
+    /.b-video
+      img.webm[
+        src="//shikimori.local/assets/globals/html5_video.png"
+        srcset="//shikimori.local/assets/globals/html5_video@2x.png 2x"
+        data-video=""
+      ]
+        /data-video="http://html5demos.com/assets/dizzy.webm"

@@ -1,0 +1,206 @@
+@import mixins/responsive
+@import mixins/ellipsis2
+@import mixins/brackets_surrounded
+@import mixins/font_shikimori
+
+=navigation_block_colors($color, $backgroud, $border)
+  color: $color
+  background-color: $backgroud
+  border-color: $border
+
+  &:not(.is-active):not(.is-empty)
+    +gte_laptop
+      &:hover
+        background-color: darken($backgroud, 5%)
+        color: darken($color, 5%)
+        border-color: darken($border, 8%)
+        // border-color: var(--link-hover-color)
+
+    &:active
+      color: darken($color, 9%)
+      background-color: darken($backgroud, 9%)
+      border-color: darken($border, 13%)
+      // border-color: var(--link-active-color)
+
+=navigation_block_ellipsis
+  min-width: 0 // to make ellipsis work
+
+  .label
+    min-width: 0 // to make ellipsis work
+
+    span
+      +ellipsis2
+
+.b-reviews_navigation
+  .navigation-container
+    display: flex
+    font-family: var(--font-alt)
+    margin-bottom: 5px
+    height: 30px
+    line-height: 30px
+
+  a.navigation-node.is-active
+    +lte_ipad
+      .label span
+        text-decoration: underline
+
+    +gte_laptop
+      &:hover
+        .label span
+          text-decoration: underline
+
+  .navigation-node
+    -webkit-tap-highlight-color: transparent
+    align-items: baseline
+    border-left: 5px solid
+    display: flex
+    font-size: 15px
+    padding: 0 10px
+    text-transform: uppercase
+    transition: all 0.25s
+    user-select: none
+    white-space: nowrap
+
+    .label
+      align-items: baseline
+      display: flex
+
+      &:before
+        +iphone
+          padding-top: 2px
+
+        +gte_ipad
+          margin-right: 6px
+
+    .count
+      +brackets_surrounded
+      font-weight: normal
+      white-space: nowrap
+
+      &:before,
+      &:after
+        float: none
+
+      +iphone
+        font-size: 13px
+        margin-left: 4px
+
+      +gte_ipad
+        font-size: 14px
+        margin-left: 5px
+
+    &:not(.is-active):not(.is-empty)
+      cursor: pointer
+
+    &:not(.is-active)
+      +iphone
+        .label
+          span
+            display: none
+
+        .count
+          display: none
+
+      &.is-empty
+        +iphone
+          .label
+            &:before
+              color: rgba($gray-4, 0.2)
+
+        +gte_laptop
+          .label,
+          .count
+            color: rgba($gray-4, 0.35)
+
+          .count:before,
+          .count:after
+            color: inherit
+
+    &-all
+      +navigation_block_colors(#123, #e8ebef, #d8dde4)
+
+      .label:before
+        +iphone
+          +font_shikimori('\e843')
+
+    &-positive
+      +navigation_block_colors(#85bd7a, #eff9e6, #bee893)
+
+      .label
+        &:before
+          +font_shikimori('\e800')
+
+    &-neutral
+      +navigation_block_colors(#7aaebd, #f6fcfd, #93c5e8)
+      .label:before
+        +font_shikimori('\e912')
+
+    &-negative
+      +navigation_block_colors(#bd857a, #fff1f2, #e8a092)
+
+      .label:before
+        +font_shikimori('\e911')
+
+    &.is-active
+      -webkit-font-smoothing: antialiased
+      flex-grow: 1
+      font-family: var(--font-alt)
+      font-weight: 700
+      letter-spacing: 0.13px
+      text-transform: uppercase
+
+      +iphone
+        +navigation_block_ellipsis
+
+      +gte_laptop
+        font-size: 16px
+        padding-top: 1px
+
+      .label:before
+        +iphone
+          display: none
+
+        +gte_ipad
+          font-weight: normal
+
+    &.is-ellipsis
+      +navigation_block_ellipsis
+
+  .content-node
+    &:not(.is-active)
+      display: none
+
+    &.b-ajax,
+    &:empty
+      min-height: 300px
+
+    &.b-ajax
+      &:after
+        top: 230px
+
+      &:empty:after
+        top: 50%
+
+  .b-nothing_here
+    margin-top: 10px
+
+  .b-review-topic + .review-controls
+    margin-top: -15px
+
+  .review-controls
+    display: flex
+
+    +iphone_portrait
+      flex-direction: column
+
+    .to-other-reviews
+      max-width: 240px
+      margin-bottom: 0
+      margin-right: 24px
+
+      +iphone_portrait
+        margin-right: 0
+        margin-bottom: 12px
+
+    .create-topic
+      max-width: 190px

@@ -1,0 +1,29 @@
+= render 'application/note_from_club_page', club_page_id: 2285, is_version: true
+
+.cc-2
+  .c-column
+    = simple_form_for resource.object do |f|
+      img.m5[
+        src=cdn_image_url(resource, :original)
+        title=localized_name(resource)
+        alt=localized_name(resource)
+      ]
+
+      = f.input :image
+
+      // use resource.object! becase in person decorator these methods are redefined
+      - unless resource.object.anime? || resource.object.manga? || resource.object.ranobe?
+        p: b #{t '.image_size', size: '225x350'}
+      .b-warning
+        div
+          span.warning = t '.warning'
+        / p.hint TODO: пришлите, пожалуйста, @morr в личку текст, который сюда вставить.<br>
+          Когда и в каких случаях менять картинки?<br>
+          Не нужно менять постеры анонсам, для них на MAL поставят картинку.<br>
+          Картинки хентая должны быть зацензурены белыми квадратиками.<br>
+
+      = render 'versions/reason'
+
+      .buttons
+        a.cancel href=resource.edit_url = t 'actions.cancel'
+        = f.button :magic_submit

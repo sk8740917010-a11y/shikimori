@@ -1,0 +1,28 @@
+- if page_breadcrumbs.any?
+  .b-breadcrumbs[
+    itemscope
+    itemtype='https://schema.org/BreadcrumbList'
+  ]
+    - page_breadcrumbs.each_with_index do |(name, url), index|
+      span[
+        itemprop='itemListElement'
+        itemscope
+        itemtype='https://schema.org/ListItem'
+      ]
+        - if url
+          a.b-link[
+            itemprop='item'
+            href=url
+            title=name
+          ]
+            span[
+              itemprop='name'
+            ] = name
+        - else
+          span.no-url[
+            itemprop='name'
+          ] = name
+        meta[
+          itemprop='position'
+          content=index
+        ]

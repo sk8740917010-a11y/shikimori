@@ -1,0 +1,74 @@
+ru:
+  db_entries:
+    versions:
+      changes_history: История правок
+      page: страница %{page}
+    comments:
+      all_summaries: Все отзывы
+      all_comments: Все комментарии
+    fields:
+      genre_ids: &genre_ids
+        all_genres: Все жанры
+        current_genres: Привязанные жанры
+        down: вниз
+        remove: удалить
+        up: вверх
+      genre_v2_ids:
+        <<: *genre_ids
+        all_demographics: Все аудитории
+        all_themes: Все темы
+      image:
+        warning: Текущая картинка будет безвозвратно удалена и перестанет обновляться с MAL.
+        image_size: 'Размер картинки: %{size}'
+      poster:
+        image_size: 'Желаемой картинки: от 450x700 до 900x1400'
+      videos:
+        videos: Изменение видеороликов
+        video: Изменение видеоролика
+      desynced:
+        hint: Список полей, которые больше не синхронизируются с MAL.
+      fansubbers: &fansubbers
+        hint: Условия добавления в список
+        episodes: Вышедших эпизодов в аниме
+        translated: Сколько должно быть переведено
+        except: кроме последнего эпизода онгоига
+        all: Все
+        reason: В причину правки укажи ссылку на работы добавляемой группы по данному аниме.
+      fandubbers:
+        <<: *fansubbers
+        translated: Сколько должно быть озвучено
+      external_links:
+        imported: Импортировано
+        to_change: Для изменения импортированной ссылки продублируй её слева.
+        to_disable: Для удаления импортированной ссылки жми на крестик.
+        from: из
+    contest_winners:
+      top_in: '№ %{position} в '
+    edit_field:
+      changes_history: История правок
+    synchronization:
+      synchronization: Синхронизация
+      sync: синхронизировать
+      syncing: Запущена синхронизация
+      refresh: обновить
+    scores:
+      scores: Оценки
+      stats: Статистика
+      refresh: обновить
+    dangerous_actions:
+      index:
+        dangerous_actions: Опасные действия
+        # merge_into_other: Слить с другим
+        merge_as_duplicate: Слить как дубль
+        merge_as_episode: Слить как эпизод с номером
+        merge_episodes: Влить эпизоды без номеров
+        deletion: Удалить
+        send_for_merging: Отправить на слияние
+        send_for_removal: Отправить на удаление
+        into_here: сюда
+        into_another:
+          anime: в другое аниме
+          manga: в другую мангу
+          ranobe: в другое ранобэ
+          character: в другого персонажа
+          person: в другого человека

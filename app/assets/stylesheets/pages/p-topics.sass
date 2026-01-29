@@ -1,0 +1,33 @@
+//=require_directory ./p-topics
+
+@import mixins/link
+@import mixins/font_shikimori
+
+.p-topics
+  header h1 a.reload
+    +link(#123)
+    align-items: baseline
+    display: flex
+
+    &:hover
+      text-decoration: none !important
+
+      &:after
+        +font_shikimori('\e801')
+        color: inherit
+        display: inline-block
+        font-size: 24px
+        margin-left: 12px
+
+    &.active:after
+      animation: rotating 0.75s linear infinite
+
+// wtf is this??
+.reload
+  .comments.zero-top-border
+    .comment-block:first-child
+      margin-top: -2px
+
+.p-club_topics-show
+  .moderation-logs
+    display: none

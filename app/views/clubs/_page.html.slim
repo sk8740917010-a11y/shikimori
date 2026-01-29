@@ -1,0 +1,57 @@
+.menu-toggler
+  .toggler
+
+header.head
+  h1
+    - if @back_url || (params[:action] != 'show' && @club && @club.persisted?)
+      a.back[
+        href=(@back_url || club_url(@club))
+        title=t('.back_to_clubs_page')
+        data-text=t('back')
+      ]
+
+    - if @club.name.present?
+      = @club.name
+      - if @club.censored?
+        span.censored
+          | &nbsp;&nbsp;[18+]
+      - if can? :manage_restrictions, Club
+        - if @club.is_private
+          span.b-tooltipped.unprocessed.private[
+            title=Club.human_attribute_name(:is_private)
+            data-direction='top'
+          ]
+            | &nbsp;&nbsp;[P]
+        - if @club.non_thematic?
+          span.b-tooltipped.unprocessed.non-thematic[
+            title=Club.human_attribute_name(:is_non_thematic)
+            data-direction='top'
+          ]
+            | &nbsp;&nbsp;[NT]
+        - if @club.shadowbanned?
+          span.b-tooltipped.unprocessed.shadowbanned[
+            title=Club.human_attribute_name(:is_shadowbanned)
+            data-direction='top'
+          ]
+            | &nbsp;&nbsp;[SB]
+    - else
+      = t '.new_club'
+
+    / - if can?(:edit, @club) && @club.persisted?
+      / - if params[:action] == 'show' || (params[:controller] == 'clubs' && params[:action] != 'edit')
+        / a.edit[
+          / href=edit_club_url(@club, section: :main)
+          / title=t('.edit_club')
+        / ] = t('actions.edit').downcase
+
+  = render 'application/breadcrumbs'
+
+.menu-slide-outer.x199
+  .menu-slide-inner
+    .l-content
+      = yield
+
+    aside.l-menu
+      - unless Rails.env.development? && params.key?(:no_menu)
+        - if @club.persisted?
+          = render 'clubs/menu', club: @club, is_restricted_access: local_assigns[:is_restricted_access]

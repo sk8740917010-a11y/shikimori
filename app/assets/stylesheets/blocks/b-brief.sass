@@ -1,0 +1,26 @@
+@import mixins/responsive
+@import mixins/clearfix
+@import mixins/block
+
+.b-brief
+  +clearfix
+  +block
+
+  .moderators
+    +gte_ipad
+      float: right
+      margin-top: 10px
+
+    .b-user
+      margin-left: 10px
+      width: 50px
+
+      .avatar
+        margin-bottom: 2px
+
+    &.report_video
+      width: 300px
+      margin: 0 0 8px 8px
+
+  p
+    margin-bottom: 5px

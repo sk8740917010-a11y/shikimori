@@ -1,0 +1,17 @@
+.b-log_entry
+  span
+    a href="#{profile_poll_url user, poll}"
+      span.id-label #
+      = poll.id
+
+  span.date
+    = poll.created_at.strftime('%d.%m.%Y')
+
+  span = poll.name
+
+  span.state class="#{poll.state.downcase}"
+    = poll.aasm.human_state
+
+  - if poll.bb_code
+    span
+      = BbCodes::Text.call "[code]#{poll.bb_code}[/code]"

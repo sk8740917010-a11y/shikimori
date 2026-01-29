@@ -1,0 +1,51 @@
+@import globals
+@import mixins/responsive
+
+.b-spoiler_inline
+  padding: 1px 3px 2px
+  transition: background-color .25s ease
+  // reset button styles
+  background: none
+  border: none
+  display: inline
+  line-height: initial
+
+  &.is-opened
+    background-color: rgba(102, 119, 136, 0.125)
+
+    // +gte_laptop
+      &:hover
+        background-color: darken(rgba(102, 119, 136, 0.125), 6%)
+
+    &:active
+      background-color: rgba(102, 119, 136, 0.25)
+
+  &:not(.is-opened)
+    background-color: #678
+    cursor: pointer
+
+    +gte_laptop
+      &:hover
+        background-color: lighten(#678, 6%)
+
+    &:active
+      background-color: lighten(#678, 12%)
+
+    & > span
+      opacity: 0
+      user-select: none
+      pointer-events: none
+
+      span,
+      div,
+      code
+        border-color: #456
+        color: inherit
+        background-color: inherit
+
+      .b-image,
+      .b-video
+        height: 0 !important
+
+  & > span
+    transition: opacity .25s ease

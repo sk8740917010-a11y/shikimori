@@ -1,0 +1,32 @@
+@import mixins/brackets_surrounded
+
+.p-moderations-show
+  .job
+    font-size: 10px
+    display: flex
+
+    .busy
+      color: $green
+      padding-right: 6px
+
+    .enqueued
+      color: $blue
+      padding-right: 6px
+
+    time
+      color: $gray-3
+      font-size: 9px
+      margin-left: auto
+      padding-left: 10px
+
+  .b-list
+    li.offset
+      margin-left: 30px
+
+    .b-link:hover .size
+      text-decoration: underline
+
+    .size
+      +brackets_surrounded
+      padding-left: 5px
+      display: inline-block

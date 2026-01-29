@@ -1,0 +1,21 @@
+a.b-image[
+  href=cdn_image_url(club_image, :original)
+  id=club_image.id
+  rel=(rel if defined? rel)
+]
+  - if defined?(topic_poster_edit) || can?(:destroy, club_image)
+    .mobile-edit
+    .controls
+      .delete title=t('frontend.images.delete')
+      - if defined? topic_poster_edit
+        .confirm title=t('frontend.images.confirm')
+      - else
+        .confirm[
+          title=t('frontend.images.confirm')
+          data-remote="true"
+          data-action=url_for(club_image)
+          data-method="delete"
+          data-type="json"
+        ]
+      .cancel title=t('frontend.images.cancel')
+  img src=cdn_image_url(club_image, :preview)

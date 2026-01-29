@@ -1,0 +1,84 @@
+- relation_mode = entry.respond_to?(:relation_kind_text)
+
+.b-db_entry-variant-list_item[
+  data-id=entry.id
+  data-text=entry.name
+  data-type=entry.object.class.name.downcase
+  data-url=entry.url
+]
+  .image.linkeable.bubbled[
+    data-href=entry.url
+    title=entry.name
+  ]
+    = render 'db_entries/poster',
+      db_entry: entry,
+      poster: entry.poster,
+      derivative: :mini
+  .info
+    .name
+      a.b-link.bubbled[
+        href=entry.url
+        title=entry.name
+      ]
+        - if local_assigns[:is_search_russian].nil? || entry.russian.blank?
+          = localization_span entry
+        - else
+          | #{localization_span entry, is_search_russian: local_assigns[:is_search_russian]}
+          span.b-separator.inline
+           | /
+          | #{localization_span entry, is_search_russian: !local_assigns[:is_search_russian]}
+
+    - if entry.kind.present?
+      .line
+        - unless local_assigns[:hide_line_key]
+          .key #{Anime.human_attribute_name :kind}:
+        .value
+          - if entry.kind.present?
+            .b-tag.linkeable data-href=entry.collection_url(kind: entry.kind)
+              = entry.kind_text
+          - if entry.year.present?
+            .b-tag.linkeable data-href=entry.collection_url(season: entry.year)
+              = t 'animes.content.year', year: entry.year
+
+          - if entry.respond_to?(:studios) && entry.real_studios.any?
+            - entry.real_studios.each do |studio|
+              .b-anime_status_tag.studio.linkeable[
+                data-href=entry.collection_url(studio: studio.to_param)
+                data-text=studio.name
+                title=studio.name
+              ]
+          - if entry.respond_to?(:publishers) && entry.real_publishers.any?
+            - entry.real_publishers.each do |publisher|
+              .b-anime_status_tag.studio.linkeable[
+                data-href=entry.collection_url(publisher: publisher.to_param)
+                data-text=publisher.name
+                title=publisher.name
+              ]
+
+          - if relation_mode
+            .b-anime_status_tag.other
+              = entry.relation_kind_text
+          - elsif entry.status
+            .b-anime_status_tag[
+              class=entry.status.downcase.gsub(' ', '_')
+              data-text=entry.status_text.downcase
+            ]
+
+    - unless local_assigns[:hide_genres]
+      .line
+        - unless local_assigns[:hide_line_key]
+          .key #{i18n_io 'Genre', entry.genres_v2.one? ? :one : :few}:
+        .value
+          - entry.genres_v2.each do |genre|
+            .b-tag.linkeable[
+              temprop='genre'
+              class=(:bubbled if genre.description)
+              data-predelay='250'
+              data-tooltip_url=tooltip_moderations_genre_url(genre)
+              data-href=entry.collection_url(genre_v2: genre.to_param)
+            ] = localization_span genre
+
+    - unless local_assigns[:no_user_rate]
+      .user_rate-container
+        = render partial: 'user_rates/placeholder',
+          locals: { target: entry, extended: false }

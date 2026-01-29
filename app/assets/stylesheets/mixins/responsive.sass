@@ -1,0 +1,71 @@
+@import ../globals
+
+=iphone
+  @media screen and (max-width: $iphone_max)
+    @content
+
+=iphone-portrait
+  @media screen and (max-width: 480px)
+    @content
+
+=iphone-landscape
+  @media screen and (min-width: 481px) and (max-width: $iphone_max)
+    @content
+
+=gte_iphone-landscape
+  +iphone-landscape
+    @content
+  +gte_ipad
+    @content
+
+=iphone-landscape-ipad
+  +iphone-landscape
+    @content
+  +ipad
+    @content
+
+=ipad
+  @media screen and (min-width: $ipad) and (max-width: $ipad_max)
+    @content
+
+=ipad-portrait
+  @media screen and (min-width: $ipad) and (max-width: $ipad_max) and (orientation: portrait)
+    @content
+
+=ipad-landscape
+  @media screen and (min-width: $ipad) and (max-width: $ipad_max) and (orientation: landscape)
+    @content
+
+=lte_ipad
+  @media screen and (max-width: $ipad_max)
+    @content
+
+=gte_ipad
+  @media screen and (min-width: $ipad)
+    @content
+
+=gte_ipad-landscape
+  +ipad-landscape
+    @content
+  +gte_laptop
+    @content
+
+=ipad_laptop
+  @media screen and (min-width: $ipad) and (max-width: $laptop_max)
+    @content
+
+=laptop
+  @media screen and (min-width: $ipad_max+1) and (max-width: $laptop_max)
+    @content
+
+=lte_laptop
+  @media screen and (max-width: $laptop_max)
+    @content
+
+=gte_laptop
+  @media screen and (min-width: $ipad_max+1)
+    @content
+
+=gte_desktop
+  @media screen and (min-width: $laptop_max+1)
+    @content

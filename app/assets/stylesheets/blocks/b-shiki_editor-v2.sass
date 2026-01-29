@@ -1,0 +1,102 @@
+@import mixins/block
+@import mixins/link
+@import mixins/shiki_button
+@import mixins/input
+
+.b-shiki_editor-v2
+  +block
+
+  &.b-ajax
+    &:before
+      z-index: 31
+    &:after
+      z-index: 32
+
+  .vue-app.b-ajax
+    min-height: 124px
+
+  footer
+    margin-top: 15px
+    display: flex
+    align-items: center
+
+    .cancel,
+    .hide
+      font-size: 13px
+      margin-left: 20px
+
+      &:not(a)
+        +js-link
+
+    a.cancel,
+    a.hide
+      +link
+
+    .hide
+      display: none
+
+  aside.markers
+    margin-left: auto
+    display: flex
+
+    .b-summary_marker,
+    .b-offtopic_marker
+      margin: 0
+      float: none
+      width: auto
+
+      &:not(:last-child)
+        margin-right: 18px
+
+      &:before
+        display: block
+        font-size: 12px
+        line-height: 17px
+        min-width: 80px
+        position: static
+        width: auto
+
+  .app-placeholder
+    .menubar
+      padding-top: 7px
+      display: flex
+
+      +lte_ipad
+        margin-bottom: 10px
+
+      +gte_laptop
+        margin-bottom: 6px
+
+    .icon
+      display: flex
+      height: 19px
+      justify-content: center
+      margin: 0 1px
+      padding: 0 4px
+      width: 27px
+
+      &:before
+        content: ''
+        border: 1px solid #ddd
+        background-color: #e4e4e4
+
+        +lte_ipad
+          width: 17px
+          height: 17px
+
+        +gte_laptop
+          width: 14px
+          height: 14px
+
+      &-light:before
+        background-color: #fafafa
+
+      &-right
+        margin-left: auto
+
+    .textarea
+      +input
+      +input_disabled
+      height: 89px
+      width: 100%
+      max-width: 100% !important

@@ -1,0 +1,17 @@
+@import mixins/responsive
+
+.b-topic.b-topic-minified
+  & > .inner
+    // need to compensate fix for chrome77 bug, because preview topics do not have left margin
+    .body,
+    header .name-date
+      margin-left: 0
+
+    .b-status-line
+      margin-left: 0
+
+      +iphone
+        margin-bottom: 10px
+
+    footer
+      padding-left: 0

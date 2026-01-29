@@ -1,0 +1,54 @@
+header.head
+  h1 Тест вычисления времени
+  p.description Страница для теста парсинга дат
+
+.block
+  .m10
+    p: b User Agent
+    = request.user_agent
+
+.cc-2
+  .c-column
+    .m10
+      p: b new Date()
+      .date
+
+    .m10
+      p: b datejs().format()
+      .dayjs
+
+  .c-column
+    .m10
+      p: b datejs($(document.body).data('server-time')).format()
+      .server_time
+
+    .m10
+      p: b server&local diff
+      .dayjs_diff
+
+.cc-2
+  .c-column
+    .m10
+      p: b 30 minutes ago
+      .test1 datetime="#{30.minutes.ago.iso8601}"
+
+    .m10
+      p: b 30 minutes ago + server&local diff
+      .test2 data-datetime="#{30.minutes.ago.iso8601}"
+
+    .m10
+      p: b 30 minutes ago - server&local diff
+      .test3 data-datetime="#{30.minutes.ago.iso8601}"
+
+  .c-column
+    .m10
+      p: b 30 seconds ago
+      .test4 datetime="#{30.seconds.ago.iso8601}"
+
+    .m10
+      p: b 30 seconds ago + server&local diff
+      .test5 data-datetime="#{30.seconds.ago.iso8601}"
+
+    .m10
+      p: b 30 minutes ago - server&local diff
+      .test6 data-datetime="#{30.seconds.ago.iso8601}"

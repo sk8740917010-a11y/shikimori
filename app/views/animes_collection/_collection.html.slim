@@ -1,0 +1,59 @@
+- is_licensor = params[:licensor].present? && params[:licensor].match?(Animes::Filters::ByLicensor::ANYTHING)
+- score_order_type = params[:order] if ['score', 'score_2'].include? params[:order]
+
+- if view.season_page?
+  / специальная вёрстка отображения отдельного сезона:
+  / каталог разбит на куски по kind, каждый кусок отображается с заголовков
+  - if @view.collection.none? && @view.page == 1
+    .b-nothing_here = t 'nothing_here'
+  - else
+    - kinds_with_colors.each do |data|
+      - next unless @view.collection[data[:kind]]
+      - cover_notice = is_licensor ? :licensor : :studio
+
+      .headline class=data[:color]
+        = t "titles/collection_title.kind.#{@view.klass.name.downcase}.long.#{data[:kind]}"
+
+      - if @klass == Anime
+        .m0 class="cc-#{data[:kind] == 'tv' || data[:kind] == 'movie' ? 'entries' : 6}"
+          = render partial: 'animes/anime',
+            collection: @view.collection[data[:kind]],
+            locals: { \
+              cover_notice: cover_notice,
+              score_order_type: score_order_type,
+              is_search_russian: @view.search_russian? \
+            },
+            cached: ->(entry) { cache_keys entry, cover_notice, score_order_type }
+      - else
+        .m0 class="cc-#{data[:kind] == 'doujin' || data[:kind] == 'one_shot' ? 6 : 'entries'}"
+          = render partial: 'animes/anime',
+            collection: @view.collection[data[:kind]],
+            locals: { \
+              cover_notice: cover_notice,
+              score_order_type: score_order_type,
+              is_search_russian: @view.search_russian? \
+            },
+            cached: ->(entry) { cache_keys entry, cover_notice, @view.search_russian?, score_order_type }
+
+- else
+  .cc-entries
+    - if (!@view.collection || @view.collection.none?) && @view.page == 1
+      .b-nothing_here = t 'nothing_here'
+    - else
+      - cover_notice = is_licensor ? :year_licensor : :year_kind
+
+      = render partial: 'animes/anime',
+        collection: @view.collection,
+        locals: { \
+          cover_notice: cover_notice,
+          score_order_type: score_order_type,
+          is_search_russian: @view.search_russian? \
+        },
+        cached: ->(entry) { cache_keys entry, cover_notice, @view.search_russian?, score_order_type }
+
+  - if @view.next_page_url && (@view.page == 1 || !json?)
+    = render 'blocks/postloader',
+      next_url: @view.next_page_url,
+      prev_url: @view.prev_page_url,
+      filter: nil,
+      pages_limit: 15

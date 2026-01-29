@@ -1,0 +1,30 @@
+- topic_type_policy = topic_view.topic_type_policy
+
+.b-status-line
+  - if topic_view.linked_in_poster? && !topic_view.generated?
+    .section.about
+      span = t '.by'
+      span.author
+        = render 'users/user_16', user: topic_view.user
+
+      - if topic_type_policy.news_topic? && topic_view.topic.linked
+        span.about = t '.about'
+        a.b-link.bubbled[
+          href=topic_view.topic.linked.decorate.url
+          title=localized_name(topic_view.topic.linked)
+        ] = localized_name topic_view.topic.linked
+
+  .section.main
+    - if topic_type_policy.votable_topic?
+      = render 'topics/critiques/votes_count', critique: topic_view.topic.linked
+
+    - if topic_view.pinned?
+      span.is-pinned
+
+    - if topic_type_policy.collection_topic?
+      span.collection-size = topic_view.collection.size
+
+    - if topic_type_policy.commentable_topic?
+      span.comments == topic_view.comments_count.to_s.gsub(/(\d)(?=(\d{3})+$)/, '\1 ')
+
+  = render 'topics/status_line/section_dates', object: topic_view

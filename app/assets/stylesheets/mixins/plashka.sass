@@ -1,0 +1,16 @@
+@import mixins/gray_block
+@import mixins/responsive
+
+=plashka
+  +gray-block
+  border: 1px solid #f2f2f2
+  padding: 5px 4px
+  text-align: center
+  user-select: none
+
+  +gte_laptop
+    &:hover
+      border-color: #e7e7e7
+
+  &:active
+    border-color: #e0e0e0

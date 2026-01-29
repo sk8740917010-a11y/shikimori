@@ -1,0 +1,29 @@
+.b-options-floated.mobile-phone_portrait
+  a[
+    class=(:selected if params[:controller] == 'dialogs')
+    href=profile_dialogs_url(@resource)
+  ]
+    = t :mail
+    - if @resource.unread.messages.positive?
+      span.brackets = @resource.unread.messages
+
+  /a class="#{:selected if params[:controller] == 'messages' && params[:messages_type] == 'private'}" href="#{index_profile_messages_url @resource, messages_type: :private}"
+    /| Личные сообщения
+    /- if @resource.unread.messages.positive?
+      /span.brackets = @resource.unread.messages
+
+  a[
+    class=(:selected if params[:controller] == 'messages' && params[:messages_type] == 'news')
+    href=index_profile_messages_url(@resource, messages_type: :news)
+  ]
+    = t :news
+    - if @resource.unread.news.positive?
+      span.brackets = @resource.unread.news
+
+  a[
+    class=(:selected if params[:controller] == 'messages' && params[:messages_type] == 'notifications')
+    href=index_profile_messages_url(@resource, messages_type: :notifications)
+  ]
+    = t :notifications
+    - if @resource.unread.notifications.positive?
+      span.brackets = @resource.unread.notifications

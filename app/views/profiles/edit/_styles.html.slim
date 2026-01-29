@@ -1,0 +1,26 @@
+.block
+  = simple_form_for @resource.preferences,
+      url: profile_user_preferences_url(@resource) do |f|
+    input type='hidden' name='section' value=@section
+
+    .block
+      = f.input :body_width, include_blank: false
+      = f.input :dashboard_type, include_blank: false
+
+    .block
+      = f.input :apply_user_styles
+      / = f.input :show_social_buttons
+      = f.input :is_show_smileys
+
+    .block
+      = f.button :magic_submit
+      a.cancel href=@resource.url = t 'actions.cancel'
+    / .buttons
+      a.cancel href="#{profile_url @resource}" = t 'actions.cancel'
+      = f.button :magic_submit
+
+.subheadline = t '.site_styles'
+= render 'styles/editor',
+  style: @resource.style,
+  default_backgrounds: true,
+  cancel_url: @resource.url

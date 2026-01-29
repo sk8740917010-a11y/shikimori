@@ -1,0 +1,65 @@
+@import globals
+@import mixins/forum_entry
+@import mixins/responsive
+
+$comment_border: 1px dashed #ddd
+$comment_offset: 15px
+
+=shiki_comment_margins_borders
+  border-top: $comment_border
+  margin-bottom: $comment_offset
+
+  &:first-child
+    border-top-width: 0
+    padding-top: 0
+
+  &:last-child
+    margin-bottom: 0
+
+  .comments-loaded &:last-child
+    margin-bottom: $comment_offset
+
+  .tooltip &
+    border-top-width: 0
+    padding-top: 0
+
+=shiki_comment
+  +forum_entry
+  +shiki_comment_margins_borders
+
+  .b-shiki_editor .body .preview
+    background: none
+    border: none
+    padding: 0
+
+  & > .inner
+    min-height: 58px
+
+    header
+      a img
+        +iphone
+          width: 32px
+          margin-right: 8px
+
+    .name-date
+      height: auto
+      line-height: 1
+
+      a.name
+        .normal
+          color: #123
+          font-size: 13px
+          display: inline-block
+
+    & > .body
+      +gte_ipad
+        margin-left: $body_left_margin // it fixes overflow bug in chrome 77 https://monosnap.com/file/JS4AIZJKfDTyQWtETCeifMkm3Man8k
+
+  // раскрытое меню в мобильной версии
+  &.aside-expanded
+    +lte_ipad
+      aside.markers
+        position: absolute
+        top: 0
+        right: 35px
+        padding-right: 0

@@ -1,0 +1,36 @@
+= render layout: 'page' do
+  .b-options-floated.mobile-phone
+    a[
+      href=current_url(state: nil)
+      class=(:selected unless params.key?(:state))
+    ]
+      = t '.collections.published'
+      span.brackets = @counts[:published] || 0
+    - @available_states.each do |state|
+      a[
+        href=current_url(state: state)
+        class=(:selected if @state == state)
+      ]
+        = t ".collections.#{state}"
+        span.brackets = @counts[state] || 0
+  h2.subheadline
+    = og.headline
+    - if @view.own_profile?
+      .misc-links
+        a href=new_collection_url(collection: { user_id: current_user&.id })
+          = t('actions.create').downcase
+
+  .b-forum data-faye='false'
+    - if @collection.any?
+      = render partial: 'topics/topic',
+        collection: @collection,
+        as: :topic_view,
+        cached: true
+
+    - else
+      p.b-nothing_here = t 'no_collections'
+
+    - if @collection.size == controller.class::TOPICS_LIMIT
+      = render 'blocks/postloader',
+        filter: 'b-topic',
+        next_url: current_url(page: @page + 1)

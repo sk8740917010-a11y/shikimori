@@ -1,0 +1,53 @@
+.menu-toggler
+  .toggler
+
+header.head
+  meta itemprop='name' content=@resource.name
+  - if @itemtype
+    h1
+      = @resource.headline
+      - if @resource.banned?
+        .b-anime_status_tag.review-negative.ml-2 banned
+      - elsif @resource.censored?
+        .b-anime_status_tag.censored.ml-2 18+
+  - else
+    h2
+      a.back[
+        href=(@back_url || @resource.url(false))
+        title="#{t 'back_to_page'} #{@resource.name}"
+        data-text=t('back')
+      ]
+      = @resource.headline
+      - if @resource.banned?
+        .b-anime_status_tag.review-negative.ml-2 banned
+
+  /- if params[:section] != 'cosplay'
+  /- else
+    h2.h1-like title=h1_text(@resource)
+      = h1_text @resource, true
+
+  = render 'application/breadcrumbs'
+
+.menu-slide-outer.x199
+  .menu-slide-inner
+    .l-content
+      .block
+        = yield
+
+      - unless @resource.rkn_abused?
+        / - unless %w[show edit edit_field].include?(params[:action]) && user_signed_in?
+        - unless %w[edit edit_field].include?(params[:action])
+          = render 'spnsrs/ad', ad: Ad.new(:horizontal_x90)
+
+        - if params[:action] == 'show' && main_resource_controller?
+          - unless @resource.anons?
+            .block
+              = render 'animes/reviews/navigation',
+                resource: @resource,
+                is_preview: true,
+                collection: nil
+          = render 'db_entries/comments', resource: @resource
+
+    aside.l-menu
+      - unless Rails.env.development? && params.key?(:no_menu)
+        = render 'animes/menu', resource: @resource

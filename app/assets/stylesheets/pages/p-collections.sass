@@ -1,0 +1,52 @@
+@import mixins/brackets_surrounded
+@import mixins/font_shikimori
+
+.p-collections-index
+  .b-topic > .inner aside.buttons
+    display: none
+
+.p-collections-new,
+.p-collections-create,
+.p-collections-edit,
+.p-collections-update
+  .remove-coauthor
+    +brackets_surrounded($padding: 2px)
+    font-size: 11px
+
+  .collection-state-hint
+    font-size: 12px
+
+  .page-reload-hint
+    font-size: 11px
+    color: $red
+
+  .status
+    font-size: 16px
+    margin-left: 17px
+    display: inline-block
+
+    &-available:before
+      +font_shikimori('\e837')
+      // +font_shikimori('\e809')
+
+    &-moderated:before
+      +font_shikimori('\e80a')
+
+    &-profile:before
+      +font_shikimori('\e849')
+
+    &-available
+      color: #419541
+
+    &-not_available
+      color: #ca4929
+
+.p-animes-collections,
+.p-mangas-collections,
+.p-characters-collections
+  .b-collection-topic.is-spoilers > .inner header .name
+    filter: blur(3px)
+    transition: filter 0.5s
+
+    &:hover
+      filter: none

@@ -1,0 +1,41 @@
+en:
+  page404:
+    title: Page not found
+    text:
+      <p>Most likely you are here because of a typo in page url.</p>
+      <p>
+        Try <a href='/'>to go back</a>
+        or contact site administration.
+      </p>
+
+  page503:
+    title: Nooooooooooooo
+    text:
+      <p>Something has gone wrong. But maybe we are fixing it now.</p>
+      <p>
+        Try <a onclick="location.reload();">to reload page</a>
+        or contact <a href="mailto:%{email}">site administration</a>.
+      </p>
+
+  page_moved:
+    title: Page moved
+    text:
+      <p>This page is no longer exists.</p>
+      <p>Old page can be accessed by the <a href="%{url}">new link</a>.</p>
+
+  age_restricted:
+    warning: Warning!<br>Adult content
+    title:
+      This page contains adult material not intended to be
+      viewed by persons under the age of 18<br>(21 in some areas).
+    enable_view_censored: Enable 18+ content display?
+    ask_age: Please specify your birth date
+    submit: Submit
+    authorize: Log in to confirm your age
+    underage: The profile indicates that you are under 18 years old
+    cancel: To the main page
+
+  rkn_banned:
+    warning: Blocked by<br>Roskomnadzor
+    title:
+      This page contained prohibited content.

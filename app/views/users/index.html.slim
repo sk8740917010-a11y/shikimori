@@ -1,0 +1,25 @@
+header.head.misc
+  h1
+    = og.headline
+    a.misc[
+      href=similar_users_url(klass: Anime.name.downcase)
+    ] = t '.list_of_similar_users'
+
+  p.notice
+    = t '.notice'
+
+- cache [@collection, :v2] do
+  .b-search-results
+    - if @collection.any?
+      = render partial: 'users/user',
+        collection: @collection,
+        locals: { content_by: :detailed }
+    - else
+      .b-nothing_here = t 'nothing_found'
+
+    - if @collection.next_page?
+      = render 'blocks/postloader',
+        filter: 'b-user',
+        next_url: current_url(page: @collection.next_page),
+        prev_url: (current_url(page: @collection.prev_page) if @collection.prev_page?),
+        pages_limit: 10
